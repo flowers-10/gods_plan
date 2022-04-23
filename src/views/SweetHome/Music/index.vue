@@ -35,7 +35,6 @@
       </keep-alive>
     </router-view>
   </div>
-  <div class="overlay-app"></div>
 </template>
 
 <script setup lang="ts">

@@ -228,6 +228,7 @@
       </div>
     </div>
   </div>
+  <div class="overlay-app" :class="flag?'is-active':''"></div>
 </template>
 
 <script setup lang="ts">
@@ -238,7 +239,7 @@ const mainHeaderList = reactive([
   { title: 'Web', path: '/apps/allapps/web' }
 ])
 const tabSwitch = ref<number>(0)
-
+const flag =ref<boolean>(false)
 </script>
 
 <style lang="less">
