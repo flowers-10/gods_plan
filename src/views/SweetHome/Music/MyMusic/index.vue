@@ -242,7 +242,7 @@ const tabSwitch = ref<number>(0)
 const flag =ref<boolean>(false)
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .main-header {
   display: flex;
   align-items: center;

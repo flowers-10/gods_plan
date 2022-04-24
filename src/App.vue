@@ -16,6 +16,10 @@ lang="less">
   padding: 0;
   margin: 0;
 }
+a {
+  text-decoration:none;
+  color: var(--theme-color);
+}
 /* 全局变量 */
 :root {
   --theme-bg-color: rgba(16 18 27 / 40%);

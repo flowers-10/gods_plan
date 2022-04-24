@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style lang="less">
+<style lang="less" scoped>
   .discover {
     font-size: 20px;
     color: #fff;

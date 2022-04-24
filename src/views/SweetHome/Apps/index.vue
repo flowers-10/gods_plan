@@ -145,7 +145,6 @@
       </keep-alive>
     </router-view>
   </div>
-  <div class="overlay-app"></div>
 </template>
 
 <script setup lang="ts">
@@ -222,5 +221,21 @@ import { reactive } from 'vue'
   font-size: 11px;
 }
 
+
+
+  .notification-number {
+    position: absolute;
+    background-color: #3a6df0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    right: 10px;
+    top: 11px;
+  }
 
 </style>

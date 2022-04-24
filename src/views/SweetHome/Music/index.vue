@@ -45,7 +45,7 @@ import { reactive } from 'vue'
 
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .wrapper {
   display: flex;
   flex-grow: 1;

@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style lang="less">
+<style lang="less" scoped>
   .market {
     font-size: 20px;
     color: #fff;
