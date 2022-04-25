@@ -14,7 +14,7 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0',
-    port: 8081,
+    port: 8080,
     proxy: {
       '/api': {
         changeOrigin: true,
@@ -25,6 +25,11 @@ export default defineConfig({
         changeOrigin: true,
         target: 'http://124.223.168.27:8887',
         rewrite: path => path.replace(/^\/backstage/, '')
+      },
+      '/cloudmusic': {
+        changeOrigin: true,
+        target: 'http://localhost:3000',
+        rewrite: path => path.replace(/^\/cloudmusic/, '')
       }
     },
   },

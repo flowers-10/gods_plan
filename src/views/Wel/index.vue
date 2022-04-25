@@ -15,12 +15,16 @@
 
 <script setup lang="ts">
 import dialoge from '../../components/Dialog/index.vue'
+import { loginMusic, getTest } from '../../api/api'
 import { ref } from 'vue'
+import axios from 'axios'
+// axios.get('/api').then(res => console.log(res))
+// getTest('/api').then(res => console.log(res))
 const flag = ref<boolean>(false)
 const loginCloudMusic = () => {
   flag.value = true
+  // loginMusic(13251010275).then(res => { console.log(res) })
 }
-
 const getFlag = (flagChild: boolean) => {
   // console.log(flagChild,'我接收到了子组件的传参')
   flag.value = flagChild

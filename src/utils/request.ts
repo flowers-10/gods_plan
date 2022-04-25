@@ -2,12 +2,12 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
 export const request = (option:any) => {
-  console.log(option);
+  // console.log(option);
   
   return new Promise((resolve,reject) => {
     // 创建一个axios实例
     const service = axios.create({
-      baseURL: 'http://localhost:8080',
+      baseURL: 'http://localhost:3000',
       timeout:80000 //请求的时间
     })
     // 响应拦截器

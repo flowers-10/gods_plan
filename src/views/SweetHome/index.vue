@@ -43,11 +43,12 @@
           <el-form ref="LoginFormRef" :model="LoginForm" status-icon :rules="rules" label-width="120px"
             label-position="top" class="demo-ruleForm">
             <el-form-item label="Phone Number" prop="PhoneNumber">
-              <el-input v-model="LoginForm.phoneNumber"  />
+              <el-input v-model="LoginForm.phoneNumber" />
             </el-form-item>
-            <el-form-item label="SMS Verification" prop="verify" >
-              <el-input v-model="LoginForm.verify"  />
-              <el-button type="primary"  class="Verification-button">Get Verification</el-button>
+            <el-form-item label="SMS Verification" prop="verify">
+              <el-input v-model="LoginForm.verify" />
+              <el-button type="primary" class="Verification-button" @click="getVerification">Get Verification
+              </el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -60,8 +61,9 @@
 import VideoBg from '../../components/VideoBg/index.vue'
 import DarkLight from '../../components/DarkLight/index.vue'
 import dialoge from '../../components/Dialog/index.vue'
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router';
+import { getTest, loginMusic } from '@/api/api'
 
 const route = useRoute()
 // 导航栏的数据
@@ -99,12 +101,22 @@ const leftSideShow = () => {
 }
 const LoginForm = reactive({
   phoneNumber: "",
-  verify:""
+  verify: ""
 })
 const rules: any[] = []
+const getVerification = async () => {
+  //   console.log(LoginForm.phoneNumber);
+
+  //   const res = await loginMusic(LoginForm.phoneNumber)
+  //   console.log(res)
+  getTest().then(res => {
+    console.log(res);
+
+  })
+}
 onMounted(() => {
   let tab = route.path.split('/')
-  console.log(tab[1]);
+  // console.log(tab[1]);
   switch (tab[1]) {
     case 'apps':
       tabSwith.value = 0;
@@ -119,6 +131,10 @@ onMounted(() => {
       tabSwith.value = 3;
       break;
   }
+})
+watch(LoginForm, (newval, oldval) => {
+  // console.log(newval);
+
 })
 
 </script>
@@ -350,8 +366,9 @@ img {
   padding: 20px 10px 10px 10px;
   color: var(--theme-color);
   position: relative;
+
   .Verification-button {
-    position:absolute;
+    position: absolute;
     right: 0px;
   }
 }
