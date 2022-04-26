@@ -9,10 +9,29 @@ export const postReg = (data: object) => {
     url: '/user/reg', method: 'post', data: data
   })
 }
+/* 网易云接口 */
 
-
-export const loginMusic = (phone: number) => {
+// 发送验证码
+export const loginMusic = (phone: string) => {
   return request({
     url: '/captcha/sent', method: 'get', params: { phone }
+  })
+}
+
+// 验证验证码
+export const Mcaptcha = (phone:string,captcha:string) => {
+  return request({
+    url:'/captcha/verify',method: 'get',params: {
+      phone,captcha
+    }
+  })
+}
+
+// 手机登录
+export const loginCellPhone = (phone:string,captcha:string) => {
+  return request({
+    url:'/login/cellphone',method:'post',data:{
+      phone,captcha
+    }
   })
 }

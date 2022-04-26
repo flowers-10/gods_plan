@@ -155,7 +155,37 @@
    }
    ```
    
-1. 测试axios跨域设置，后端接口postman验证成功，准备引入api.ts中进行登录验证~
+1. 测试axios跨域设置，后端接口postman验证成功，引入api.ts中进行登录验证~新增接口
+
+   /==发送验证码==/==验证验证码==/==手机登录==
+
+   并且当登录验证成功后在 pinia 中存入 userlist 数组中，由于登录成功后pinia获得的是proxy代理的对象，所以在pinia中引入了 toRaw 解析对象
+
+   ```ts
+   // 用户信息
+       userInfoActions(userinfo: any) {
+         this.userStore.userinfo = userinfo
+         this.userStore.online = true
+         setSession('userStore',toRaw(this.userStore))
+       }
+   ```
+
+   
+
+   但是解析的对象还不能存入sessionStroge,因为sessionStroge存储只接收字符串，所以在utils中封装了session.ts 专门把对象转化成json数据存入到sessionStroge中
+
+   ```ts
+   export const setSession = (key: string, value: any) => {
+     if (typeof value == "object" || 'array') {//如果要存储对象，则先转为json串
+       value = window.JSON.stringify(value);
+     }
+     sessionStorage.setItem(key, value);
+   }
+   ```
+
+1. 完成登录接口的调试！并且把数据都存入了sessionStroage中,当取出时继续用utils中封装session.ts中的方法转化为对象即可
+
+   
 
 ## 环境配置
 

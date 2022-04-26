@@ -3,7 +3,7 @@
     <transition enter-active-class="animate__animated animate__flipInX"
       leave-active-class="animate__animated animate__flipOutX">
       <div v-show="flag" class="pop-up">
-        <div class="pop-up__title">{{title}}
+        <div class="pop-up__title">{{ title }}
           <svg @click="clickTap" class="close feather feather-x-circle" width="24" height="24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10" />
@@ -13,9 +13,7 @@
         <slot></slot>
         <div class="content-button-wrapper">
           <button class="content-button status-button open close" @click="clickTap">Cancel</button>
-          <button class="content-button status-button"
-          @click="clickContinue"
-          >Continue</button>
+          <button class="content-button status-button" @click="clickContinue">Continue</button>
         </div>
       </div>
     </transition>
@@ -25,17 +23,17 @@
 
 <script setup lang="ts">
 import 'animate.css'
-// import { ref } from 'vue'
+import { ref,reactive } from 'vue'
 // const flag = ref<boolean>(true)
 
-defineProps<{ flag: boolean,title:string }>()
-const emit = defineEmits(['on-click'])
+const props = defineProps<{ flag: boolean, title: string, LoginForm: any}>()
+const emit = defineEmits(['on-click', 'on-login'])
 const clickTap = () => {
   emit('on-click', false)
 }
 const clickContinue = () => {
-  console.log(1123);
-  
+  // console.log(props.LoginForm);
+  emit('on-login')
 }
 </script>
 
@@ -67,6 +65,7 @@ const clickContinue = () => {
   left: 50%;
   transform: (translate(-50%, -50%));
   width: 500px;
+
   @media screen and (max-width: 570px) {
     width: 100%;
   }
