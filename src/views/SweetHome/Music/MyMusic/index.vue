@@ -8,8 +8,6 @@
         </router-link>
       </div>
     </div>
-
-
     <div class="content-wrapper">
       <div class="content-wrapper-header">
         <div class="content-wrapper-context">
@@ -228,18 +226,32 @@
       </div>
     </div>
   </div>
-  <div class="overlay-app" :class="flag?'is-active':''"></div>
+  <div class="overlay-app" :class="flag ? 'is-active' : ''"></div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+// 引入工具
+import { reactive, ref ,toRaw} from 'vue'
+import { useStore } from '../../../../stores'
+// 响应式pinia
+import { storeToRefs } from 'pinia';
+const store = useStore()
+
+// console.log(toRaw(store.$state.count))
+
+// 头部的导航栏
 const mainHeaderList = reactive([
-  { title: 'Desktop', path: '/apps/allapps/desktop' },
-  { title: 'Mobile', path: '/apps/allapps/mobile' },
-  { title: 'Web', path: '/apps/allapps/web' }
+  { title: 'Desktop' },
+  { title: 'Mobile' },
+  { title: 'Web' }
 ])
+
+// 控制当前点击的内容响应式
 const tabSwitch = ref<number>(0)
-const flag =ref<boolean>(false)
+// 控制弹窗和遮罩的显示隐藏
+const flag = ref<boolean>(false)
+
+
 </script>
 
 <style lang="less" scoped>

@@ -1,29 +1,24 @@
 import { defineStore } from 'pinia'
 import { toRaw } from 'vue'
-import { setSession } from '../utils/session'
+// import { setLocalstorage } from '../utils/local'
 
 export const useStore = defineStore({
-  id: 'counter',
+  id: 'CloudMusic',
   state: () => ({
-    userStore: {
-      online: false,
-      userinfo: [],
-      userlist: [],
-      useravatar: "",
-    }
+    userinfo: [],
+    userlist: [],
+    useravatar: "",
+    count: 0
   }),
   actions: {
-    // 用户在线状态
-    userOnlineActions(online: boolean) {
-      this.userStore.online = online
-      // window.sessionStorage.setItem("userStore",this.userStore)
-    },
     // 用户信息
     userInfoActions(userinfo: any) {
-      this.userStore.userinfo = userinfo
-      this.userStore.online = true
-      setSession('userStore',toRaw(this.userStore))
+      console.log('登录传参', userinfo)
+      this.userinfo = userinfo
+      // setLocalstorage('userStore',toRaw(this.userStore))
+    },
+    countUp() {
+      this.count++
     }
-
   }
 })

@@ -38,10 +38,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
-  // const leftSideList = reactive([
-  //   {title:'apps',children:[{SideTitle:'All Apps'},{}]},{},{},{}
-  // ])
 
 </script>
 

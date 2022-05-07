@@ -1,11 +1,14 @@
 <template>
   <div>
+    <video-bg></video-bg>
+    <dark-light></dark-light>
     <router-view></router-view>
   </div>
 </template>
 
 <script setup lang="ts">
-  
+import VideoBg from './components/VideoBg/index.vue'
+import DarkLight from './components/DarkLight/index.vue'
 </script>
 
 <style 
@@ -16,10 +19,12 @@ lang="less">
   padding: 0;
   margin: 0;
 }
+
 a {
-  text-decoration:none;
+  text-decoration: none;
   color: var(--theme-color);
 }
+
 /* 全局变量 */
 :root {
   --theme-bg-color: rgba(16 18 27 / 40%);
@@ -38,6 +43,7 @@ a {
   --overlay-bg: rgba(36, 39, 59, 0.3);
   --scrollbar-bg: rgb(1 2 3 / 40%);
 }
+
 /* 亮色模式的变量 */
 .light-mode {
   --theme-bg-color: rgb(255 255 255 / 31%);
@@ -54,6 +60,7 @@ a {
   --scrollbar-bg: rgb(255 253 253 / 57%);
   --content-title-color: --theme-color;
 }
+
 .light-mode {
   .dark-light svg {
     fill: transparent;
@@ -76,6 +83,7 @@ a {
     background-color: rgb(255 255 255 / 94%);
   }
 }
+
 /* 滚轮样式 */
 ::-webkit-scrollbar {
   width: 6px;

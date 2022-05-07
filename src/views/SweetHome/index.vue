@@ -1,6 +1,4 @@
 <template>
-  <video-bg></video-bg>
-  <dark-light></dark-light>
   <div class="app">
     <div class="header" :class="SearchFlag === true ? 'wide' : ''">
       <div class="menu-circle" @click="leftSideShow">
@@ -28,7 +26,12 @@
           <path
             d="M448.773 235.551A135.893 135.893 0 00451 211c0-74.443-60.557-135-135-135-47.52 0-91.567 25.313-115.766 65.537-32.666-10.59-66.182-6.049-93.794 12.979-27.612 19.013-44.092 49.116-45.425 82.031C24.716 253.788 0 290.497 0 331c0 7.031 1.703 13.887 3.006 20.537l.015.015C12.719 400.492 56.034 436 106 436h300c57.891 0 106-47.109 106-105 0-40.942-25.053-77.798-63.227-95.449z" />
         </svg>
-        <img class="profile-img" src="../../assets/SPY×FAMILY/4.jpg" alt="" @click="loginCloudMusci">
+
+        <!-- <img class="profile-img" src="" alt=""> -->
+        <!-- http://localhost:8080/src/assets/SPY%C3%97FAMILY/4.jpg -->
+        <img class="profile-img" :src="avatarUrl" alt="" @click="loginOut">
+
+
       </div>
     </div>
     <router-view v-slot="{ Component }">
@@ -36,36 +39,87 @@
         <component :is="Component" />
       </keep-alive>
     </router-view>
-    <div class="left-side" v-if="sideShow"></div>
-    <dialoge :flag="flag" title="Login" @on-click="getFlag">
-      <template #default>
-        <div class="login-form">
-          <el-form ref="LoginFormRef" :model="LoginForm" status-icon :rules="rules" label-width="120px"
-            label-position="top" class="demo-ruleForm">
-            <el-form-item label="Phone Number" prop="PhoneNumber">
-              <el-input v-model="LoginForm.phoneNumber" />
-            </el-form-item>
-            <el-form-item label="SMS Verification" prop="verify">
-              <el-input v-model="LoginForm.verify" />
-              <el-button type="primary" class="Verification-button" @click="getVerification">Get Verification
-              </el-button>
-            </el-form-item>
-          </el-form>
+    <div class="left-side" v-if="status && sideShow">
+      <div class="side-wrapper">
+        <div class="side-title">App</div>
+        <div class="side-menu">
+          <router-link @click="sideShow = false" to="/apps">
+            <svg viewBox="0 0 512 512">
+              <g xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                <path d="M0 0h128v128H0zm0 0M192 0h128v128H192zm0 0M384 0h128v128H384zm0 0M0 192h128v128H0zm0 0"
+                  data-original="#bfc9d1" />
+              </g>
+              <path xmlns="http://www.w3.org/2000/svg" d="M192 192h128v128H192zm0 0" fill="currentColor"
+                data-original="#82b1ff" />
+              <path xmlns="http://www.w3.org/2000/svg"
+                d="M384 192h128v128H384zm0 0M0 384h128v128H0zm0 0M192 384h128v128H192zm0 0M384 384h128v128H384zm0 0"
+                fill="currentColor" data-original="#bfc9d1" />
+            </svg>
+            All Apps
+          </router-link>
+          <router-link @click="sideShow = false" to="/apps/updates">
+            <svg viewBox="0 0 488.932 488.932" fill="currentColor">
+              <path
+                d="M243.158 61.361v-57.6c0-3.2 4-4.9 6.7-2.9l118.4 87c2 1.5 2 4.4 0 5.9l-118.4 87c-2.7 2-6.7.2-6.7-2.9v-57.5c-87.8 1.4-158.1 76-152.1 165.4 5.1 76.8 67.7 139.1 144.5 144 81.4 5.2 150.6-53 163-129.9 2.3-14.3 14.7-24.7 29.2-24.7 17.9 0 31.8 15.9 29 33.5-17.4 109.7-118.5 192-235.7 178.9-98-11-176.7-89.4-187.8-187.4-14.7-128.2 84.9-237.4 209.9-238.8z" />
+            </svg>
+            Updates
+            <span class="notification-number updates">3</span>
+          </router-link>
         </div>
-      </template>
-    </dialoge>
+      </div>
+      <div class="side-wrapper">
+        <div class="side-title">Music</div>
+        <div class="side-menu">
+          <router-link @click="sideShow = false" to="/music">
+            <svg t="1651369194282" class="icon" viewBox="0 0 1024 1024" version="1.1" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg" p-id="2209">
+              <path
+                d="M875.52 433.152q-7.168-1.024-12.8-10.24t-8.704-33.792q-5.12-39.936-26.112-58.88t-65.024-27.136q-46.08-9.216-81.408-37.376t-58.88-52.736q-22.528-21.504-34.816-15.36t-12.288 22.528l0 44.032 0 96.256q0 57.344-0.512 123.904t-0.512 125.952l0 104.448 0 58.368q1.024 24.576-7.68 54.784t-32.768 56.832-64 45.568-99.328 22.016q-60.416 3.072-109.056-21.504t-75.264-61.952-26.112-81.92 38.4-83.456 81.92-54.272 84.992-16.896 73.216 5.632 47.616 13.312l0-289.792q0-120.832 1.024-272.384 0-29.696 15.36-48.64t40.96-22.016q21.504-3.072 35.328 8.704t28.16 32.768 35.328 47.616 56.832 52.224q30.72 23.552 53.76 33.792t43.008 18.944 39.424 20.992 43.008 39.936q23.552 26.624 28.672 55.296t0.512 52.224-14.848 38.4-17.408 13.824z"
+                p-id="2210"></path>
+            </svg>
+            My Music
+          </router-link>
+          <router-link @click="sideShow = false" to="/music/discovermusic">
+            <svg viewBox="0 0 512 512" fill="currentColor">
+              <circle cx="295.099" cy="327.254" r="110.96" transform="rotate(-45 295.062 327.332)" />
+              <path
+                d="M471.854 338.281V163.146H296.72v41.169a123.1 123.1 0 01121.339 122.939c0 3.717-.176 7.393-.5 11.027zM172.14 327.254a123.16 123.16 0 01100.59-120.915L195.082 73.786 40.146 338.281H172.64c-.325-3.634-.5-7.31-.5-11.027z" />
+            </svg>
+            DiscoverMusic
+          </router-link>
+        </div>
+      </div>
+      <div class="side-wrapper">
+        <div class="side-title">Discover</div>
+        <div class="side-menu">
+        </div>
+      </div>
+      <div class="side-wrapper">
+        <div class="side-title">Knowledge</div>
+        <div class="side-menu">
+
+        </div>
+      </div>
+
+    </div>
+    <div v-if="status" class="overlay-app" :class="sideShow ? 'is-active' : ''" @click="sideShow = false"></div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import VideoBg from '../../components/VideoBg/index.vue'
-import DarkLight from '../../components/DarkLight/index.vue'
-import dialoge from '../../components/Dialog/index.vue'
-import { ref, reactive, onMounted, watch } from 'vue'
+// 引入工具
+import { ref, reactive, onMounted, watch, toRaw } from 'vue'
 import { useRoute } from 'vue-router';
-import { getTest, loginMusic } from '@/api/api'
+import { useStore } from '@/stores';
 
+
+// 路由
 const route = useRoute()
+// pinia
+const store = useStore()
+
+const avatarUrl = ref<string>(toRaw(store.$state.userinfo.profile.avatarUrl))
+
 // 导航栏的数据
 const tabSwithList = reactive([{
   title: 'Apps',
@@ -85,36 +139,34 @@ const tabSwithList = reactive([{
 const tabSwith = ref(0)
 // 控制搜索框的动态样式
 const SearchFlag = ref(false)
-const flag = ref<boolean>(false)
+// 控制侧边栏的显示
 const sideShow = ref<boolean>(false)
-const loginCloudMusci = () => {
-  flag.value = true
+// const flag = ref<boolean>(false)
+
+// const loginCloudMusci = () => {
+//   // flag.value = true
+// }
+
+// 识别用户是否是移动端，如果移动端，就让 video 标签失效
+const IsPc = () => {
+  let userAgent = navigator.userAgent, Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+  return Agents.some((i) => {
+    return userAgent.includes(i)
+  })
 }
-// 获得子组件传来的值
-const getFlag = (flagChild: boolean) => {
-  // console.log(flagChild,'我接收到了子组件的传参')
-  flag.value = flagChild
-}
+let status = IsPc()
 // 左侧边栏的显示
 const leftSideShow = () => {
   sideShow.value = true
 }
-const LoginForm = reactive({
-  phoneNumber: "",
-  verify: ""
-})
-const rules: any[] = []
-const getVerification = async () => {
-  //   console.log(LoginForm.phoneNumber);
 
-  //   const res = await loginMusic(LoginForm.phoneNumber)
-  //   console.log(res)
-  getTest().then(res => {
-    console.log(res);
-
-  })
+// 退出登录
+const loginOut = () => {
+  
 }
+
 onMounted(() => {
+  // 根据路由高亮当前的头部导航栏样式
   let tab = route.path.split('/')
   // console.log(tab[1]);
   switch (tab[1]) {
@@ -131,9 +183,6 @@ onMounted(() => {
       tabSwith.value = 3;
       break;
   }
-})
-watch(LoginForm, (newval, oldval) => {
-  // console.log(newval);
 
 })
 
@@ -142,6 +191,25 @@ watch(LoginForm, (newval, oldval) => {
 <style lang="less" scoped>
 img {
   max-width: 100%;
+}
+
+.overlay-app {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  pointer-events: all;
+  background-color: rgba(36, 39, 59, 0.8);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  z-index: 10;
+
+  &.is-active {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
 .app {
@@ -359,17 +427,51 @@ img {
   position: absolute;
   width: 80%;
   height: 100%;
-  background-color: #3a6df0;
-}
+  background-color: var(--popup-bg);
+  z-index: 99;
+  // padding: 20px;
+  flex-basis: 240px;
+  border-right: 1px solid var(--border-color);
+  padding: 26px;
+  overflow: auto;
+  flex-shrink: 0;
 
-.login-form {
-  padding: 20px 10px 10px 10px;
-  color: var(--theme-color);
-  position: relative;
-
-  .Verification-button {
-    position: absolute;
-    right: 0px;
+  .side-wrapper+.side-wrapper {
+    margin-top: 20px;
   }
+
+  .side-title {
+    color: var(--inactive-color);
+    margin-bottom: 14px;
+  }
+
+  .side-menu {
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+
+    a {
+      text-decoration: none;
+      color: var(--theme-color);
+      display: flex;
+      align-items: center;
+      font-weight: 400;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 6px;
+      transition: 0.3s;
+      position: relative;
+
+      &:hover {
+        background-color: var(--hover-menu-bg);
+      }
+    }
+
+    svg {
+      width: 16px;
+      margin-right: 8px;
+    }
+  }
+
 }
 </style>

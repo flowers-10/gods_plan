@@ -183,8 +183,72 @@
    }
    ```
 
-1. 完成登录接口的调试！并且把数据都存入了sessionStroage中,当取出时继续用utils中封装session.ts中的方法转化为对象即可
+1. 完成登录接口的调试！在main.ts中封装了pinia持久化插件，防止刷新后数据丢失
 
+   ```ts
+   // pinia全局持久化
+   type Options = {
+     key?: string
+   }
+   
+   const __pinaiaKey__: string = 'unknown'
+   
+   const setStorage = (key: string, value: unknown) => {
+     localStorage.setItem(key, JSON.stringify(value))
+   }
+   const getStorage = (key: string) => {
+     return localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key) as string) : {}
+   }
+   
+   const piniaPlugin = (options: Options) => {
+     // console.log(options)
+   
+     return (context: PiniaPluginContext) => {
+       const { store } = context
+       const data = getStorage(`${options?.key ?? __pinaiaKey__}-${store.$id}`)
+       console.log(data);
+       
+       // 当store发生改变时，触发subscribe
+       store.$subscribe(() => {
+         // 把用户需要的key和内容存入到localStorage
+         setStorage(`${options?.key ?? __pinaiaKey__}-${store.$id}`, toRaw(store.$state))
+       })
+       // console.log(context, 'context')
+       return {
+         ...data
+       }
+     }
+   
+   }
+   
+   const store = createPinia()
+   store.use(piniaPlugin({
+     key: 'pinia'
+   }))
+   
+   ```
+   
+   
+   
+1. 新增路由导航功能，对没有登录的访问者弹出回到首页中
+
+   ```js
+   // 路由导航
+   router.beforeEach((to,from,next) => {
+     let loginStatus = localStorage.getItem('pinia-CloudMusic')
+     if(whileList.includes(to.path) || loginStatus) {
+       next()
+     }else {
+       alert('请登录后访问~')
+       next({
+         path:'/'
+       })
+     }
+   })
+   ```
+   
+   
+   
    
 
 ## 环境配置

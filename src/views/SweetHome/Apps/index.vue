@@ -148,14 +148,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
-  // const leftSideList = reactive([
-  //   {title:'apps',children:[{SideTitle:'All Apps'},{}]},{},{},{}
-  // ])
 
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .wrapper {
   display: flex;
   flex-grow: 1;

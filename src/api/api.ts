@@ -35,3 +35,10 @@ export const loginCellPhone = (phone:string,captcha:string) => {
     }
   })
 }
+
+// 登录状态
+export const loginStatus = () => {
+  return request({
+    url:'/user/level',method:'get'
+  })
+}
