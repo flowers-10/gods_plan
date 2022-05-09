@@ -1,6 +1,6 @@
 import { request } from "../utils/request";
 
-export const getTest = (url:string) => {
+export const getTest = (url: string) => {
   return request({ url, method: 'get' })
 }
 
@@ -19,19 +19,23 @@ export const loginMusic = (phone: string) => {
 }
 
 // 验证验证码
-export const Mcaptcha = (phone:string,captcha:string) => {
+export const Mcaptcha = (phone: string, captcha: string) => {
   return request({
-    url:'/captcha/verify',method: 'get',params: {
-      phone,captcha
+    url: '/captcha/verify', 
+    method: 'get', 
+    params: {
+      phone, captcha
     }
   })
 }
 
 // 手机登录
-export const loginCellPhone = (phone:string,captcha:string) => {
+export const loginCellPhone = (phone: string, captcha: string) => {
   return request({
-    url:'/login/cellphone',method:'post',data:{
-      phone,captcha
+    url: '/login/cellphone', 
+    method: 'post', 
+    data: {
+      phone, captcha
     }
   })
 }
@@ -39,6 +43,49 @@ export const loginCellPhone = (phone:string,captcha:string) => {
 // 登录状态
 export const loginStatus = () => {
   return request({
-    url:'/user/level',method:'get'
+    url: '/user/level', 
+    method: 'get'
+  })
+}
+
+// 获取用户详情
+export const userDetail = (uid: string) => {
+  return request({
+    url: '/user/detail', 
+    method: 'post', 
+    data: {
+      uid
+    }
+  })
+}
+
+// 获取用户歌单
+export const userPlaylist = (uid: string) => {
+  return request({
+    url: '/user/playlist',
+    method: 'post',
+    data: {
+      uid,
+      limit:100
+    }
+  })
+}
+
+// 退出登录
+export const loginOut = () => {
+  return request ({
+    url:'/logout',
+    method:'get'
+  }) 
+}
+
+// 获取歌单详情
+export const playListDetail = (id:number) => {
+  return request ({
+    url:'/playlist/detail',
+    method:'get',
+    params: {
+      id
+    }
   })
 }

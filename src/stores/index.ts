@@ -1,24 +1,32 @@
 import { defineStore } from 'pinia'
-import { toRaw } from 'vue'
-// import { setLocalstorage } from '../utils/local'
+import { userPlaylist } from '@/api/api'
 
 export const useStore = defineStore({
   id: 'CloudMusic',
   state: () => ({
-    userinfo: [],
-    userlist: [],
-    useravatar: "",
-    count: 0
+    userinfo:
+      { account: { id: '' }, profile: { avatarUrl: '', backgroundUrl: '' }, }
+    ,
+    userlist: {
+
+    },
+    uid: '',
+    playListId:''
   }),
   actions: {
     // 用户信息
     userInfoActions(userinfo: any) {
-      console.log('登录传参', userinfo)
       this.userinfo = userinfo
       // setLocalstorage('userStore',toRaw(this.userStore))
     },
-    countUp() {
-      this.count++
+    // 用户歌单列表
+    async getUserPlaylist(uid: string) {
+      const res: any = await userPlaylist(uid)
+      this.userlist = res.playlist
+    },
+    // 用户歌单id
+    getplayListId(id: string) {
+      this.playListId = id
     }
   }
 })

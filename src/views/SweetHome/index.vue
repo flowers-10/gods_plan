@@ -34,11 +34,7 @@
 
       </div>
     </div>
-    <router-view v-slot="{ Component }">
-      <keep-alive>
-        <component :is="Component" />
-      </keep-alive>
-    </router-view>
+    <router-view></router-view>
     <div class="left-side" v-if="status && sideShow">
       <div class="side-wrapper">
         <div class="side-title">App</div>
@@ -87,6 +83,14 @@
             </svg>
             DiscoverMusic
           </router-link>
+          <router-link @click="sideShow = false"  to="/music/myhome">
+            <svg viewBox="0 0 1024 1024" fill="currentColor">
+              <path
+                d="M947.2 422.4L572.8 115.2c-32-25.6-86.4-25.6-118.4 0L76.8 425.6c-12.8 6.4-16 22.4-9.6 35.2 3.2 12.8 16 19.2 28.8 19.2h32v364.8C128 892.8 163.2 928 211.2 928H416c19.2 0 32-12.8 32-32v-147.2c0-22.4 35.2-44.8 64-44.8 28.8 0 67.2 22.4 67.2 44.8V896c0 19.2 12.8 32 32 32h208c48 0 80-32 80-83.2V480h32c12.8 0 25.6-9.6 28.8-22.4 3.2-12.8 0-25.6-12.8-35.2z"
+                p-id="4314"></path>
+            </svg>
+            My Home
+          </router-link>
         </div>
       </div>
       <div class="side-wrapper">
@@ -117,7 +121,7 @@ import { useStore } from '@/stores';
 const route = useRoute()
 // pinia
 const store = useStore()
-
+// 获得头像(ts报错因为没有整合类型)
 const avatarUrl = ref<string>(toRaw(store.$state.userinfo.profile.avatarUrl))
 
 // 导航栏的数据
@@ -141,11 +145,6 @@ const tabSwith = ref(0)
 const SearchFlag = ref(false)
 // 控制侧边栏的显示
 const sideShow = ref<boolean>(false)
-// const flag = ref<boolean>(false)
-
-// const loginCloudMusci = () => {
-//   // flag.value = true
-// }
 
 // 识别用户是否是移动端，如果移动端，就让 video 标签失效
 const IsPc = () => {
@@ -162,7 +161,7 @@ const leftSideShow = () => {
 
 // 退出登录
 const loginOut = () => {
-  
+
 }
 
 onMounted(() => {

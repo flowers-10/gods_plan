@@ -1,10 +1,8 @@
 <template>
   <div class="welcome">
     <h1> 你好 welcome to heat waves</h1>
-      <div class="login" @click="loginCloudMusic">登录</div>
-
+    <div class="login" @click="loginCloudMusic">登录</div>
   </div>
-
   <dialoge title="Login" :flag="flag" :LoginForm="LoginForm" @on-click="getFlag" @on-login="loginContinue">
     <template #default>
       <div class="login-form">
@@ -28,7 +26,7 @@
 import dialoge from '../../components/Dialog/index.vue'
 // 引入api
 import { loginMusic, Mcaptcha, loginCellPhone } from '../../api/api'
-import { ref, reactive } from 'vue'
+import { ref, reactive, toRaw } from 'vue'
 import { useRouter } from 'vue-router'
 // 引入pinia
 import { useStore } from '../../stores'
@@ -60,7 +58,7 @@ const getVerification = async () => {
   console.log(LoginForm.phoneNumber);
 
   const res: any = await loginMusic(LoginForm.phoneNumber)
-  console.log(res)
+  // console.log(res)
   if (res.code === 200) {
     console.log('发送成功！');
   } else {
@@ -75,7 +73,7 @@ const loginContinue = async () => {
   if (Mcaptchares.code === 200) {
     console.log('验证成功')
     const res: any = await loginCellPhone(LoginForm.phoneNumber, LoginForm.verify)
-    console.log('获得了登录信息',res);
+    // console.log('获得了登录信息',res);
     store.userInfoActions(res)
     router.push('/music/mymusic')
   } else {
@@ -94,10 +92,14 @@ const loginContinue = async () => {
   height: 60vh;
   width: 100vw;
   overflow: hidden;
-  z-index: 99;
+  z-index: 15;
   display: grid;
   place-items: center;
   background-color: var(--theme-bg-color);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 
   h1 {
     color: #fff;
@@ -105,40 +107,41 @@ const loginContinue = async () => {
     word-spacing: 100vw;
     width: min-content;
     text-align: center;
-    font-size: 3em;
-    line-height: 100%;
+    font-size: 4em;
+    line-height: 120%;
     background: linear-gradient(225deg,
-      var(--color1) 0%,var(--color1) 9%,
-      transparent 9%,transparent 10%,
-      var(--color2) 10%,var(--color2) 19%,
-      transparent 19%,transparent 20%,
-      var(--color3) 20%,var(--color3) 29%,
-      transparent 29%,transparent 30%,
-      var(--color4) 30%,var(--color4) 39%,
-      transparent 39%,transparent 40%,
-      var(--color5) 40%,var(--color5) 49%,
-      transparent 49%,transparent 50%,
-      var(--color1) 50%,var(--color1) 59%,
-      transparent 59%,transparent 60%,
-      var(--color2) 60%,var(--color2) 69%,
-      transparent 69%,transparent 70%,
-      var(--color3) 70%,var(--color3) 79%,
-      transparent 79%,transparent 80%,
-      var(--color4) 80%,var(--color4) 89%,
-      transparent 89%,transparent 90%,
-      var(--color5) 90%,var(--color5) 99%,
-      transparent 99%
-    );
+        var(--color1) 0%, var(--color1) 9%,
+        transparent 9%, transparent 10%,
+        var(--color2) 10%, var(--color2) 19%,
+        transparent 19%, transparent 20%,
+        var(--color3) 20%, var(--color3) 29%,
+        transparent 29%, transparent 30%,
+        var(--color4) 30%, var(--color4) 39%,
+        transparent 39%, transparent 40%,
+        var(--color5) 40%, var(--color5) 49%,
+        transparent 49%, transparent 50%,
+        var(--color1) 50%, var(--color1) 59%,
+        transparent 59%, transparent 60%,
+        var(--color2) 60%, var(--color2) 69%,
+        transparent 69%, transparent 70%,
+        var(--color3) 70%, var(--color3) 79%,
+        transparent 79%, transparent 80%,
+        var(--color4) 80%, var(--color4) 89%,
+        transparent 89%, transparent 90%,
+        var(--color5) 90%, var(--color5) 99%,
+        transparent 99%);
     background-size: 200% 200%;
-    color:transparent;
+    color: transparent;
     background-clip: text;
     -webkit-background-clip: text;
     animation: move 6s linear infinite;
   }
+
   @keyframes move {
     0% {
       background-position: 0px 100%;
     }
+
     100% {
       background-position: 100% 0px;
     }

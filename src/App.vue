@@ -11,8 +11,7 @@ import VideoBg from './components/VideoBg/index.vue'
 import DarkLight from './components/DarkLight/index.vue'
 </script>
 
-<style 
-lang="less">
+<style lang="less">
 * {
   outline: none;
   box-sizing: border-box;

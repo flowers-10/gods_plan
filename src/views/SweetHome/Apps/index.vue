@@ -151,7 +151,7 @@
 
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .wrapper {
   display: flex;
   flex-grow: 1;

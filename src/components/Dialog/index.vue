@@ -49,7 +49,7 @@ const clickContinue = () => {
   opacity: 0;
   visibility: hidden;
   transition: 0.3s;
-
+  z-index: 99;
   &.is-active {
     visibility: visible;
     opacity: 1;
@@ -60,7 +60,7 @@ const clickContinue = () => {
   visibility: visible;
   opacity: 1;
   position: absolute;
-  z-index: 10;
+  z-index: 999;
   top: 50%;
   left: 50%;
   transform: (translate(-50%, -50%));

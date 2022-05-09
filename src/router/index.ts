@@ -48,7 +48,17 @@ const router = createRouter({
               path: '/music/discovermusic',
               name: 'DiscoverMusic',
               component: () => import('../views/SweetHome/Music/DiscoverMusic/index.vue'),
-            }
+            },
+            {
+              path: '/music/myhome',
+              name: 'MyHome',
+              component: () => import('../views/SweetHome/Music/MyHome/index.vue'),
+            },
+            {
+              path: '/music/playlistdetail/:id',
+              name: 'PlayListDetail',
+              component: () => import('../views/SweetHome/Music/PlayListDetail/index.vue'),
+            },
           ]
         },
         {
