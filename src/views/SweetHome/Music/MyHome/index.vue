@@ -14,6 +14,7 @@ import { loginOut } from '@/api/api'
 const loginOutNow = () => {
   loginOut()
   localStorage.removeItem('pinia-CloudMusic')
+  location.reload()
 }
 </script>
 

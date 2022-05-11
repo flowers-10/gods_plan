@@ -10,7 +10,7 @@
             <path d="M15 9l-6 6M9 9l6 6" />
           </svg>
         </div>
-        <slot></slot>
+        <slot ></slot>
         <div class="content-button-wrapper">
           <button class="content-button status-button open close" @click="clickTap">Cancel</button>
           <button class="content-button status-button" @click="clickContinue">Continue</button>

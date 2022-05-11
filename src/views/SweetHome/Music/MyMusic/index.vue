@@ -18,10 +18,9 @@
       <div class="content-section">
         <div class="content-section-title">全部歌单</div>
         <div class="playlists-card">
-          <div class="playlist-card" v-for="(item, index) in userPlaylist[0]" @click="goPlayListDetail(item.id)">
+          <div class="playlist-card" v-for="(item, index) in userPlaylists[0]?.playlist" @click="goPlayListDetail(item.id)">
             <img class="card-img" :src="item.coverImgUrl" alt="">
             <div class="card-detail">
-
               <span class="detail-name">{{ item.name }}</span>
               <span class="detail-trackCount">{{ item.trackCount }}首</span>
             </div>
@@ -42,7 +41,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from '@/stores'// pinia
 
 // 引入接口
-import { userDetail } from '@/api/api'
+import { userDetail, userPlaylist } from '@/api/api'
 
 // 使用pinia
 const store = useStore()
@@ -59,14 +58,15 @@ const uid: string = store.$state.userinfo.account.id
 // 用户详情
 const userDetails: any = reactive([])
 // 用户的歌单列表
-const userPlaylist: any = reactive([])
+const userPlaylists: any = reactive([])
 // 获得用户信息和歌单列表
 const getMyMusicData = async () => {
   const res: any = await userDetail(uid)
   userDetails.push(res)
-  userPlaylist.push(store.$state.userlist)
-  // console.log(toRaw(userPlaylist));
+  const result: any = await userPlaylist(uid)
+  userPlaylists.push(result)
 }
+
 // 路由传参跳到歌单详情
 const goPlayListDetail = (id: string) => {
   store.getplayListId(id)

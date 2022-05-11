@@ -7,7 +7,8 @@ export const request = (option:any) => {
   return new Promise((resolve,reject) => {
     // 创建一个axios实例
     const service = axios.create({
-      baseURL: 'http://localhost:3000',
+      // baseURL: 'http://localhost:3000',//开发版本
+      baseURL: 'http://124.223.168.27:3000/',//发布版
       timeout:80000 //请求的时间
     })
     // 响应拦截器

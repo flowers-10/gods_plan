@@ -76,7 +76,7 @@ router.beforeEach((to, from, next) => {
 
   }
   // 如果用户在白名单并且已经存入登录信息则可以任意通行
-  else if (whileList.includes(to.path) || loginStatus) {
+  if (whileList.includes(to.path) || loginStatus) {
     next()
   }
   // 如果没有登录信息则返回登录页面

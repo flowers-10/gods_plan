@@ -3,6 +3,7 @@
     <h1> 你好 welcome to heat waves</h1>
     <div class="login" @click="loginCloudMusic">登录</div>
   </div>
+  <beian-gov></beian-gov>
   <dialoge title="Login" :flag="flag" :LoginForm="LoginForm" @on-click="getFlag" @on-login="loginContinue">
     <template #default>
       <div class="login-form">
@@ -24,6 +25,7 @@
 
 <script setup lang="ts">
 import dialoge from '../../components/Dialog/index.vue'
+import BeianGov from '../../components/BeianGov/index.vue'
 // 引入api
 import { loginMusic, Mcaptcha, loginCellPhone } from '../../api/api'
 import { ref, reactive, toRaw } from 'vue'
