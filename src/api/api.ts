@@ -12,17 +12,17 @@ export const postReg = (data: object) => {
 /* 网易云接口 */
 
 // 发送验证码
-export const loginMusic = (phone: string) => {
+export const loginMusic = (phone: string | number) => {
   return request({
     url: '/captcha/sent', method: 'get', params: { phone }
   })
 }
 
 // 验证验证码
-export const Mcaptcha = (phone: string, captcha: string) => {
+export const Mcaptcha = (phone: string | number, captcha: string | number) => {
   return request({
-    url: '/captcha/verify', 
-    method: 'get', 
+    url: '/captcha/verify',
+    method: 'get',
     params: {
       phone, captcha
     }
@@ -30,10 +30,10 @@ export const Mcaptcha = (phone: string, captcha: string) => {
 }
 
 // 手机登录
-export const loginCellPhone = (phone: string, captcha: string) => {
+export const loginCellPhone = (phone: string | number, captcha: string | number) => {
   return request({
-    url: '/login/cellphone', 
-    method: 'post', 
+    url: '/login/cellphone',
+    method: 'post',
     data: {
       phone, captcha
     }
@@ -43,16 +43,16 @@ export const loginCellPhone = (phone: string, captcha: string) => {
 // 登录状态
 export const loginStatus = () => {
   return request({
-    url: '/user/level', 
+    url: '/user/level',
     method: 'get'
   })
 }
 
 // 获取用户详情
-export const userDetail = (uid: string) => {
+export const userDetail = (uid: string | number) => {
   return request({
-    url: '/user/detail', 
-    method: 'post', 
+    url: '/user/detail',
+    method: 'post',
     data: {
       uid
     }
@@ -60,32 +60,59 @@ export const userDetail = (uid: string) => {
 }
 
 // 获取用户歌单
-export const userPlaylist = (uid: string) => {
+export const userPlaylist = (uid: string | number) => {
   return request({
     url: '/user/playlist',
     method: 'post',
     data: {
       uid,
-      limit:100
+      limit: 100
     }
   })
 }
 
 // 退出登录
 export const loginOut = () => {
-  return request ({
-    url:'/logout',
-    method:'get'
-  }) 
+  return request({
+    url: '/logout',
+    method: 'get'
+  })
 }
 
 // 获取歌单详情
-export const playListDetail = (id:number) => {
-  return request ({
-    url:'/playlist/detail',
-    method:'get',
+export const playListDetail = (id: number | string) => {
+  return request({
+    url: '/playlist/detail',
+    method: 'get',
     params: {
       id
     }
+  })
+}
+
+// 获取歌曲详情
+export const songDetail = (ids: number | string) => {
+  return request({
+    url: '/song/detail',
+    method: 'get',
+    params: { ids }
+  })
+}
+
+// 获取音乐 url
+export const songUrl = (id: number | string) => {
+  return request({
+    url: '/song/url',
+    method: 'get',
+    params: { id }
+  })
+}
+
+// 获取歌词
+export const lyric = (id: number | string) => {
+  return request({
+    url: '/lyric',
+    method: 'get',
+    params: { id }
   })
 }

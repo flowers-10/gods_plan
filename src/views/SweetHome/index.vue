@@ -75,6 +75,17 @@
             </svg>
             My Music
           </router-link>
+          <a @click="getPlayListId">
+          <svg t="1652001031085" fill="currentColor" class="icon" viewBox="0 0 1024 1024">
+            <path
+              d="M383.104 802.133333C375.466667 855.04 321.493333 896 256 896c-70.698667 0-128-47.786667-128-106.666667S185.301333 682.666667 256 682.666667c14.933333 0 29.312 2.133333 42.666667 6.058666V253.098667c0-21.888 13.653333-41.216 33.706666-47.786667l245.333334-75.008c30.890667-10.069333 62.293333 13.994667 62.293333 47.786667v75.008c0 25.002667-23.424 40.96-42.666667 45.568-27.733333 6.613333-98.816 20.821333-213.333333 42.666666v450.176c0 3.84-0.298667 7.381333-0.896 10.666667z"
+              p-id="4252"></path>
+            <path
+              d="M682.666667 384h170.666666a42.666667 42.666667 0 0 1 0 85.333333h-170.666666a42.666667 42.666667 0 0 1 0-85.333333z m-85.333334 170.666667h256a42.666667 42.666667 0 0 1 0 85.333333h-256a42.666667 42.666667 0 0 1 0-85.333333z m0 170.666666h256a42.666667 42.666667 0 0 1 0 85.333334h-256a42.666667 42.666667 0 0 1 0-85.333334z"
+              opacity=".3" p-id="4253"></path>
+          </svg>
+          Playlist Detail
+        </a>
           <router-link @click="sideShow = false" to="/music/discovermusic">
             <svg viewBox="0 0 512 512" fill="currentColor">
               <circle cx="295.099" cy="327.254" r="110.96" transform="rotate(-45 295.062 327.332)" />
@@ -113,12 +124,14 @@
 <script lang="ts" setup>
 // 引入工具
 import { ref, reactive, onMounted, watch, toRaw } from 'vue'
-import { useRoute } from 'vue-router';
+import { useRoute,useRouter } from 'vue-router';
 import { useStore } from '@/stores';
 
 
 // 路由
 const route = useRoute()
+// 使用路由
+const router = useRouter()
 // pinia
 const store = useStore()
 // 获得头像(ts报错因为没有整合类型)
@@ -162,6 +175,19 @@ const leftSideShow = () => {
 // 退出登录
 const loginOut = () => {
 
+}
+
+// 获得用户的歌单列表
+const getPlayListId = () => {
+  sideShow.value = false
+  const id = store.$state.playListId
+  // console.log('我是pinia中的id', id);
+  router.push({
+    name: 'PlayListDetail',
+    params: {
+      id
+    }
+  })
 }
 
 onMounted(() => {
@@ -213,9 +239,9 @@ img {
 
 .app {
   background-color: var(--theme-bg-color);
-  max-width: 1400px;
+  max-width: 1500px;
   max-height: 880px;
-  height: 90vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -225,7 +251,10 @@ img {
   -webkit-backdrop-filter: blur(20px);
   font-size: 15px;
   font-weight: 500;
-
+  margin: auto;
+  @media screen and (max-width: 480px) {
+      border-radius: 0px;
+    }
   .header {
     display: flex;
     align-items: center;

@@ -23,6 +23,11 @@
           </svg>
           Playlist Detail
         </a>
+      </div>
+    </div>
+    <div class="side-wrapper">
+      <div class="side-title">Discover</div>
+      <div class="side-menu">
         <router-link to="/music/discovermusic">
           <svg viewBox="0 0 1117 1024" fill="currentColor">
             <path
@@ -64,7 +69,7 @@ const store = useStore()
 // 获得用户的歌单列表
 const getPlayListId = () => {
   const id = store.$state.playListId
-  console.log('我是pinia中的id', id);
+  // console.log('我是pinia中的id', id);
   router.push({
     name: 'PlayListDetail',
     params: {

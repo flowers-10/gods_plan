@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="left-side">
+    <div class="left-sides">
       <div class="side-wrapper">
         <div class="side-title">Apps</div>
         <div class="side-menu">
@@ -159,7 +159,7 @@
 }
 
 
-.left-side {
+.left-sides {
   flex-basis: 240px;
   border-right: 1px solid var(--border-color);
   padding: 26px;

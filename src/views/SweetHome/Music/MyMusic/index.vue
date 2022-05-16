@@ -65,6 +65,7 @@ const getMyMusicData = async () => {
   userDetails.push(res)
   const result: any = await userPlaylist(uid)
   userPlaylists.push(result)
+  // userPlaylists[0].playlist.shift()
 }
 
 // 路由传参跳到歌单详情
@@ -103,7 +104,7 @@ onMounted(() => {
   background-position: center center;
 
   @media screen and (max-width: 510px) {
-    padding: 20px;
+    padding: 20px 20px 80px 20px;
   }
 
   &-header {

@@ -104,16 +104,12 @@ body {
   background-image: url(https://wallpapershome.com/images/wallpapers/macos-big-sur-1280x720-dark-wwdc-2020-22655.jpg);
   background-size: cover;
   background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
   padding: 2em;
   width: 100%;
   height: 100vh;
-
   @media screen and (max-width: 480px) {
-    padding: 0.8em;
+    padding: 0;
+    height: 100%;
   }
 }
 </style>

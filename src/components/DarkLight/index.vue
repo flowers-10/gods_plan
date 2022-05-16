@@ -1,5 +1,6 @@
 <template>
-  <div class="dark-light" @click="toggleButton">
+  <div class="dark-light"  v-if="!status" @click="toggleButton">
+    
     <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"
       stroke-linejoin="round">
       <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
@@ -20,6 +21,15 @@ const toggleButton = () => {
     document.body.classList.remove('light-mode')
   }
 }
+
+// 识别用户是否是移动端，如果移动端，就让 切换按钮 标签失效
+const IsPc = () => {
+  let userAgent = navigator.userAgent, Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+  return Agents.some((i) => {
+    return userAgent.includes(i)
+  })
+}
+let status  = IsPc()
 
 onMounted(() => {
   // 因为换肤是永久性的，不能刷新就又变成黑色模式，所以在挂在阶段就通过 localStorge 浏览器缓存 light 与 dark 的状态键值对

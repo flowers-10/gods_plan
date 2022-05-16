@@ -58,7 +58,7 @@ const router = createRouter({
               path: '/music/playlistdetail/:id',
               name: 'PlayListDetail',
               component: () => import('../views/SweetHome/Music/PlayListDetail/index.vue'),
-            },
+            }
           ]
         },
         {
@@ -71,6 +71,11 @@ const router = createRouter({
           component: () => import('../views/SweetHome/Knowledge/index.vue'),
         }
       ]
+    },
+    {
+      path: '/ojk/:id',
+      name: 'okk',
+      component: () => import('../views/ok/index.vue'),
     }
   ]
 })

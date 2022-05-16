@@ -17,7 +17,7 @@ defineProps<{
   border-bottom: 1px solid var(--border-color);
   height: 58px;
   flex-shrink: 0;
-
+  width: auto;
   .header-menu {
     margin-left: 150px;
 
@@ -36,7 +36,6 @@ defineProps<{
   text-decoration: none;
   color: var(--theme-color);
   padding: 0 30px;
-
   @media screen and (max-width: 1055px) {
     display: none;
   }
