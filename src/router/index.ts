@@ -72,11 +72,6 @@ const router = createRouter({
         }
       ]
     },
-    {
-      path: '/ojk/:id',
-      name: 'okk',
-      component: () => import('../views/ok/index.vue'),
-    }
   ]
 })
 

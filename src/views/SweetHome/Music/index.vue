@@ -15,7 +15,7 @@ import { useStore } from '@/stores'
 import { onMounted, nextTick } from 'vue';
 // 使用pinia
 const store = useStore()
-// console.log(store.$state.audioLists);
+console.log(store.$state.audioLists);
 // 播放列表默认歌曲
 let audiolist:any = store.$state.audioLists
 

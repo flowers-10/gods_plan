@@ -3,39 +3,39 @@
     <main-header :menuLink="menuLink"></main-header>
     <div class="content-wrapper">
       <div class="content-wrapper-header">
-        <img class="playList-img" :src="PlaylistDetail.playlist.coverImgUrl" alt="">
+        <img class="playList-img" :src="PlaylistDetails.playlist.coverImgUrl" alt="">
         <div class="playList-content">
-          <div class="infor-title">{{ PlaylistDetail?.playlist.name }} </div>
+          <div class="infor-title">{{ PlaylistDetails?.playlist.name }} </div>
           <div class="content-songInfor">
-            <img class="profile-img" :src="PlaylistDetail.playlist.creator.avatarUrl" alt="">
-            <span>{{ PlaylistDetail?.playlist.creator.nickname }}</span>
+            <img class="profile-img" :src="PlaylistDetails.playlist.creator.avatarUrl" alt="">
+            <span>{{ PlaylistDetails?.playlist.creator.nickname }}</span>
           </div>
-          <div class="content-label">标签: {{ PlaylistDetail?.playlist.tags.join(',') }}</div>
-          <div class="content-songInfor">简介: {{ PlaylistDetail?.playlist.description }}</div>
+          <div class="content-label">标签: {{ PlaylistDetails?.playlist.tags.join(',') }}</div>
+          <div class="content-songInfor">简介: {{ PlaylistDetails?.playlist.description }}</div>
         </div>
       </div>
       <div class="content-section">
         <div class="content-section-title">歌曲列表</div>
         <ul>
-          <li v-for="(item, index) in songs" :key="index">
-            <div class="main-songs" @click="playSongs(item.id)">
+          <li v-for="(item, index) in songs" :key="index" @dblclick="playSongs(item.id)">
+            <div class="main-songs">
               <div class="songs-name">{{ item.name }}</div>
               <div class="phone-singer">
                 <span class="singer">{{ filtersinger(item.ar) }}</span>
               </div>
             </div>
-            <span class="playTime" @click="playSongs(item.id)">
+            <span class="playTime">
               {{ filterTime(item.dt) }}
             </span>
-            <div class="song-detail" @click="playSongs(item.id)">
+            <div class="song-detail">
               <span class="singer">
                 {{ filtersinger(item.ar) }}
               </span>
             </div>
-            <span class="song-detail album" @click="playSongs(item.id)">
+            <span class="song-detail album">
               {{ item.al.name }}
             </span>
-            <svg t="1652174381921" viewBox="0 0 1024 1024" fill="currentColor">
+            <svg @click="playSongs(item.id)" t="1652174381921" viewBox="0 0 1024 1024" fill="currentColor">
               <path
                 d="M512 42.666667C252.793333 42.666667 42.666667 252.793333 42.666667 512s210.126667 469.333333 469.333333 469.333333 469.333333-210.126667 469.333333-469.333333S771.206667 42.666667 512 42.666667z m196.546667 500.493333l-266.666667 176A37.333333 37.333333 0 0 1 384 688V336.033333a37.333333 37.333333 0 0 1 57.893333-31.16l266.666667 176a37.333333 37.333333 0 0 1 0 62.32z"
                 p-id="1906"></path>
@@ -61,7 +61,6 @@ import { useRoute } from 'vue-router';
 import { ref, onMounted, computed, toRaw, watch, reactive } from 'vue';
 import { playListDetail, songDetail, songUrl, lyric } from '@/api/api'
 import { useStore } from '@/stores';
-import { newExpression } from '@babel/types';
 
 // 使用路由
 const route = useRoute()
@@ -70,7 +69,7 @@ const menuLink = ref<string>('Playlist Detail')
 // 使用pinia
 const store = useStore()
 // 歌单所有歌曲
-const PlaylistDetail: any = reactive({ playlist: { tags: [], creator: {} } })
+const PlaylistDetails: any = reactive({ playlist: { tags: [], creator: {} } })
 // 获取歌曲详情
 const songs: any = reactive([])
 let id: any = computed(() => {
@@ -80,9 +79,9 @@ let id: any = computed(() => {
 const getPlaylistDetail = async (ids: number) => {
   // console.log('传参的', ids);
   const res: any = await playListDetail(ids)
-  PlaylistDetail.playlist = res.playlist
+  PlaylistDetails.playlist = res.playlist
   // 根据歌曲id获得歌曲详情
-  const idss = PlaylistDetail.playlist.trackIds.map((item: any) => item.id)
+  const idss = PlaylistDetails.playlist.trackIds.map((item: any) => item.id)
   const songRes: any = await songDetail(idss.join())
   // console.log(songRes.songs);
   // 过滤出需要用的数据
@@ -153,7 +152,6 @@ const audioList = reactive<Audio>({
   lrc: '',
 })
 const playSongs = async (id: number) => {
-  // console.log(id);
   // 获得音乐链接
   const songsRes: any = await songUrl(id)
   const url = songsRes.data[0].url
@@ -170,21 +168,13 @@ const playSongs = async (id: number) => {
   const cover = songsDetailRes.songs[0].al.picUrl
   audioList.cover = cover
   // 歌词
-  const lyricRes:any =await lyric(id)
-
-  
+  const lyricRes: any = await lyric(id)
   const lrc = lyricRes.lrc.lyric
-  console.log(lrc);
+  // console.log(lrc);
   audioList.lrc = lrc
-  // var list: any = store.$state.audioLists
-  // var hash: any = {}
-  // var arr: any = []
-  // arr = list.reduce((item: any, next: any) => {
-  //   hash[next.cover] ? '' : hash[next.cover] = true && item.push(next)
-  //   return item
-  // }, [])
-  console.log(audioList);
+  console.log('触发了单曲添加',audioList);
   store.setaudioList(audioList)
+  location.reload();
 }
 
 onMounted(() => {
@@ -342,6 +332,11 @@ onMounted(() => {
   margin-top: 30px;
   display: flex;
   flex-direction: column;
+  padding-bottom: 80px;
+
+  @media screen and (max-width: 480px) {
+    padding-bottom: 20px;
+  }
 
   &-title {
     color: var(--content-title-color);
@@ -362,7 +357,7 @@ onMounted(() => {
 
     li {
       list-style: none;
-      padding: 0px 18px;
+      padding: 10px 18px;
       display: flex;
       align-items: center;
       font-size: 16px;
@@ -402,9 +397,6 @@ onMounted(() => {
 
 .main-songs {
   width: 320px;
-  display: flex;
-  height: 100%;
-  align-items: center;
   margin-right: auto;
 
   @media screen and (max-width: 1120px) {
@@ -413,7 +405,7 @@ onMounted(() => {
   }
 
   @media screen and (max-width: 480px) {
-    width: 290px;
+    width: 240px;
     font-size: 14px;
   }
 

@@ -116,3 +116,12 @@ export const lyric = (id: number | string) => {
     params: { id }
   })
 }
+
+// 喜欢音乐列表
+export const likeList = (id: number | string) => {
+  return request({
+    url:'/likelist',
+    method: 'get',
+    params: { id }
+  })
+}

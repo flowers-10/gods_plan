@@ -1,7 +1,7 @@
 <template>
-
-  <div ref="playerRef"></div>
-
+  <div class="myAplayer">
+    <div ref="playerRef"></div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -9,18 +9,18 @@ import APlayer from 'APlayer';
 import 'APlayer/dist/APlayer.min.css';
 import type { PropType } from '@vue/runtime-core';
 import { nextTick, onMounted, ref } from 'vue'
-const playerRef = ref()
+const playerRef:any = ref()
 
 const props = defineProps({
   // 开启吸底模式
   fixed: {
     type: Boolean as PropType<boolean>,
-    default: true
+    default: false
   },
   // 开启迷你模式
   mini: {
     type: Boolean as PropType<boolean>,
-    default: true
+    default: false
   },
   // 音频自动播放
   autoplay: {
@@ -40,7 +40,7 @@ const props = defineProps({
   // 音频循环顺序
   order: {
     type: String as PropType<'list' | 'random'>,
-    default: 'random'
+    default: 'list'
   },
   // 预加载
   preload: {
@@ -65,11 +65,11 @@ const props = defineProps({
     type: String as PropType<string>,
     default: 'playlist'
   },
-  // 歌的id
-  songId: {
-    type: String as PropType<string>,
-    default: '19723756'
-  },
+  // // 歌的id
+  // songId: {
+  //   type: String as PropType<string>,
+  //   default: '19723756'
+  // },
   // 互斥，阻止多个播放器同时播放，当前播放器播放时暂停其他播放器
   mutex: {
     type: Boolean as PropType<boolean>,
@@ -78,7 +78,7 @@ const props = defineProps({
   // 传递歌词方式
   lrcType: {
     type: Number as PropType<number>,
-    default: 3
+    default: 1
   },
   // 列表是否默认折叠
   listFolded: {
@@ -88,7 +88,7 @@ const props = defineProps({
   // 列表最大高度
   listMaxHeight: {
     type: String as PropType<string>,
-    default: '100px'
+    default: '200px'
   },
   // 存储播放器设置的 localStorage key
   storageName: {
@@ -96,9 +96,10 @@ const props = defineProps({
     default: 'aplayer-setting'
   },
   audioList: {
-    type:Array,
+    type: Array,
   }
 })
+
 
 // 初始化
 onMounted(() => {
@@ -120,14 +121,25 @@ onMounted(() => {
       storageName: props.storageName,
       audio: props.audioList
     })
-
+    console.log(playerRef.value);
+    
   })
 })
 
 </script>
 
 <style lang="less" scoped>
+.myAplayer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
 /deep/ .aplayer.aplayer-fixed {
   max-width: 100%;
+}
+
+/deep/ .aplayer {
+  margin: 0;
 }
 </style>
