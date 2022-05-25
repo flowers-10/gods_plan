@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <main-header :menuLink="menuLink"></main-header>
+    <main-header :menuLink="menuLink" :menuItemsList="menuItemsList"></main-header>
     <div class="content-wrapper">
       <div class="content-wrapper-header">
         <img class="profile-img" :src="userDetails[0]?.profile.avatarUrl" alt="">
@@ -16,7 +16,7 @@
       </div>
 
       <div class="content-section">
-        <div class="content-section-title">我喜欢的音乐</div>
+        <div class="content-section-title"><a name="1">我喜欢的音乐</a></div>
         <div class="my-likeList">
 
           <div class="likeList-coverImg">
@@ -49,7 +49,7 @@
       </div>
 
       <div class="content-section">
-        <div class="content-section-title">全部歌单</div>
+        <div class="content-section-title"><a name="2">全部歌单</a></div>
         <div class="playlists-card">
           <div class="playlist-card" v-for="(item, index) in userPlaylists[0]?.playlist"
             @click="goPlayListDetail(item.id)">
@@ -84,6 +84,12 @@ const store = useStore()
 const router = useRouter()
 // 给子组件传参
 const menuLink = ref<string>('My Music')
+const menuItemsList = ref([
+  { title: '我喜欢的音乐', path: '#1' },
+  { title: '全部歌单', path: '#2' },
+])
+
+
 
 // 控制弹窗和遮罩的显示隐藏
 const flag = ref<boolean>(false)
@@ -328,16 +334,18 @@ onMounted(() => {
     padding: 10px;
     display: flex;
     flex-direction: column;
+
     @media screen and (max-width: 480px) {
-        width: 100% !important;
-      }
+      width: 100% !important;
+    }
+
     .coverImg {
       display: block;
       width: 100%;
       border-radius: 14px;
       cursor: pointer;
 
-      
+
     }
   }
 
@@ -355,6 +363,7 @@ onMounted(() => {
   ul {
     width: 50%;
     padding: 10px;
+
     @media screen and (max-width: 480px) {
       display: none;
     }

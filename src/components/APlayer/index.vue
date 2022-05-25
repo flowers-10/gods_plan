@@ -5,12 +5,26 @@
 </template>
 
 <script lang="ts" setup>
+// 使用工具
 import APlayer from 'APlayer';
 import 'APlayer/dist/APlayer.min.css';
 import type { PropType } from '@vue/runtime-core';
-import { nextTick, onMounted, ref } from 'vue'
-const playerRef:any = ref()
+import { useStore } from '@/stores';
+import { onMounted, ref, onBeforeUnmount, computed, watch, toRaw } from 'vue'
 
+// 使用pinia
+const store = useStore()
+
+// 获得歌曲列表 
+let audioLists = computed(() => {
+  return store.$state.audioLists
+})
+// 获得dom节点
+const playerRef: any = ref()
+// 存放dom容器
+let ap: any = null
+
+// 父子传参
 const props = defineProps({
   // 开启吸底模式
   fixed: {
@@ -95,35 +109,85 @@ const props = defineProps({
     type: String as PropType<string>,
     default: 'aplayer-setting'
   },
-  audioList: {
-    type: Array,
-  }
 })
 
+watch(audioLists, function (newVal, oldVal) {
+  ap = new APlayer({
+    container: playerRef.value, //dom挂载
+    fixed: props.fixed,
+    mini: props.mini,
+    autoplay: props.autoplay,
+    theme: props.theme,
+    loop: props.loop,
+    order: props.order,
+    preload: props.preload,
+    volume: props.volume,
+    mutex: props.mutex,
+    lrcType: props.lrcType,
+    listFolded: props.listFolded,
+    listMaxHeight: props.listMaxHeight,
+    storageName: props.storageName,
+    audio: store.$state.audioLists
+    //获得总歌单
+  })
+  // console.log('添加了新歌', newVal.length);
+  // 获得新添加的歌曲
+  let lastAudio = store.$state.lastAudio
+  // console.log(toRaw(lastAudio));
+  // 添加到播放列表
+  ap.list.add(toRaw(lastAudio));
+  // 选择播放的歌曲
+  ap.list.switch(newVal.length);
+  // 播放,因为浏览器不允许自动播放，设置定时器就可以逃避这个监测
+  setTimeout(() => {
+    ap.play()
+  }, 20)
+  
+}, { deep: true, immediate: false })
 
 // 初始化
 onMounted(() => {
-  nextTick(() => {
-    new APlayer({
-      container: playerRef.value,
-      fixed: props.fixed,
-      mini: props.mini,
-      autoplay: props.autoplay,
-      theme: props.theme,
-      loop: props.loop,
-      order: props.order,
-      preload: props.preload,
-      volume: props.volume,
-      mutex: props.mutex,
-      lrcType: props.lrcType,
-      listFolded: props.listFolded,
-      listMaxHeight: props.listMaxHeight,
-      storageName: props.storageName,
-      audio: props.audioList
-    })
-    console.log(playerRef.value);
-    
+  // nextTick(() => {
+  // 创建一个aplayer实例对象
+  ap = new APlayer({
+    container: playerRef.value, //dom挂载
+    fixed: props.fixed,
+    mini: props.mini,
+    autoplay: props.autoplay,
+    theme: props.theme,
+    loop: props.loop,
+    order: props.order,
+    preload: props.preload,
+    volume: props.volume,
+    mutex: props.mutex,
+    lrcType: props.lrcType,
+    listFolded: props.listFolded,
+    listMaxHeight: props.listMaxHeight,
+    storageName: props.storageName,
+    audio: store.$state.audioLists
+    //获得总歌单
   })
+
+
+  // 监听 aplayer的事件，启用后会根据事件触发响应内容
+  // ap.on('play', function () {
+  //   console.log('player paly');
+  // });
+  ap.on('listadd', function () {
+    console.log('player 添加了新歌曲');
+  });
+  // ap.on('listswitch', function () {
+  //   console.log('player 切换了歌曲');
+  // });
+
+  // })
+})
+
+// 销毁
+onBeforeUnmount(() => {
+  // console.log('组件销毁了！');
+  // 离开后销毁aplayer
+  // ap.destroy()
 })
 
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <main-header :menuLink="menuLink"></main-header>
+    <main-header :menuLink="menuLink" :menuItemsList="menuItemsList"></main-header>
     <div class="content-wrapper">
       <div class="content-wrapper-header">
         <img class="playList-img" :src="PlaylistDetails.playlist.coverImgUrl" alt="">
@@ -15,7 +15,9 @@
         </div>
       </div>
       <div class="content-section">
-        <div class="content-section-title">歌曲列表</div>
+        <div class="content-section-title"><a name="1">歌曲列表</a> 
+          <!-- <span class="allSongs" @click="addAllPlayList">添加全部歌曲</span> -->
+        </div>
         <ul>
           <li v-for="(item, index) in songs" :key="index" @dblclick="playSongs(item.id)">
             <div class="main-songs">
@@ -51,7 +53,6 @@
       </div>
 
     </div>
-
   </div>
 </template>
 
@@ -66,6 +67,9 @@ import { useStore } from '@/stores';
 const route = useRoute()
 // 给子组件传参
 const menuLink = ref<string>('Playlist Detail')
+const menuItemsList = ref([
+  { title: '歌曲列表', path: '#1' },
+])
 // 使用pinia
 const store = useStore()
 // 歌单所有歌曲
@@ -143,38 +147,56 @@ type Audio = {
   cover: String;
   // 歌词
   lrc: String;
+  // 歌曲id
+  id: string | number;
 }
-const audioList = reactive<Audio>({
-  artist: '',
-  name: '',
-  url: '',
-  cover: '',
-  lrc: '',
-})
-const playSongs = async (id: number) => {
+let playSongs = async (id: number) => {
+  let audioList: Audio = {
+    artist: '',
+    name: '',
+    url: '',
+    cover: '',
+    lrc: '',
+    id: ''
+  }
   // 获得音乐链接
-  const songsRes: any = await songUrl(id)
-  const url = songsRes.data[0].url
+  let songsRes: any = await songUrl(id)
+  let url = songsRes.data[0].url
   audioList.url = url
   // 获得歌曲详情
-  const songsDetailRes: any = await songDetail(id)
+  let songsDetailRes: any = await songDetail(id)
+  // console.log(songsDetailRes);
   // 音频艺术家
-  const artist = songsDetailRes.songs[0].ar[0].name
+  let artist = songsDetailRes.songs[0].ar[0].name
   audioList.artist = artist
   // 音频名称
-  const name = songsDetailRes.songs[0].name
+  let name = songsDetailRes.songs[0].name
   audioList.name = name
   // 音频封面
-  const cover = songsDetailRes.songs[0].al.picUrl
+  let cover = songsDetailRes.songs[0].al.picUrl
   audioList.cover = cover
   // 歌词
-  const lyricRes: any = await lyric(id)
-  const lrc = lyricRes.lrc.lyric
+  let lyricRes: any = await lyric(id)
+  let lrc = lyricRes.lrc.lyric
   // console.log(lrc);
   audioList.lrc = lrc
-  console.log('触发了单曲添加',audioList);
+  // id
+  audioList.id = id
+  // console.log('触发了单曲添加', audioList);
   store.setaudioList(audioList)
-  location.reload();
+  store.setLastAudio(audioList)
+  // location.reload();
+}
+
+//添加所有歌曲
+const addAllPlayList  = () => {
+  const idArray:number[] = songs.map((item:any)=>{
+    return item.id
+  })
+  console.log(idArray);
+  for(let i = 0 ;i<idArray.length;i++) {
+    
+  }
 }
 
 onMounted(() => {
@@ -208,7 +230,6 @@ onMounted(() => {
     &-header {
       display: flex;
       align-items: center;
-
       border-radius: 14px;
       padding: 20px 40px;
       background-color: var(--content-bg);
@@ -282,7 +303,13 @@ onMounted(() => {
   .content-songInfor {
     display: flex;
     align-items: center;
-    padding: 10px;
+    // padding: 10px;
+    margin-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
 
     @media screen and (max-width: 660px) {
       padding: 0;
@@ -291,7 +318,7 @@ onMounted(() => {
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 1;
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
   }
@@ -308,11 +335,10 @@ onMounted(() => {
 }
 
 .profile-img {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   object-fit: cover;
-  box-shadow: 0px 0px 5px 0px var(--theme-color);
-  border-radius: 50%;
+  border-radius: 5px;
   margin-right: 20px;
 
   @media screen and (max-width: 510px) {
@@ -539,5 +565,11 @@ onMounted(() => {
 .content-section .close {
   margin-right: 0;
   width: 24px;
+}
+
+.allSongs {
+  margin-left: 20px;
+  font-size: 16px;
+  cursor: pointer;
 }
 </style>

@@ -1,16 +1,15 @@
 <template>
   <div class="main-container">
-    <main-header :menuLink="menuLink" :menuItemsList="menuItemsList" @on-click="getTag"></main-header>
+    <main-header :menuLink="menuLink" :menuItemsList="menuItemsList"></main-header>
 
     <div class="content-section" id="playListsScrollTop">
       <div class="playlists-card">
-        <div class="playlist-card" v-for="(item, index) in palyLists" @click="goPlayListDetail(item.id)">
+        <div class="playlist-card" v-for="(item, index) in TopChartsList" @click="goPlayListDetail(item.id)">
           <img class="card-img" :src="item.coverImgUrl" alt="">
           <div class="card-detail">
             <span class="detail-name">{{ item.name }}</span>
-            <span class="detail-playCount">{{ item.playCount }}</span>
+            <span class="detail-renew">{{ item.updateFrequency }}</span>
           </div>
-
         </div>
       </div>
     </div>
@@ -23,47 +22,17 @@ import { ref, onMounted } from 'vue'
 // 引入工具
 import { useRouter } from 'vue-router';
 import { useStore } from '@/stores'// pinia
-import { catlist, topPlaylist } from '@/api/api'
-// 给子组件传参
-const menuLink = ref<string>('Discover Music')
-const menuItemsList = ref<object[]>([])
+import { toplistDetail } from '@/api/api'
 // 路由
 const router = useRouter()
 // pinia
 const store = useStore()
-// 歌单分类
-const catlists = ref()
-// 获得歌单分类
-const getCatlist = async () => {
-  const res: any = await catlist()
-  // console.log(res);
-  let tags: object[] = res.sub
-  catlists.value = tags.map((item: any) => item.name)
-  // console.log(catlists.value);
-  menuItemsList.value = catlists.value.map((item: any) => {
-    return { title: item }
-  })
-  menuItemsList.value.unshift({ title: '全部' })
-  // console.log(menuItemsList.value);
-}
-// 歌单 ( 网友精选碟 )
-const palyLists: any = ref(null)
-// 获得歌单
-const getTopPlaylist = async (cat: string, offset: string | number) => {
-  const res: any = await topPlaylist(cat, offset)
-  // console.log(res);
-  palyLists.value = res.playlists
-  // console.log(palyLists.value);
-}
-// 获得子组件传的tag值
-const getTag = (tag: string) => {
-  // console.log(tag);
-  var playListsScrollTop: Element | null = document.querySelector("#playListsScrollTop")
-  if (playListsScrollTop) {
-    playListsScrollTop.scrollTop = 0
-  }
-  getTopPlaylist(tag, 1)
-}
+
+// 给子组件传参
+const menuLink = ref<string>('Top Charts')
+const menuItemsList = ref([
+  { title: '排行榜', path: '#1' },
+])
 
 // 路由传参跳到歌单详情
 const goPlayListDetail = (id: string) => {
@@ -76,9 +45,17 @@ const goPlayListDetail = (id: string) => {
   })
 }
 
+const TopChartsList = ref()
+// 获得排行榜
+const getTopCharts = async() => {
+  const res:any = await toplistDetail()
+  // console.log(res);
+  TopChartsList.value = res.list
+  // console.log(TopChartsList.value);
+}
+
 onMounted(() => {
-  getCatlist()
-  getTopPlaylist('全部', 0)
+ getTopCharts()
 })
 
 </script>
@@ -137,7 +114,7 @@ onMounted(() => {
         color: var(--theme-color);
       }
 
-      .detail-playCount {
+      .detail-renew {
         color: var(--content-title-color);
         font-size: 12px;
         margin-top: 5px;

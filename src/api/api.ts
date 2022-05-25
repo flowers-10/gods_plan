@@ -120,8 +120,37 @@ export const lyric = (id: number | string) => {
 // 喜欢音乐列表
 export const likeList = (id: number | string) => {
   return request({
-    url:'/likelist',
+    url: '/likelist',
     method: 'get',
     params: { id }
+  })
+}
+
+// 歌单分类
+export const catlist = () => {
+  return request({
+    url: '/playlist/catlist',
+    method: 'get'
+  })
+}
+
+// 歌单 ( 网友精选碟 )
+export const topPlaylist = (cat: string, offset: string | number) => {
+  return request({
+    url: '/top/playlist',
+    method: 'get',
+    params: {
+      cat,
+      limit: 50,
+      offset
+    }
+  })
+}
+
+// 所有榜单内容摘要
+export const toplistDetail = () => {
+  return request({
+    url: '/toplist/detail',
+    method: 'get',
   })
 }

@@ -37,6 +37,10 @@
           DiscoverMusic
           <span class="notification-number updates">3</span>
         </router-link>
+        <router-link to="/music/topcharts">
+          <svg viewBox="0 0 1024 1024" fill="currentColor"><path d="M432 112l160 0 0 800-160 0 0-800Z" p-id="4679"></path><path d="M165.34 432.03l160 0 0 479.97-160 0 0-479.97Z" p-id="4680"></path><path d="M698.66 538.71l160 0 0 373.29-160 0 0-373.29Z" p-id="4681"></path></svg>
+          TopCharts
+        </router-link>
       </div>
     </div>
     <div class="side-wrapper">

@@ -250,7 +250,7 @@ const tabSwitch = ref<number>(0)
 
   .header-menu {
     margin-left: 150px;
-
+    
     @media screen and (max-width: 1055px) {
       margin: auto;
     }
