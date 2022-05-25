@@ -32,6 +32,7 @@ import { ref, reactive, toRaw } from 'vue'
 import { useRouter } from 'vue-router'
 // 引入pinia
 import { useStore } from '../../stores'
+import { ElMessage } from 'element-plus'
 const store = useStore()
 const router = useRouter()
 // axios.get('/api').then(res => console.log(res))
@@ -62,9 +63,9 @@ const getVerification = async () => {
   const res: any = await loginMusic(LoginForm.phoneNumber)
   // console.log(res)
   if (res.code === 200) {
-    console.log('发送成功！');
+    ElMessage.success('发送成功!')
   } else {
-    console.log('发送失败！');
+    ElMessage.error('发送失败！请稍后再试(一天只能发送五次验证码)')
   }
 }
 
@@ -91,7 +92,7 @@ const loginContinue = async () => {
   --color3: #FFD600;
   --color4: #FF4081;
   --color5: #F44336;
-  height: 60vh;
+  height: 100vh;
   width: 100vw;
   overflow: hidden;
   z-index: 15;
@@ -104,6 +105,7 @@ const loginContinue = async () => {
   transform: translate(-50%, -50%);
 
   h1 {
+    margin-top: 30px;
     color: #fff;
     text-transform: uppercase;
     word-spacing: 100vw;
@@ -166,6 +168,7 @@ const loginContinue = async () => {
   border: 1px solid var(--button-inactive);
   cursor: pointer;
   text-align: center;
+  z-index: 1;
 }
 
 .login-form {

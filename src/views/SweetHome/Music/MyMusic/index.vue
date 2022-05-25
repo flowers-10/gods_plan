@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <div class="content-section">
+      <!-- <div class="content-section">
         <div class="content-section-title"><a name="1">我喜欢的音乐</a></div>
         <div class="my-likeList">
 
@@ -35,18 +35,15 @@
           <ul>
             <li v-for="(item, index) in songs" :key="index">
               <img :src="item.al.picUrl" alt="">
-              <span class="songs-name">{{ item.name }}</span>
+              <span class="songs-name">{{ item?.name }}</span>
               <span class="singer">
-                {{ filtersinger(item.ar) }}
+                {{ filtersinger(item?.ar) }}
 
               </span>
             </li>
-          </ul>
-
-
-
+          </ul> 
         </div>
-      </div>
+      </div> -->
 
       <div class="content-section">
         <div class="content-section-title"><a name="2">全部歌单</a></div>
@@ -76,7 +73,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from '@/stores'// pinia
 
 // 引入接口
-import { userDetail, userPlaylist, likeList, songDetail } from '@/api/api'
+import { userDetail, userPlaylist, songDetail } from '@/api/api'
 
 // 使用pinia
 const store = useStore()
@@ -100,41 +97,42 @@ const uid: string = store.$state.userinfo.account.id
 const userDetails: any = reactive([])
 // 用户的歌单列表
 const userPlaylists: any = reactive([])
+
 // 我喜欢的音乐
-const likeLists: any = reactive([])
+// const likeLists: any = reactive([])
 // 我喜欢的音乐前十首歌单详情
-const ids: any = reactive([])
+// const ids: any = reactive([])
 // 获取歌曲详情
-const songs: any = reactive([])
+// const songs: any = reactive([])
+
 // 获得用户信息和歌单列表
 const getMyMusicData = async () => {
+  // 用户信息
   const res: any = await userDetail(uid)
   userDetails.push(res)
   const result: any = await userPlaylist(uid)
   userPlaylists.push(result)
   // console.log(result);
 
-  likeLists.push(
-    userPlaylists[0].playlist.shift()
-  )
-  let likeRes: any = await likeList(uid)
-  likeRes = likeRes.ids
+  // 用户喜欢的音乐
+  // likeLists.push(
+  //   userPlaylists[0].playlist.shift()
+  // )
+  // let likeRes: any = await likeList(uid)
+  // likeRes = likeRes.ids
   // console.log(likeRes);
-
-  likeRes = likeRes.slice(0, 10)
+  // likeRes = likeRes.slice(0, 10)
   // console.log(likeRes);
-
-  ids.push([...likeRes])
+  // ids.push([...likeRes])
   // console.log(ids);
-  const songRes: any = await songDetail(ids.join())
+  // const songRes: any = await songDetail(ids.join())
   // console.log(songRes.songs);
   // 过滤出需要用的数据
-  const song = songRes.songs.map((item: any,) => {
-    return { al: item.al, name: item.name, id: item.id, ar: item.ar, dt: item.dt }
-
-  })
+  // const song = songRes.songs.map((item: any,) => {
+  //   return { al: item.al, name: item.name, id: item.id, ar: item.ar, dt: item.dt }
+  // })
   // console.log(song);
-  songs.push(...song)
+  // songs.push(...song)
 }
 
 // 路由传参跳到歌单详情
@@ -149,21 +147,21 @@ const goPlayListDetail = (id: string) => {
 }
 
 // 过滤歌手名字
-const filtersinger = (item: any) => {
-  const singer = toRaw(item)
-  // console.log(...singer);
-  const newSinger = [...singer]
+// const filtersinger = (item: any) => {
+//   const singer = toRaw(item)
+//   // console.log(...singer);
+//   const newSinger = [...singer]
 
-  if (singer.length > 1) {
-    // const s.map(item=>`${item.name}/`)
-    const newSingers = newSinger.map(item => `${item.name} /`)
-    newSingers.slice(0, newSingers.length - 1)
+//   if (singer.length > 1) {
+//     // const s.map(item=>`${item.name}/`)
+//     const newSingers = newSinger.map(item => `${item.name} /`)
+//     newSingers.slice(0, newSingers.length - 1)
 
-    return newSingers.slice(0, newSingers.length - 1).join(' ') + ' ' + newSinger.pop().name
-  } else {
-    return newSinger[0].name
-  }
-}
+//     return newSingers.slice(0, newSingers.length - 1).join(' ') + ' ' + newSinger.pop().name
+//   } else {
+//     return newSinger[0].name
+//   }
+// }
 
 onMounted(() => {
   getMyMusicData()

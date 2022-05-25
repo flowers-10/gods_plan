@@ -102,15 +102,15 @@ html {
 
 body {
   font-family: var(--body-font);
-  background-image: url('./assets/images/macos-big.jpg');
+  background-image: url(https://wallpapershome.com/images/wallpapers/macos-big-sur-1280x720-dark-wwdc-2020-22655.jpg);
   background-size: cover;
   background-position: center;
   padding: 2em;
   width: 100%;
   height: 100vh;
   @media screen and (max-width: 480px) {
-    padding: 0;
-    height: 100%;
+    padding: 0em;
+    height: 100vh;
   }
 }
 </style>
