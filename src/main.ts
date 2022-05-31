@@ -9,6 +9,7 @@ import router from './router'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import { ElMessage } from 'element-plus'
 
 // 引入全局组件
 import MainHeader from '@/components/MainHeader/index.vue'
@@ -69,19 +70,20 @@ router.beforeEach((to, from, next) => {
     ('pinia-CloudMusic')
   // 如果用户在首页并且已经存入登录信息则自动进入music
   if (to.path == '/' && loginStatus) {
-    console.log(112);
+    // console.log(112);
     next({
       path: '/music'
     })
-
+    
   }
-  // 如果用户在白名单并且已经存入登录信息则可以任意通行
+  // 如果用户在白名单或者已经存入登录信息则可以任意通行
   if (whileList.includes(to.path) || loginStatus) {
     next()
   }
   // 如果没有登录信息则返回登录页面
   else {
-    alert('请登录后访问~')
+    // alert('请登录后访问~')
+    ElMessage.error('请登录后访问')
     next({
       path: '/'
     })

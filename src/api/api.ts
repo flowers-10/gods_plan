@@ -30,12 +30,22 @@ export const Mcaptcha = (phone: string | number, captcha: string | number) => {
 }
 
 // 手机登录
-export const loginCellPhone = (phone: string | number, captcha: string | number) => {
+export const loginCellPhone = (phone: string | number, captcha: string | number, timestamp:number) => {
   return request({
     url: '/login/cellphone',
     method: 'post',
     data: {
-      phone, captcha
+      phone, captcha,timestamp
+    }
+  })
+}
+// 手机密码登录
+export const loginPhonePassword = (phone: string | number, password: string | number, timestamp:number) => {
+  return request({
+    url: '/login/cellphone',
+    method: 'post',
+    data: {
+      phone, password,timestamp
     }
   })
 }
@@ -141,7 +151,7 @@ export const topPlaylist = (cat: string, offset: string | number) => {
     method: 'get',
     params: {
       cat,
-      limit: 50,
+      limit: 51,
       offset
     }
   })

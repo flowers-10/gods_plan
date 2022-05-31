@@ -150,7 +150,7 @@ watch(audioLists, function (newVal, oldVal) {
 // 初始化
 onMounted(() => {
   nextTick(() => {
-    console.log(ap);
+    // console.log(ap);
 
     // 创建一个aplayer实例对象
     if (!ap) {

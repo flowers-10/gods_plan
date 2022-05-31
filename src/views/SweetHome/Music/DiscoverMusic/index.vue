@@ -1,7 +1,9 @@
 <template>
   <div class="main-container">
     <main-header :menuLink="menuLink" :menuItemsList="menuItemsList" @on-click="getTag"></main-header>
-
+    <div class="goTop" @click="goTop">
+      <svg viewBox="0 0 1025 1024" fill="currentColor"><path d="M533.204945 247.840277c-11.435995-13.314876-30.184888-13.314876-41.620883 0l-342.378861 399.573165c-11.435995 13.319992-6.434858 24.25659 11.19346 24.25659l128.001279 0c17.621155 0 31.995203 14.379165 31.995203 32.007483l0 256.048609c0 17.626271 14.378142 32.00339 32.001343 32.00339l320.002175 0c17.628318 0 31.996226-14.378142 31.996226-32.00339L704.394887 703.678539c0-17.629342 14.376095-32.007483 32.005437-32.007483l127.999232 0c17.621155 0 22.624339-10.937621 11.185273-24.25659L533.204945 247.840277z" p-id="3191"></path><path d="M192.395911 159.573836l640.002303 0c35.375346 0 64.00064-28.633481 64.00064-64.011897 0-35.382509-28.625294-64.011897-64.00064-64.011897l-640.002303 0c-35.371252 0-63.99757 28.629387-63.99757 64.011897C128.398341 130.940356 157.023635 159.573836 192.395911 159.573836z" p-id="3192"></path></svg>
+    </div>
     <div class="content-section" id="playListsScrollTop">
       <div class="playlists-card">
         <div class="playlist-card" v-for="(item, index) in palyLists" @click="goPlayListDetail(item.id)">
@@ -13,7 +15,12 @@
 
         </div>
       </div>
+
+      <div v-if="status === false" class="loading">
+        已经在玩命加载了。。。</div>
+      <div v-if="status === true" class="loading">一点都没有咯!!!</div>
     </div>
+
   </div>
 
 </template>
@@ -24,6 +31,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router';
 import { useStore } from '@/stores'// pinia
 import { catlist, topPlaylist } from '@/api/api'
+import { debounce } from '@/utils/debounce'
 // 给子组件传参
 const menuLink = ref<string>('Discover Music')
 const menuItemsList = ref<object[]>([])
@@ -33,6 +41,10 @@ const router = useRouter()
 const store = useStore()
 // 歌单分类
 const catlists = ref()
+
+// 默认从第一条开始请求
+let offset = ref<number>(0)
+
 // 获得歌单分类
 const getCatlist = async () => {
   const res: any = await catlist()
@@ -48,21 +60,32 @@ const getCatlist = async () => {
 }
 // 歌单 ( 网友精选碟 )
 const palyLists: any = ref(null)
+const total = ref<number>(0)
 // 获得歌单
 const getTopPlaylist = async (cat: string, offset: string | number) => {
   const res: any = await topPlaylist(cat, offset)
   // console.log(res);
-  palyLists.value = res.playlists
-  // console.log(palyLists.value);
+  total.value = res.total
+  // console.log(res.total);
+
+  if (offset === 0) {
+    palyLists.value = res.playlists
+  } else {
+    palyLists.value = [...palyLists.value, ...res.playlists]
+  }
 }
+// 当前选中的tag
+let tags = ref('全部')
 // 获得子组件传的tag值
 const getTag = (tag: string) => {
   // console.log(tag);
-  var playListsScrollTop: Element | null = document.querySelector("#playListsScrollTop")
+  const playListsScrollTop: HTMLElement = document.querySelector("#playListsScrollTop") as HTMLElement
   if (playListsScrollTop) {
     playListsScrollTop.scrollTop = 0
   }
-  getTopPlaylist(tag, 1)
+  tags.value = tag
+  getTopPlaylist(tag, 0)
+  offset.value = 0
 }
 
 // 路由传参跳到歌单详情
@@ -76,9 +99,47 @@ const goPlayListDetail = (id: string) => {
   })
 }
 
+// loading 状态
+let status = ref<boolean>(false)
+// 如果滚轮滚动到页面底部就加载新的歌单
+const addPlayLists = () => {
+  const playListsScroll: HTMLElement = document.querySelector("#playListsScrollTop") as HTMLElement
+  // 内容可视区域的高度
+  const clientHeight = playListsScroll.clientHeight
+  // 内容可视区域的高度加上溢出（滚动）的距离
+  const scrollHeight = playListsScroll.scrollHeight
+  // console.log(clientHeight+scrollTop);
+  // console.log(scrollHeight);
+  // 内容可视区域的高度+内容可视区域的高度加上溢出（滚动）的距离=滚轮高度时说明到了底部
+  // 滚轮的高度
+  let scrollTop = playListsScroll.scrollTop
+
+  if (clientHeight + scrollTop > scrollHeight - 100) {
+    // console.log('你已经到底了');
+    offset.value += 51
+    // console.log(offset.value);
+    if (offset.value < total.value) {
+      getTopPlaylist(tags.value, offset.value)
+      status.value = false
+    } else {
+      status.value = true
+    }
+  }
+}
+
+const goTop = () => {
+  const playListsScrollTop: HTMLElement = document.querySelector("#playListsScrollTop") as HTMLElement
+  if (playListsScrollTop) {
+    playListsScrollTop.scrollTop = 0
+  }
+}
 onMounted(() => {
   getCatlist()
   getTopPlaylist('全部', 0)
+  const playListsScroll: HTMLElement = document.querySelector("#playListsScrollTop") as HTMLElement
+  playListsScroll.addEventListener('scroll',
+    debounce(addPlayLists, 1000)
+  )
 })
 
 </script>
@@ -168,6 +229,26 @@ onMounted(() => {
       width: calc(100% - 20px);
     }
 
+  }
+}
+
+
+.loading {
+  color: var(--theme-color);
+  font-size: 20px;
+  margin: 20px auto;
+}
+
+.goTop {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  // right: 10px;
+  cursor: pointer;
+  svg {
+    width: 24px;
+    height: 24px;
+    color: var(--theme-color);
   }
 }
 </style>

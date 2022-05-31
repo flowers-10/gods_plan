@@ -1,16 +1,21 @@
 <template>
-  <div class="dialog">
+  <div class="dialog" v-move>
     <transition enter-active-class="animate__animated animate__flipInX"
       leave-active-class="animate__animated animate__flipOutX">
       <div v-show="flag" class="pop-up">
-        <div class="pop-up__title">{{ title }}
+        <div class="pop-up__title"><span class="checkout" :class="loginName==='Login' ?'activeColor':''" @click="checkoutLogin('Login')">Login</span>
+          <span>|</span>
+          <span class="checkout" 
+          :class="loginName==='Password' ?'activeColor':''"
+          @click="checkoutLogin('Password')">Password</span>
           <svg @click="clickTap" class="close feather feather-x-circle" width="24" height="24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10" />
             <path d="M15 9l-6 6M9 9l6 6" />
           </svg>
         </div>
-        <slot ></slot>
+        <slot :name="loginName"></slot>
+        <!-- <slot name="Password"></slot> -->
         <div class="content-button-wrapper">
           <button class="content-button status-button open close" @click="clickTap">Cancel</button>
           <button class="content-button status-button" @click="clickContinue">Continue</button>
@@ -23,17 +28,30 @@
 
 <script setup lang="ts">
 import 'animate.css'
-import { ref,reactive } from 'vue'
-// const flag = ref<boolean>(true)
+import { ref } from 'vue'
+import { vMove } from '@/utils/vMove';
+// 拖动效果
 
-const props = defineProps<{ flag: boolean, title: string, LoginForm: any}>()
-const emit = defineEmits(['on-click', 'on-login'])
+// 接收父组件传参
+const props = defineProps<{ flag: boolean, LoginForm: any, }>()
+// 切换登录模式
+let loginName = ref<string>('Login')
+
+// 派发自定义的事件
+const emit = defineEmits(['on-click', 'on-continue', 'on-checkout'])
+// 点击关闭对话框
 const clickTap = () => {
   emit('on-click', false)
 }
+// 点击继续按钮
 const clickContinue = () => {
   // console.log(props.LoginForm);
-  emit('on-login')
+  emit('on-continue')
+}
+// 点击切换登录模式
+const checkoutLogin=(name:string)=>{
+  loginName.value = name
+  emit('on-checkout',name)
 }
 </script>
 
@@ -50,6 +68,7 @@ const clickContinue = () => {
   visibility: hidden;
   transition: 0.3s;
   z-index: 99;
+
   &.is-active {
     visibility: visible;
     opacity: 1;
@@ -72,6 +91,7 @@ const clickContinue = () => {
 }
 
 .pop-up {
+  cursor: move;
   padding: 30px 40px;
   overflow-y: auto;
   box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.4);
@@ -87,10 +107,26 @@ const clickContinue = () => {
     padding-bottom: 20px;
     border-bottom: 1px solid var(--border-color);
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     align-items: center;
     color: var(--theme-color);
     cursor: pointer;
+
+    span {
+      margin-right: 20px;
+      color: var(--content-title-color);
+
+    }
+    .activeColor {
+      color: var(--theme-color);
+    }
+    .checkout:hover {
+      color: #3a6df0;
+
+    }
+    svg{
+      margin-left: auto;
+    }
   }
 
   &__subtitle {

@@ -4,8 +4,9 @@
     <div class="login" @click="loginCloudMusic">登录</div>
   </div>
   <beian-gov></beian-gov>
-  <dialoge title="Login" :flag="flag" :LoginForm="LoginForm" @on-click="getFlag" @on-login="loginContinue">
-    <template #default>
+  <dialoge :flag="flag" :LoginForm="LoginForm" @on-click="getFlag" @on-continue="loginContinue"
+    @on-checkout="checkoutMode">
+    <template #Login>
       <div class="login-form">
         <el-form ref="LoginFormRef" :model="LoginForm" status-icon :rules="rules" label-width="120px"
           label-position="top" class="demo-ruleForm">
@@ -20,6 +21,19 @@
         </el-form>
       </div>
     </template>
+    <template #Password>
+      <div class="login-form">
+        <el-form ref="LoginFormRef" :model="LoginForm" status-icon :rules="rules" label-width="120px"
+          label-position="top" class="demo-ruleForm">
+          <el-form-item label="Phone Number" prop="PhoneNumber">
+            <el-input v-model="LoginForm.phoneNumber" />
+          </el-form-item>
+          <el-form-item label="Phone Password" prop="password">
+            <el-input v-model="LoginForm.password" type="password" />
+          </el-form-item>
+        </el-form>
+      </div>
+    </template>
   </dialoge>
 </template>
 
@@ -27,7 +41,7 @@
 import dialoge from '../../components/Dialog/index.vue'
 import BeianGov from '../../components/BeianGov/index.vue'
 // 引入api
-import { loginMusic, Mcaptcha, loginCellPhone } from '../../api/api'
+import { loginMusic, Mcaptcha, loginCellPhone, loginPhonePassword } from '../../api/api'
 import { ref, reactive, toRaw } from 'vue'
 import { useRouter } from 'vue-router'
 // 引入pinia
@@ -35,11 +49,10 @@ import { useStore } from '../../stores'
 import { ElMessage } from 'element-plus'
 const store = useStore()
 const router = useRouter()
-// axios.get('/api').then(res => console.log(res))
-// getTest('/api').then(res => console.log(res))
 
 // 控制dialog状态
-const flag = ref<boolean>(false)
+let flag = ref<boolean>(false)
+
 // 点击打开登录弹框
 const loginCloudMusic = () => {
   flag.value = true
@@ -52,14 +65,14 @@ const getFlag = (flagChild: boolean) => {
 // input中的数据
 const LoginForm = reactive({
   phoneNumber: "",
-  verify: ""
+  verify: "",
+  password: ""
 })
 // 表单验证规则
 const rules: any[] = []
 // 获得验证码
 const getVerification = async () => {
-  console.log(LoginForm.phoneNumber);
-
+  // console.log(LoginForm.phoneNumber);
   const res: any = await loginMusic(LoginForm.phoneNumber)
   // console.log(res)
   if (res.code === 200) {
@@ -69,18 +82,47 @@ const getVerification = async () => {
   }
 }
 
+// 当前的登录模式
+let nowLoginMode = ref<string>('Login')
+
+// 切换登录模式
+const checkoutMode = (cheackoutName: string) => {
+  console.log(cheackoutName);
+  nowLoginMode.value = cheackoutName
+}
+
 // 点击登录按钮
 const loginContinue = async () => {
-  const Mcaptchares: any = await Mcaptcha(LoginForm.phoneNumber, LoginForm.verify)
-  console.log(Mcaptchares);
-  if (Mcaptchares.code === 200) {
-    console.log('验证成功')
-    const res: any = await loginCellPhone(LoginForm.phoneNumber, LoginForm.verify)
-    // console.log('获得了登录信息',res);
-    store.userInfoActions(res)
-    router.push('/music/mymusic')
-  } else {
-    console.log('验证失败！')
+  let date = new Date().getTime()
+  if (nowLoginMode.value === 'Login') {
+    const Mcaptchares: any = await Mcaptcha(LoginForm.phoneNumber, LoginForm.verify)
+    // console.log(Mcaptchares);
+    if (Mcaptchares.code === 200) {
+      ElMessage.success('验证成功!')
+      const res: any = await loginCellPhone(LoginForm.phoneNumber, LoginForm.verify, date)
+      // console.log('获得了登录信息', res);
+      if (res.code === 200) {
+        ElMessage.success('登录成功!')
+        store.userInfoActions(res)
+        router.push('/music/myhome')
+      } else {
+        ElMessage.error('登录失败，请稍后再尝试')
+      }
+
+    } else {
+      ElMessage.error('验证失败,请输入正确的验证码')
+    }
+  } else if (nowLoginMode.value === 'Password') {
+    const res: any = await loginPhonePassword(LoginForm.phoneNumber, LoginForm.password, date)
+    // console.log('获得了登录信息', res);
+    if (res.code === 200) {
+      ElMessage.success('登录成功!')
+      store.userInfoActions(res)
+      router.push('/music/myhome')
+    } else {
+      ElMessage.error('登录失败，请稍后再尝试')
+    }
+
   }
 }
 </script>

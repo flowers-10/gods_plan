@@ -1,5 +1,5 @@
 <template>
-  <div class="dark-light"  v-if="!status" @click="toggleButton">
+  <div class="dark-light"  v-if="!status" @dblclick="toggleButton" v-move>
     
     <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"
       stroke-linejoin="round">
@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import { vMove } from '@/utils/vMove';
 // 通过点击事件，用户可以手动切换亮色主题或者暗色主题
 const toggleButton = () => {
   let status = localStorage.getItem('dark-light')
@@ -49,7 +50,9 @@ onMounted(() => {
 
 <style lang="less">
 .dark-light {
-  position: fixed;
+  position: absolute;
+  width: 40px;
+  height: 40px;
   bottom: 50px;
   right: 30px;
   background-color: var(--dropdown-bg);
@@ -57,7 +60,7 @@ onMounted(() => {
   padding: 8px;
   border-radius: 50%;
   z-index: 3;
-  cursor: pointer;
+  cursor: move;
 
   svg {
     width: 24px;

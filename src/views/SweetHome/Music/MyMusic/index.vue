@@ -82,7 +82,7 @@ const router = useRouter()
 // 给子组件传参
 const menuLink = ref<string>('My Music')
 const menuItemsList = ref([
-  { title: '我喜欢的音乐', path: '#1' },
+  // { title: '我喜欢的音乐', path: '#1' },
   { title: '全部歌单', path: '#2' },
 ])
 
