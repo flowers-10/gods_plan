@@ -164,3 +164,12 @@ export const toplistDetail = () => {
     method: 'get',
   })
 }
+
+// 获取每日推荐歌单 
+export const recommendResource = () => {
+  return request({
+    url: '/recommend/resource',
+    method: 'get',
+  })
+}
+

@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 
+
 export const useStore = defineStore({
   id: 'CloudMusic',
   state: () => ({
-    userinfo:
-      { account: { id: '' }, profile: { avatarUrl: '' }, }
+    userinfo:{ account: { id: '' }, profile: { avatarUrl: '' }, }
     ,
     uid: '',
     playListId: '3136952023',
@@ -38,16 +38,7 @@ export const useStore = defineStore({
       } else {
         this.audioLists.push(audioList)
       }
-    },
-    // 获得最新一首添加的歌曲
-    setLastAudio(audioList: any) {
-      // if (this.audioLists.map(e => e.id).includes(audioList.id)) {
-        // 错误提示CODE
-        // console.log('重复添加歌曲');
-      // } else {
-        this.lastAudio = audioList
-      // }
-    },
+    },   
     // 防止歌曲过期，针对防盗链
     resetAudioList(audioLists: any) {
       this.audioLists = audioLists

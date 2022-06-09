@@ -2,6 +2,7 @@
   <div class="welcome">
     <h1> 你好 welcome to heat waves</h1>
     <div class="login" @click="loginCloudMusic">登录</div>
+    <router-link to="/app">游客访问</router-link>
   </div>
   <beian-gov></beian-gov>
   <dialoge :flag="flag" :LoginForm="LoginForm" @on-click="getFlag" @on-continue="loginContinue"
@@ -104,6 +105,7 @@ const loginContinue = async () => {
       if (res.code === 200) {
         ElMessage.success('登录成功!')
         store.userInfoActions(res)
+        localStorage.setItem('token', res.token)
         router.push('/music/myhome')
       } else {
         ElMessage.error('登录失败，请稍后再尝试')
@@ -114,10 +116,11 @@ const loginContinue = async () => {
     }
   } else if (nowLoginMode.value === 'Password') {
     const res: any = await loginPhonePassword(LoginForm.phoneNumber, LoginForm.password, date)
-    // console.log('获得了登录信息', res);
+    // console.log('获得了登录信息', res.token);
     if (res.code === 200) {
       ElMessage.success('登录成功!')
       store.userInfoActions(res)
+      localStorage.setItem('token', res.token)
       router.push('/music/myhome')
     } else {
       ElMessage.error('登录失败，请稍后再尝试')
@@ -141,6 +144,7 @@ const loginContinue = async () => {
   display: grid;
   place-items: center;
   background-color: var(--theme-bg-color);
+  z-index: 1;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -211,6 +215,7 @@ const loginContinue = async () => {
   cursor: pointer;
   text-align: center;
   z-index: 1;
+  color: var(--theme-color);
 }
 
 .login-form {

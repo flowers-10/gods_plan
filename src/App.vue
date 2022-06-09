@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="heat-waves">
     <video-bg></video-bg>
     <dark-light></dark-light>
     <router-view></router-view>
@@ -106,11 +106,19 @@ body {
   background-size: cover;
   background-position: center;
   padding: 2em;
-  width: 100%;
-  height: 100vh;
+  // width: 100%;
+  // height: 100vh;
   @media screen and (max-width: 480px) {
     padding: 0em;
-    height: 100vh;
+    // height: 100vh;
   }
+}
+
+.heat-waves {
+  width: 100%;
+  height: calc(100vh - 4em);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

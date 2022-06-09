@@ -26,11 +26,14 @@
           <path
             d="M448.773 235.551A135.893 135.893 0 00451 211c0-74.443-60.557-135-135-135-47.52 0-91.567 25.313-115.766 65.537-32.666-10.59-66.182-6.049-93.794 12.979-27.612 19.013-44.092 49.116-45.425 82.031C24.716 253.788 0 290.497 0 331c0 7.031 1.703 13.887 3.006 20.537l.015.015C12.719 400.492 56.034 436 106 436h300c57.891 0 106-47.109 106-105 0-40.942-25.053-77.798-63.227-95.449z" />
         </svg>
-
-        <!-- <img v-if="avatarUrl!==null" class="profile-img" src="../../assets/SPY×FAMILY/1.jpg" alt=""> -->
-        <!-- http://localhost:8080/src/assets/SPY%C3%97FAMILY/4.jpg -->
-        <img class="profile-img" :src="avatarUrl" alt="" @click="loginOut">
-
+        <img class="profile-img" :src="avatarUrl" alt="" @click="flag = !flag">
+        <div class="dropdown" :class="flag ? 'is-active' : ''">
+          <ul>
+            <li><a href="#">Go to Discover</a></li>
+            <li><a href="#">Learn more</a></li>
+            <li><a href="#" @click="loginOutNow">退出登录</a></li>
+          </ul>
+        </div>
 
       </div>
     </div>
@@ -67,14 +70,18 @@
         <div class="side-title">Music</div>
         <div class="side-menu">
           <router-link @click="sideShow = false" to="/music/myhome">
-            <svg viewBox="0 0 1024 1024" fill="currentColor">
-              <path
-                d="M947.2 422.4L572.8 115.2c-32-25.6-86.4-25.6-118.4 0L76.8 425.6c-12.8 6.4-16 22.4-9.6 35.2 3.2 12.8 16 19.2 28.8 19.2h32v364.8C128 892.8 163.2 928 211.2 928H416c19.2 0 32-12.8 32-32v-147.2c0-22.4 35.2-44.8 64-44.8 28.8 0 67.2 22.4 67.2 44.8V896c0 19.2 12.8 32 32 32h208c48 0 80-32 80-83.2V480h32c12.8 0 25.6-9.6 28.8-22.4 3.2-12.8 0-25.6-12.8-35.2z"
-                p-id="4314"></path>
-            </svg>
+             <svg viewBox="0 0 48 48" fill="currentColor" stroke="currentColor">
+            <path d="M5 7L10 9V37L5 39V7Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+            <path d="M16 23L21 25V37L16 39V23Z" fill="currentColor" stroke="currentColor" stroke-width="4"
+              stroke-linejoin="round" />
+            <path d="M27 21L32 19V35L27 33V21Z" fill="currentColor" stroke="currentColor" stroke-width="4"
+              stroke-linejoin="round" />
+            <path d="M38 9L43 11V37L38 39V9Z" fill="currentColor" stroke="currentColor" stroke-width="4"
+              stroke-linejoin="round" />
+          </svg>
             My Home
           </router-link>
-          <router-link @click="sideShow = false" to="/music">
+          <router-link @click="sideShow = false" to="/music/mymusic">
             <svg t="1651369194282" class="icon" viewBox="0 0 1024 1024" version="1.1" fill="currentColor"
               xmlns="http://www.w3.org/2000/svg" p-id="2209">
               <path
@@ -94,18 +101,22 @@
             </svg>
             Playlist Detail
           </a>
-          <router-link @click="sideShow = false" to="/music/discovermusic">
-             <svg viewBox="0 0 1117 1024" fill="currentColor">
-            <path
-              d="M875.056498 1023.999379c-9.650418 0-19.300837-2.885816-27.554893-8.564358L558.547598 811.907387l-159.49566 137.246947c-13.09478 9.526297-20.479988 15.577203-32.892102 11.636356s-20.6972-18.276837-24.824227-34.071252L273.068984 581.135163 31.560281 519.446958A49.679485 49.679485 0 0 1 0.002482 473.398016a49.710515 49.710515 0 0 1 30.968224-46.514396L1048.764029 1.023999c5.151027-2.23418 29.106407-0.124121 31.092344 0 11.450175 0.682666 24.296713 9.77454 25.07247 10.736479 7.292117 8.409207 11.263993 18.618171 12.03975 29.106406a98.366001 98.366001 0 0 1-0.868848 13.560235L923.33962 983.66001c-3.103028 16.446051-14.118779 30.192467-29.41671 36.584705a48.314153 48.314153 0 0 1-18.835382 3.785695zM369.79038 533.720889c-21.410896 13.280962-29.168467 37.701795-22.217684 62.060568l40.33937 211.005933c4.31321 15.111748 19.64217 3.22715 21.721198-12.412114l8.874662-130.327194c2.978907-24.824227 13.436113-28.268589 29.633921-43.442398L943.323123 198.593819c8.626419-8.067874-2.358302-18.618171-12.412114-12.412114L369.759349 533.720889z"
-              p-id="5140"></path>
-          </svg>
-            DiscoverMusic
+          <router-link @click="sideShow = false" to="/music/playlistsquare">
+            <svg viewBox="0 0 1117 1024" fill="currentColor">
+              <path
+                d="M875.056498 1023.999379c-9.650418 0-19.300837-2.885816-27.554893-8.564358L558.547598 811.907387l-159.49566 137.246947c-13.09478 9.526297-20.479988 15.577203-32.892102 11.636356s-20.6972-18.276837-24.824227-34.071252L273.068984 581.135163 31.560281 519.446958A49.679485 49.679485 0 0 1 0.002482 473.398016a49.710515 49.710515 0 0 1 30.968224-46.514396L1048.764029 1.023999c5.151027-2.23418 29.106407-0.124121 31.092344 0 11.450175 0.682666 24.296713 9.77454 25.07247 10.736479 7.292117 8.409207 11.263993 18.618171 12.03975 29.106406a98.366001 98.366001 0 0 1-0.868848 13.560235L923.33962 983.66001c-3.103028 16.446051-14.118779 30.192467-29.41671 36.584705a48.314153 48.314153 0 0 1-18.835382 3.785695zM369.79038 533.720889c-21.410896 13.280962-29.168467 37.701795-22.217684 62.060568l40.33937 211.005933c4.31321 15.111748 19.64217 3.22715 21.721198-12.412114l8.874662-130.327194c2.978907-24.824227 13.436113-28.268589 29.633921-43.442398L943.323123 198.593819c8.626419-8.067874-2.358302-18.618171-12.412114-12.412114L369.759349 533.720889z"
+                p-id="5140"></path>
+            </svg>
+            Playlist Square
           </router-link>
           <router-link @click="sideShow = false" to="/music/topcharts">
-          <svg viewBox="0 0 1024 1024" fill="currentColor"><path d="M432 112l160 0 0 800-160 0 0-800Z" p-id="4679"></path><path d="M165.34 432.03l160 0 0 479.97-160 0 0-479.97Z" p-id="4680"></path><path d="M698.66 538.71l160 0 0 373.29-160 0 0-373.29Z" p-id="4681"></path></svg>
-          TopCharts
-        </router-link>
+            <svg viewBox="0 0 1024 1024" fill="currentColor">
+              <path d="M432 112l160 0 0 800-160 0 0-800Z" p-id="4679"></path>
+              <path d="M165.34 432.03l160 0 0 479.97-160 0 0-479.97Z" p-id="4680"></path>
+              <path d="M698.66 538.71l160 0 0 373.29-160 0 0-373.29Z" p-id="4681"></path>
+            </svg>
+            TopCharts
+          </router-link>
         </div>
       </div>
       <div class="side-wrapper">
@@ -130,7 +141,7 @@
 import { ref, reactive, onMounted, watch, toRaw } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from '@/stores';
-
+import { loginOut } from '@/api/api';
 
 // 路由
 const route = useRoute()
@@ -140,7 +151,8 @@ const router = useRouter()
 const store = useStore()
 // 获得头像(ts报错因为没有整合类型)
 const avatarUrl = ref<string>(toRaw(store.$state.userinfo.profile.avatarUrl))
-
+// 控制头像详情信息展示
+const flag = ref(false)
 // 导航栏的数据
 const tabSwithList = reactive([{
   title: 'Apps',
@@ -177,8 +189,11 @@ const leftSideShow = () => {
 }
 
 // 退出登录
-const loginOut = () => {
-
+const loginOutNow = () => {
+  loginOut()
+  localStorage.removeItem('pinia-CloudMusic')
+  localStorage.removeItem('token')
+  location.reload()
 }
 
 // 获得用户的歌单列表
@@ -448,14 +463,78 @@ img {
 }
 
 .profile-img {
-  cursor: pointer;
   width: 32px;
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--theme-color);
   margin-left: 22px;
+  cursor: pointer;
 }
+
+.dropdown {
+
+  ul {
+    position: absolute;
+    background: var(--dropdown-bg);
+    height: 110px;
+    width: 120px;
+    right: 10px;
+    top: 24px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translatey(10px);
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-left: 0;
+    margin: 0;
+    border-radius: 14px;
+    border: 1px solid var(--theme-bg-color);
+    cursor: pointer;
+
+    li {
+      width: 100%;
+      height: 100%;
+      background-color: var(--content-bg);
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--theme-bg-color);
+      cursor: pointer;
+
+      &:first-child {
+        border-radius: 13px 13px 0 0;
+      }
+
+      &:last-child {
+        border-radius: 0 0 13px 13px;
+      }
+
+      a {
+        margin-left: 5px;
+        text-decoration: none;
+        color: var(--theme-color);
+        font-size: 12px;
+      }
+    }
+
+  }
+}
+
+.dropdown.is-active {
+  ul {
+    opacity: 1;
+    pointer-events: all;
+    transform: translatey(25px);
+
+    li:hover {
+      background-color: var(--dropdown-hover);
+
+    }
+  }
+}
+
 
 .left-side {
   position: absolute;

@@ -1,21 +1,21 @@
 <template>
   <div class="main-container">
-    <div class="main-header">
-      <div class="menu-link-main">My Home</div>
-    </div>
-    <div class="content-wrapper" @click="loginOutNow">
-      <div class="loginout">退出登录</div>
+    <main-header :menuLink="menuLink" :menuItemsList="menuItemsList"></main-header>
+    <div class="content-wrapper" >
+      
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { loginOut } from '@/api/api'
-const loginOutNow = () => {
-  loginOut()
-  localStorage.removeItem('pinia-CloudMusic')
-  location.reload()
-}
+import { recommendResource } from '@/api/api'
+import { ref } from 'vue'
+// 给子组件传参
+const menuLink = ref<string>('My Home')
+const menuItemsList = ref([
+  { title: '我喜欢的音乐', path: '#1' },
+  { title: '全部歌单', path: '#2' },
+])
 </script>
 
 <style lang="less" scoped>

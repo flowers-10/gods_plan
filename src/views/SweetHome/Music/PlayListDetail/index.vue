@@ -184,8 +184,6 @@ let playSongs = async (id: number) => {
   audioList.id = id
   // console.log('触发了单曲添加', audioList);
   store.setaudioList(audioList)
-  store.setLastAudio(audioList)
-  // location.reload();
 }
 
 //添加所有歌曲

@@ -2,13 +2,11 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
 export const request = (option: any) => {
-  // console.log(option);
-
+  // console.log(import.meta.env.VITE_BASE_API);
   return new Promise((resolve, reject) => {
     // 创建一个axios实例
     const service = axios.create({
-      // baseURL: 'http://localhost:3000',//开发版本
-      baseURL: 'http://124.223.168.27:3000/',//发布版
+      baseURL: import.meta.env.VITE_BASE_API,
       timeout: 80000, //请求的时间
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     })

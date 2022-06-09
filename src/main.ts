@@ -1,8 +1,8 @@
 // 引入工具
-import { createApp, toRaw } from 'vue'
-
+import { createApp } from 'vue'
+import { filterformat } from './utils/filterformat'
 import { createPinia } from 'pinia'
-import type { PiniaPluginContext } from 'pinia'
+import { piniaPlugin } from './utils/piniaPlugin'
 
 import App from './App.vue'
 import router from './router'
@@ -14,43 +14,7 @@ import { ElMessage } from 'element-plus'
 // 引入全局组件
 import MainHeader from '@/components/MainHeader/index.vue'
 
-// pinia全局持久化
-type Options = {
-  key?: string
-}
-
-const __pinaiaKey__: string = 'unknown'
-// 存键值对
-const setStorage = (key: string, value: unknown) => {
-  localStorage.setItem(key, JSON.stringify(value))
-}
-// 取键值对
-const getStorage = (key: string) => {
-  return localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key) as string) : {}
-}
-
-// 持久化插件
-const piniaPlugin = (options: Options) => {
-  // console.log(options)
-
-  return (context: PiniaPluginContext) => {
-    const { store } = context
-    const data = getStorage(`${options?.key ?? __pinaiaKey__}-${store.$id}`)
-    // console.log(data);
-
-    // 当store发生改变时，触发subscribe
-    store.$subscribe(() => {
-      // 把用户需要的key和内容存入到localStorage
-      setStorage(`${options?.key ?? __pinaiaKey__}-${store.$id}`, toRaw(store.$state))
-    })
-    // console.log(context, 'context')
-    return {
-      ...data
-    }
-  }
-
-}
-
+// 使用pinia持久化插件
 const store = createPinia()
 store.use(piniaPlugin({
   key: 'pinia'
@@ -58,31 +22,51 @@ store.use(piniaPlugin({
 
 let app = createApp(App)
 
+
+type Filter = {
+  formatTime: <T extends any>(str: T) => T
+}
+// 声明要扩充@vue/runtime-core包的声明.
+// 这里扩充"ComponentCustomProperties"接口, 因为他是vue3中实例的属性的类型.
+declare module '@vue/runtime-core' {
+  export interface ComponentCustomProperties {
+    $filters: Filter
+  }
+}
+
+// 全局的过滤器
+app.config.globalProperties.$filters = filterformat
+
+
 app.use(ElementPlus)
 app.use(store)
 app.use(router)
 
 // 白名单
-const whileList = ['/']
+const whileList = ['/', '/apps/allapps','/apps/updates','/music/myhome','/music/playlistdetail/3136952023']
 // 路由导航
 router.beforeEach((to, from, next) => {
   let loginStatus = localStorage.getItem
-    ('pinia-CloudMusic')
+    ('token')
+  // console.log(to.path);
+
   // 如果用户在首页并且已经存入登录信息则自动进入music
   if (to.path == '/' && loginStatus) {
     // console.log(112);
     next({
       path: '/music'
     })
-    
+
   }
-  // 如果用户在白名单或者已经存入登录信息则可以任意通行
-  if (whileList.includes(to.path) || loginStatus) {
+  // 如果访问在白名单可以任意通行
+  if (whileList.includes(to.path)) {
+    next()
+  // 或者已经登录可以任意通行
+  } else if (loginStatus) {
     next()
   }
-  // 如果没有登录信息则返回登录页面
+  // 没有登录信息则返回登录页面
   else {
-    // alert('请登录后访问~')
     ElMessage.error('请登录后访问')
     next({
       path: '/'

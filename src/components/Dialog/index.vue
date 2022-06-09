@@ -80,13 +80,15 @@ const checkoutLogin=(name:string)=>{
   opacity: 1;
   position: absolute;
   z-index: 999;
-  top: 50%;
-  left: 50%;
-  transform: (translate(-50%, -50%));
+  
+  // top: 30%;
+  // left: 40%;
+  // transform: (translate(-50%, -50%));
   width: 500px;
 
   @media screen and (max-width: 570px) {
     width: 100%;
+    left: 0%;
   }
 }
 

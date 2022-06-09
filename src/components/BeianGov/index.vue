@@ -1,8 +1,9 @@
 <template>
   <div class="beian">
     <a class="beian-a" target="_blank"
-      href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010902003246"><img
-        src="@/assets/images/备案图标.png" style="float:left;margin-right: 5px;" />
+      href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010902003246">
+      <!-- <img
+        src="@/assets/images/备案图标.png" style="float:left;margin-right: 5px;" /> -->
       <span>浙公网安备 33010902003246号
       </span>
     </a>
@@ -17,13 +18,11 @@
 <style lang="less" scoped>
 .beian {
   width: 100%;
-  margin: 0 auto;
-  // left: 50%;
-
-  // transform: translateX(-50%);
+  // margin: 0 auto;
   display: flex;
   justify-content: center;
-
+  position: fixed;
+  top: 5%;
   &-a {
     color: var(--button-inactive);
     padding: 5px;

@@ -15,35 +15,31 @@
         </div>
       </div>
 
-      <!-- <div class="content-section">
+      <div class="content-section">
         <div class="content-section-title"><a name="1">我喜欢的音乐</a></div>
         <div class="my-likeList">
 
           <div class="likeList-coverImg">
-            <router-link to="/">
-              <img class="coverImg" :src="likeLists[0]?.coverImgUrl" alt="">
-            </router-link>
+            <!-- <router-link to="/"> -->
+            <img class="coverImg" :src="likeLists[0]?.coverImgUrl" alt="">
+            <!-- </router-link> -->
             <div class="likeList-detail">
               <span>
                 {{ likeLists[0]?.name }}
               </span>
               <span>
-                {{ likeLists[0]?.trackCount }}首
+                歌曲：{{ likeLists[0]?.trackCount }} 首
+              </span>
+              <span>
+                播放：{{ likeLists[0]?.playCount }} 次
+              </span>
+              <span>
+                创建：{{ $filters.formatTime(likeLists[0]?.createTime) }}
               </span>
             </div>
           </div>
-          <ul>
-            <li v-for="(item, index) in songs" :key="index">
-              <img :src="item.al.picUrl" alt="">
-              <span class="songs-name">{{ item?.name }}</span>
-              <span class="singer">
-                {{ filtersinger(item?.ar) }}
-
-              </span>
-            </li>
-          </ul> 
         </div>
-      </div> -->
+      </div>
 
       <div class="content-section">
         <div class="content-section-title"><a name="2">全部歌单</a></div>
@@ -73,7 +69,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from '@/stores'// pinia
 
 // 引入接口
-import { userDetail, userPlaylist, songDetail } from '@/api/api'
+import { userDetail, userPlaylist } from '@/api/api'
 
 // 使用pinia
 const store = useStore()
@@ -82,7 +78,7 @@ const router = useRouter()
 // 给子组件传参
 const menuLink = ref<string>('My Music')
 const menuItemsList = ref([
-  // { title: '我喜欢的音乐', path: '#1' },
+  { title: '我喜欢的音乐', path: '#1' },
   { title: '全部歌单', path: '#2' },
 ])
 
@@ -99,40 +95,24 @@ const userDetails: any = reactive([])
 const userPlaylists: any = reactive([])
 
 // 我喜欢的音乐
-// const likeLists: any = reactive([])
-// 我喜欢的音乐前十首歌单详情
-// const ids: any = reactive([])
-// 获取歌曲详情
-// const songs: any = reactive([])
+const likeLists: any = reactive([])
 
 // 获得用户信息和歌单列表
 const getMyMusicData = async () => {
   // 用户信息
   const res: any = await userDetail(uid)
+  // console.log(res);
   userDetails.push(res)
   const result: any = await userPlaylist(uid)
   userPlaylists.push(result)
   // console.log(result);
 
   // 用户喜欢的音乐
-  // likeLists.push(
-  //   userPlaylists[0].playlist.shift()
-  // )
-  // let likeRes: any = await likeList(uid)
-  // likeRes = likeRes.ids
-  // console.log(likeRes);
-  // likeRes = likeRes.slice(0, 10)
-  // console.log(likeRes);
-  // ids.push([...likeRes])
-  // console.log(ids);
-  // const songRes: any = await songDetail(ids.join())
-  // console.log(songRes.songs);
-  // 过滤出需要用的数据
-  // const song = songRes.songs.map((item: any,) => {
-  //   return { al: item.al, name: item.name, id: item.id, ar: item.ar, dt: item.dt }
-  // })
-  // console.log(song);
-  // songs.push(...song)
+  likeLists.push(
+    userPlaylists[0].playlist.shift()
+  )
+  // console.log(likeLists);
+
 }
 
 // 路由传参跳到歌单详情
@@ -146,22 +126,6 @@ const goPlayListDetail = (id: string) => {
   })
 }
 
-// 过滤歌手名字
-// const filtersinger = (item: any) => {
-//   const singer = toRaw(item)
-//   // console.log(...singer);
-//   const newSinger = [...singer]
-
-//   if (singer.length > 1) {
-//     // const s.map(item=>`${item.name}/`)
-//     const newSingers = newSinger.map(item => `${item.name} /`)
-//     newSingers.slice(0, newSingers.length - 1)
-
-//     return newSingers.slice(0, newSingers.length - 1).join(' ') + ' ' + newSinger.pop().name
-//   } else {
-//     return newSinger[0].name
-//   }
-// }
 
 onMounted(() => {
   getMyMusicData()
@@ -264,7 +228,6 @@ onMounted(() => {
 
   .playlist-card {
     display: flex;
-    // flex-direction: column;
     width: calc(33.3% - 20px);
     font-size: 16px;
     background-color: var(--content-bg);
@@ -325,43 +288,55 @@ onMounted(() => {
   border-radius: 14px;
   border: 1px solid var(--theme-bg-color);
   padding: 20px;
-  display: flex;
+  width: 100%;
 
   .likeList-coverImg {
-    width: 50%;
+
+    width: 100%;
     padding: 10px;
     display: flex;
-    flex-direction: column;
+    // justify-content: space-between;
 
     @media screen and (max-width: 480px) {
-      width: 100% !important;
+      flex-direction: column;
+
     }
 
     .coverImg {
       display: block;
-      width: 100%;
-      border-radius: 14px;
+      width: 300px;
+      border-radius: 50%;
       cursor: pointer;
+      @media screen and (max-width: 480px) {
+      width: 100%;
 
-
+    }
     }
   }
 
   .likeList-detail {
-    padding: 20px 20px 0 20px;
+    padding: 20px 20px 0 70px;
     display: flex;
     flex-direction: column;
 
+    @media screen and (max-width: 480px) {
+      padding: 30px 10px 0 10px;
+
+    }
+
     span {
-      font-size: 25px;
+      font-size: 22px;
       margin-bottom: 20px;
+
+      @media screen and (max-width: 480px) {
+        font-size: 14px;
+      }
     }
   }
 
   ul {
-    width: 50%;
+    width: 100%;
     padding: 10px;
-
     @media screen and (max-width: 480px) {
       display: none;
     }

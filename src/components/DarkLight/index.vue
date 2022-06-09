@@ -53,8 +53,8 @@ onMounted(() => {
   position: absolute;
   width: 40px;
   height: 40px;
-  bottom: 50px;
-  right: 30px;
+  left:95%;
+  top: 90%;
   background-color: var(--dropdown-bg);
   box-shadow: -1px 3px 8px -1px rgba(0, 0, 0, 0.2);
   padding: 8px;

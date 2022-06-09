@@ -1,15 +1,39 @@
 <template>
   <div class="left-side">
     <div class="side-wrapper">
-      <div class="side-title">Home</div>
+      <div class="side-title">Discover</div>
       <div class="side-menu">
         <router-link to="/music/myhome">
-          <svg viewBox="0 0 1024 1024" fill="currentColor">
-            <path
-              d="M947.2 422.4L572.8 115.2c-32-25.6-86.4-25.6-118.4 0L76.8 425.6c-12.8 6.4-16 22.4-9.6 35.2 3.2 12.8 16 19.2 28.8 19.2h32v364.8C128 892.8 163.2 928 211.2 928H416c19.2 0 32-12.8 32-32v-147.2c0-22.4 35.2-44.8 64-44.8 28.8 0 67.2 22.4 67.2 44.8V896c0 19.2 12.8 32 32 32h208c48 0 80-32 80-83.2V480h32c12.8 0 25.6-9.6 28.8-22.4 3.2-12.8 0-25.6-12.8-35.2z"
-              p-id="4314"></path>
+          <svg viewBox="0 0 48 48" fill="currentColor" stroke="currentColor">
+            <path d="M5 7L10 9V37L5 39V7Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+            <path d="M16 23L21 25V37L16 39V23Z" fill="currentColor" stroke="currentColor" stroke-width="4"
+              stroke-linejoin="round" />
+            <path d="M27 21L32 19V35L27 33V21Z" fill="currentColor" stroke="currentColor" stroke-width="4"
+              stroke-linejoin="round" />
+            <path d="M38 9L43 11V37L38 39V9Z" fill="currentColor" stroke="currentColor" stroke-width="4"
+              stroke-linejoin="round" />
           </svg>
           My Home
+          <span class="notification-number updates">8</span>
+        </router-link>
+      </div>
+      <div class="side-menu">
+        <router-link to="/music/playlistsquare">
+          <svg viewBox="0 0 1117 1024" fill="currentColor">
+            <path
+              d="M875.056498 1023.999379c-9.650418 0-19.300837-2.885816-27.554893-8.564358L558.547598 811.907387l-159.49566 137.246947c-13.09478 9.526297-20.479988 15.577203-32.892102 11.636356s-20.6972-18.276837-24.824227-34.071252L273.068984 581.135163 31.560281 519.446958A49.679485 49.679485 0 0 1 0.002482 473.398016a49.710515 49.710515 0 0 1 30.968224-46.514396L1048.764029 1.023999c5.151027-2.23418 29.106407-0.124121 31.092344 0 11.450175 0.682666 24.296713 9.77454 25.07247 10.736479 7.292117 8.409207 11.263993 18.618171 12.03975 29.106406a98.366001 98.366001 0 0 1-0.868848 13.560235L923.33962 983.66001c-3.103028 16.446051-14.118779 30.192467-29.41671 36.584705a48.314153 48.314153 0 0 1-18.835382 3.785695zM369.79038 533.720889c-21.410896 13.280962-29.168467 37.701795-22.217684 62.060568l40.33937 211.005933c4.31321 15.111748 19.64217 3.22715 21.721198-12.412114l8.874662-130.327194c2.978907-24.824227 13.436113-28.268589 29.633921-43.442398L943.323123 198.593819c8.626419-8.067874-2.358302-18.618171-12.412114-12.412114L369.759349 533.720889z"
+              p-id="5140"></path>
+          </svg>
+          Playlist Square
+          <span class="notification-number updates">3</span>
+        </router-link>
+        <router-link to="/music/topcharts">
+          <svg viewBox="0 0 1024 1024" fill="currentColor">
+            <path d="M432 112l160 0 0 800-160 0 0-800Z" p-id="4679"></path>
+            <path d="M165.34 432.03l160 0 0 479.97-160 0 0-479.97Z" p-id="4680"></path>
+            <path d="M698.66 538.71l160 0 0 373.29-160 0 0-373.29Z" p-id="4681"></path>
+          </svg>
+          TopCharts
         </router-link>
       </div>
     </div>
@@ -38,25 +62,8 @@
         </a>
       </div>
     </div>
-    <div class="side-wrapper">
-      <div class="side-title">Discover</div>
-      <div class="side-menu">
-        <router-link to="/music/discovermusic">
-          <svg viewBox="0 0 1117 1024" fill="currentColor">
-            <path
-              d="M875.056498 1023.999379c-9.650418 0-19.300837-2.885816-27.554893-8.564358L558.547598 811.907387l-159.49566 137.246947c-13.09478 9.526297-20.479988 15.577203-32.892102 11.636356s-20.6972-18.276837-24.824227-34.071252L273.068984 581.135163 31.560281 519.446958A49.679485 49.679485 0 0 1 0.002482 473.398016a49.710515 49.710515 0 0 1 30.968224-46.514396L1048.764029 1.023999c5.151027-2.23418 29.106407-0.124121 31.092344 0 11.450175 0.682666 24.296713 9.77454 25.07247 10.736479 7.292117 8.409207 11.263993 18.618171 12.03975 29.106406a98.366001 98.366001 0 0 1-0.868848 13.560235L923.33962 983.66001c-3.103028 16.446051-14.118779 30.192467-29.41671 36.584705a48.314153 48.314153 0 0 1-18.835382 3.785695zM369.79038 533.720889c-21.410896 13.280962-29.168467 37.701795-22.217684 62.060568l40.33937 211.005933c4.31321 15.111748 19.64217 3.22715 21.721198-12.412114l8.874662-130.327194c2.978907-24.824227 13.436113-28.268589 29.633921-43.442398L943.323123 198.593819c8.626419-8.067874-2.358302-18.618171-12.412114-12.412114L369.759349 533.720889z"
-              p-id="5140"></path>
-          </svg>
-          DiscoverMusic
-          <span class="notification-number updates">3</span>
-        </router-link>
-        <router-link to="/music/topcharts">
-          <svg viewBox="0 0 1024 1024" fill="currentColor"><path d="M432 112l160 0 0 800-160 0 0-800Z" p-id="4679"></path><path d="M165.34 432.03l160 0 0 479.97-160 0 0-479.97Z" p-id="4680"></path><path d="M698.66 538.71l160 0 0 373.29-160 0 0-373.29Z" p-id="4681"></path></svg>
-          TopCharts
-        </router-link>
-      </div>
-    </div>
-    
+
+
   </div>
 </template>
 
@@ -129,6 +136,7 @@ onMounted(() => {
     transition: 0.3s;
     position: relative;
     cursor: pointer;
+
     &:hover {
       background-color: var(--hover-menu-bg);
     }

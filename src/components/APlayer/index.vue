@@ -112,7 +112,7 @@ const props = defineProps({
 })
 
 watch(audioLists, function (newVal, oldVal) {
-  console.log(ap);
+  // console.log(ap);
   ap = new APlayer({
     container: playerRef.value, //dom挂载
     fixed: props.fixed,
@@ -132,12 +132,7 @@ watch(audioLists, function (newVal, oldVal) {
     //获得总歌单
   })
   // console.log(ap);
-  console.log('添加了新歌', newVal.length);
-  // 获得新添加的歌曲
-  // let lastAudio = store.$state.lastAudio
-  // console.log(toRaw(lastAudio));
-  // 添加到播放列表
-  // ap.list.add(toRaw(lastAudio));
+  // console.log('添加了新歌', newVal.length);
   // 选择播放的歌曲
   ap.list.switch(newVal.length-1);
   // 播放,因为浏览器不允许自动播放，设置定时器就可以逃避这个监测
@@ -180,7 +175,7 @@ onMounted(() => {
     //   console.log('player paly');
     // });
     ap.on('listadd', function () {
-      console.log('player 添加了新歌曲');
+      // console.log('player 添加了新歌曲');
     });
     // ap.on('listswitch', function () {
     //   console.log('player 切换了歌曲');

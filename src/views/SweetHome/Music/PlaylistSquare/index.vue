@@ -10,7 +10,7 @@
           <img class="card-img" :src="item.coverImgUrl" alt="">
           <div class="card-detail">
             <span class="detail-name">{{ item.name }}</span>
-            <span class="detail-playCount">{{ item.playCount }}</span>
+            <span class="detail-playCount">Clicks {{ item.playCount }}</span>
           </div>
 
         </div>
@@ -29,11 +29,11 @@
 import { ref, onMounted } from 'vue'
 // 引入工具
 import { useRouter } from 'vue-router';
-import { useStore } from '@/stores'// pinia
-import { catlist, topPlaylist } from '@/api/api'
-import { debounce } from '@/utils/debounce'
+import { useStore } from '../../../../stores';// pinia
+import { catlist, topPlaylist } from '../../../../api/api'
+import { debounce } from '../../../../utils/debounce'
 // 给子组件传参
-const menuLink = ref<string>('Discover Music')
+const menuLink = ref<string>('Playlist Square')
 const menuItemsList = ref<object[]>([])
 // 路由
 const router = useRouter()

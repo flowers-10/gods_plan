@@ -35,7 +35,7 @@ const router = createRouter({
         },
         {
           path: '/music',
-          redirect: '/music/mymusic',
+          redirect: '/music/myhome',
           name: 'Music',
           component: () => import('../views/SweetHome/Music/index.vue'),
           children: [
@@ -45,9 +45,9 @@ const router = createRouter({
               component: () => import('../views/SweetHome/Music/MyMusic/index.vue'),
             },
             {
-              path: '/music/discovermusic',
-              name: 'DiscoverMusic',
-              component: () => import('../views/SweetHome/Music/DiscoverMusic/index.vue'),
+              path: '/music/playlistsquare',
+              name: 'PlaylistSquare',
+              component: () => import('../views/SweetHome/Music/PlaylistSquare/index.vue'),
             },
             {
               path: '/music/myhome',

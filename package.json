@@ -2,7 +2,7 @@
   "name": "gods_plan",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite serve --mode development",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview --port 5050",
     "typecheck": "vue-tsc --noEmit"
