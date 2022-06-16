@@ -31,7 +31,6 @@ import 'animate.css'
 import { ref } from 'vue'
 import { vMove } from '@/utils/vMove';
 // 拖动效果
-
 // 接收父组件传参
 const props = defineProps<{ flag: boolean, LoginForm: any, }>()
 // 切换登录模式

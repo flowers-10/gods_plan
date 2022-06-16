@@ -2,21 +2,23 @@
   <div class="main-container">
     <main-header :menuLink="menuLink" :menuItemsList="menuItemsList"></main-header>
     <div class="content-wrapper">
-      <div class="content-wrapper-header">
-        <img class="profile-img" :src="userDetails[0]?.profile.avatarUrl" alt="">
-        <div class="user-infor">
-          <h3 class="infor-title"> {{ userDetails[0]?.profile.nickname }} </h3>
-          <div>
-            <span>{{ userDetails[0]?.profile.follows }} 关注</span>
-            <span>{{ userDetails[0]?.profile.followeds }} 粉丝</span>
-            <span> Lv. {{ userDetails[0]?.level }}</span>
+      <div class="content-section">
+        <div class="content-section-title">关于我</div>
+        <div class="content-wrapper-header">
+          <img class="profile-img" :src="userDetails[0]?.profile.avatarUrl" alt="">
+          <div class="user-infor">
+            <h3 class="infor-title"> {{ userDetails[0]?.profile.nickname }} </h3>
+            <div>
+              <span>{{ userDetails[0]?.profile.follows }} 关注</span>
+              <span>{{ userDetails[0]?.profile.followeds }} 粉丝</span>
+              <span> Lv. {{ userDetails[0]?.level }}</span>
+            </div>
+            <span>听歌排行 累计听歌{{ userDetails[0]?.listenSongs }}首</span>
           </div>
-          <span>听歌排行 累计听歌{{ userDetails[0]?.listenSongs }}首</span>
         </div>
       </div>
-
       <div class="content-section">
-        <div class="content-section-title"><a name="1">我喜欢的音乐</a></div>
+        <div class="content-section-title">我喜欢的音乐</div>
         <div class="my-likeList">
 
           <div class="likeList-coverImg">
@@ -42,7 +44,7 @@
       </div>
 
       <div class="content-section">
-        <div class="content-section-title"><a name="2">全部歌单</a></div>
+        <div class="content-section-title">全部歌单</div>
         <div class="playlists-card">
           <div class="playlist-card" v-for="(item, index) in userPlaylists[0]?.playlist"
             @click="goPlayListDetail(item.id)">
@@ -78,8 +80,9 @@ const router = useRouter()
 // 给子组件传参
 const menuLink = ref<string>('My Music')
 const menuItemsList = ref([
-  { title: '我喜欢的音乐', path: '#1' },
-  { title: '全部歌单', path: '#2' },
+  { title: '关于我' },
+  { title: '我喜欢的音乐' },
+  { title: '全部歌单' },
 ])
 
 
@@ -307,10 +310,11 @@ onMounted(() => {
       width: 300px;
       border-radius: 50%;
       cursor: pointer;
-      @media screen and (max-width: 480px) {
-      width: 100%;
 
-    }
+      @media screen and (max-width: 480px) {
+        width: 100%;
+
+      }
     }
   }
 
@@ -337,6 +341,7 @@ onMounted(() => {
   ul {
     width: 100%;
     padding: 10px;
+
     @media screen and (max-width: 480px) {
       display: none;
     }

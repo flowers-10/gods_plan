@@ -88,7 +88,7 @@ let nowLoginMode = ref<string>('Login')
 
 // 切换登录模式
 const checkoutMode = (cheackoutName: string) => {
-  console.log(cheackoutName);
+  // console.log(cheackoutName);
   nowLoginMode.value = cheackoutName
 }
 

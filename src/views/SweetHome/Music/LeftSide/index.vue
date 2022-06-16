@@ -136,7 +136,7 @@ onMounted(() => {
     transition: 0.3s;
     position: relative;
     cursor: pointer;
-
+    user-select: none;
     &:hover {
       background-color: var(--hover-menu-bg);
     }

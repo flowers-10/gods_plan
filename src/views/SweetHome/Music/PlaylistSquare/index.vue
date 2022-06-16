@@ -10,7 +10,9 @@
           <img class="card-img" :src="item.coverImgUrl" alt="">
           <div class="card-detail">
             <span class="detail-name">{{ item.name }}</span>
-            <span class="detail-playCount">Clicks {{ item.playCount }}</span>
+            <span class="detail-playCount">
+              <svg  viewBox="0 0 1024 1024"><path d="M870.2 466.333333l-618.666667-373.28a53.333333 53.333333 0 0 0-80.866666 45.666667v746.56a53.206667 53.206667 0 0 0 80.886666 45.666667l618.666667-373.28a53.333333 53.333333 0 0 0 0-91.333334z" fill="currentColor"></path></svg>
+              {{ item.playCount }}</span>
           </div>
 
         </div>
@@ -202,6 +204,8 @@ onMounted(() => {
         color: var(--content-title-color);
         font-size: 12px;
         margin-top: 5px;
+        display: flex;
+        align-items: center;
       }
     }
 
@@ -251,4 +255,8 @@ onMounted(() => {
     color: var(--theme-color);
   }
 }
+svg {
+    width: 12px;
+    margin-right: 4px;
+  }
 </style>
