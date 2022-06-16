@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="content-section">
-        <div class="content-section-title"><a name="1">歌曲列表</a> 
+        <div class="content-section-title"><a>歌曲列表</a> 
           <!-- <span class="allSongs" @click="addAllPlayList">添加全部歌曲</span> -->
         </div>
         <ul>

@@ -23,25 +23,23 @@ const props = defineProps<{
 let flag = ref<number>(0)
 // 派生事件给父组件传参
 const emit = defineEmits(['on-click'])
-
-// 获取父元素整个滚动的div
-const scrollContainer = <HTMLDivElement | null>document.querySelector('.content-wrapper')
 // 点击tag栏
 const clickTags = (index: number, tag: string): void => {
   // 控制menu高亮
   flag.value = index
   // 给父组件传递tag
   emit('on-click', tag)
-  // console.log(_childrenHTML.offsetTop);
-  // console.log(scrollContainer.scrollTop);
+  // 获取父元素整个滚动的div
+  let scrollContainer = <HTMLDivElement | null>document.querySelector('.content-wrapper')
   // 点击滚动到相应位置
   if (scrollContainer) {
     // 获得子元素的节点
     let _childrenHTML = <HTMLDivElement | null>scrollContainer.children[index]
+    // console.log(_childrenHTML.offsetTop);
     if (_childrenHTML) {
       // 滚动到相应位置
       scrollContainer.scrollTo({
-        top: _childrenHTML.offsetTop - 166,
+        top: _childrenHTML.offsetTop - 136,
         behavior: "smooth"
       });
     }
@@ -51,10 +49,8 @@ const clickTags = (index: number, tag: string): void => {
 
 // 监听滚轮
 const handleScroll = (): void => {
-  console.log(1);
-  
   // 获得当前的滚轮高度
-  // let scrollContainer = <HTMLDivElement | null>document.querySelector('.content-wrapper')
+  let scrollContainer = <HTMLDivElement | null>document.querySelector('.content-wrapper')
   // arr存放每一层的高度
   let arr: number[] = []
   if (props.menuItemsList) {
@@ -79,7 +75,7 @@ const handleScroll = (): void => {
     arr.map((item, index, arr) => {
       // console.log(arr[index]);
       // 如果滚轮在当前层就高亮当前层
-      if (arr[index] <= scrollTop && scrollTop<=arr[index+1]) {
+      if (arr[index] <= scrollTop && scrollTop <= arr[index + 1]) {
         flag.value = index
       }
     })
@@ -88,8 +84,8 @@ const handleScroll = (): void => {
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, true)
 })
-onUnmounted(()=>{
-  window.removeEventListener('scroll',handleScroll,true)
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll, true)
 })
 </script>
 
