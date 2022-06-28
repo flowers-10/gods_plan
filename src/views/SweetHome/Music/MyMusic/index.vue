@@ -2,63 +2,58 @@
   <div class="main-container">
     <main-header :menuLink="menuLink" :menuItemsList="menuItemsList"></main-header>
     <div class="content-wrapper">
-      <div class="content-section">
-        <div class="content-section-title">关于我</div>
-        <div class="content-wrapper-header">
-          <img class="profile-img" :src="userDetails[0]?.profile.avatarUrl" alt="">
-          <div class="user-infor">
-            <h3 class="infor-title"> {{ userDetails[0]?.profile.nickname }} </h3>
-            <div>
-              <span>{{ userDetails[0]?.profile.follows }} 关注</span>
-              <span>{{ userDetails[0]?.profile.followeds }} 粉丝</span>
-              <span> Lv. {{ userDetails[0]?.level }}</span>
-            </div>
-            <span>听歌排行 累计听歌{{ userDetails[0]?.listenSongs }}首</span>
-          </div>
-        </div>
-      </div>
-      <div class="content-section">
-        <div class="content-section-title">我喜欢的音乐</div>
-        <div class="my-likeList">
+      <content-section v-for="(item, index) in menuItemsList" :key="index" :title="item.title"
+        :slotName="item.slotName">
+        <template #[item.slotName]>
 
-          <div class="likeList-coverImg">
-            <!-- <router-link to="/"> -->
-            <img class="coverImg" :src="likeLists[0]?.coverImgUrl" alt="">
-            <!-- </router-link> -->
-            <div class="likeList-detail">
-              <span>
-                {{ likeLists[0]?.name }}
-              </span>
-              <span>
-                歌曲：{{ likeLists[0]?.trackCount }} 首
-              </span>
-              <span>
-                播放：{{ likeLists[0]?.playCount }} 次
-              </span>
-              <span>
-                创建：{{ $filters.formatTime(likeLists[0]?.createTime) }}
-              </span>
+          <div class="content-wrapper-header" v-if="index === 0">
+            <img class="profile-img" :src="userDetails[0]?.profile.avatarUrl" alt="">
+            <div class="user-infor">
+              <h3 class="infor-title"> {{ userDetails[0]?.profile.nickname }} </h3>
+              <div>
+                <span>{{ userDetails[0]?.profile.follows }} 关注</span>
+                <span>{{ userDetails[0]?.profile.followeds }} 粉丝</span>
+                <span> Lv. {{ userDetails[0]?.level }}</span>
+              </div>
+              <span>听歌排行 累计听歌{{ userDetails[0]?.listenSongs }}首</span>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="content-section">
-        <div class="content-section-title">全部歌单</div>
-        <div class="playlists-card">
-          <div class="playlist-card" v-for="(item, index) in userPlaylists[0]?.playlist"
-            @click="goPlayListDetail(item.id)">
-            <img class="card-img" :src="item.coverImgUrl" alt="">
-            <div class="card-detail">
-              <span class="detail-name">{{ item.name }}</span>
-              <span class="detail-trackCount">{{ item.trackCount }}首</span>
-              <span class="detail-trackCount">by {{ item.creator.nickname }}</span>
+          <div class="my-likeList" v-if="index === 1">
+            <div class="likeList-coverImg">
+              <img class="coverImg" :src="likeLists[0]?.coverImgUrl" alt="">
+
+              <div class="likeList-detail">
+                <span>
+                  {{ likeLists[0]?.name }}
+                </span>
+                <span>
+                  歌曲：{{ likeLists[0]?.trackCount }} 首
+                </span>
+                <span>
+                  播放：{{ likeLists[0]?.playCount }} 次
+                </span>
+                <span>
+                  创建：{{ $filters.formatTime(likeLists[0]?.createTime) }}
+                </span>
+              </div>
             </div>
-
           </div>
-        </div>
-      </div>
 
+          <div class="playlists-card" v-if="index === 2">
+            <div class="playlist-card" v-for="(item, index) in userPlaylists[0]?.playlist"
+              @click="goPlayListDetail(item.id)">
+              <img class="card-img" :src="item.coverImgUrl" alt="">
+              <div class="card-detail">
+                <span class="detail-name">{{ item.name }}</span>
+                <span class="detail-trackCount">{{ item.trackCount }}首</span>
+                <span class="detail-trackCount">by {{ item.creator.nickname }}</span>
+              </div>
+            </div>
+          </div>
+          
+        </template>
+      </content-section>
     </div>
   </div>
   <div class="overlay-app" :class="flag ? 'is-active' : ''"></div>
@@ -80,9 +75,9 @@ const router = useRouter()
 // 给子组件传参
 const menuLink = ref<string>('My Music')
 const menuItemsList = ref([
-  { title: '关于我' },
-  { title: '我喜欢的音乐' },
-  { title: '全部歌单' },
+  { title: '关于我', slotName: 'me' },
+  { title: '我喜欢的音乐', slotName: 'music' },
+  { title: '全部歌单', slotName: 'playlist' },
 ])
 
 
@@ -205,20 +200,6 @@ onMounted(() => {
   span {
     margin-left: 5px;
   }
-
-}
-
-.content-section {
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-
-  &-title {
-    color: var(--content-title-color);
-    margin-bottom: 14px;
-  }
-
 
 }
 

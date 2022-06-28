@@ -13,6 +13,7 @@ import { ElMessage } from 'element-plus'
 
 // 引入全局组件
 import MainHeader from '@/components/MainHeader/index.vue'
+import ContentSection from '@/components/ContentSection/index.vue'
 
 // 使用pinia持久化插件
 const store = createPinia()
@@ -43,7 +44,7 @@ app.use(store)
 app.use(router)
 
 // 白名单
-const whileList = ['/', '/apps/allapps','/apps/updates','/music/myhome','/music/playlistdetail/3136952023']
+const whileList = ['/', '/apps/allapps', '/apps/updates', '/music/myhome', '/music/playlistdetail/3136952023']
 // 路由导航
 router.beforeEach((to, from, next) => {
   let loginStatus = localStorage.getItem
@@ -61,7 +62,7 @@ router.beforeEach((to, from, next) => {
   // 如果访问在白名单可以任意通行
   if (whileList.includes(to.path)) {
     next()
-  // 或者已经登录可以任意通行
+    // 或者已经登录可以任意通行
   } else if (loginStatus) {
     next()
   }
@@ -76,4 +77,4 @@ router.beforeEach((to, from, next) => {
 })
 
 // 链式调用
-app.component('main-header', MainHeader).mount('#app')
+app.component('main-header', MainHeader).component('content-section', ContentSection).mount('#app')

@@ -30,22 +30,22 @@ export const Mcaptcha = (phone: string | number, captcha: string | number) => {
 }
 
 // 手机登录
-export const loginCellPhone = (phone: string | number, captcha: string | number, timestamp:number) => {
+export const loginCellPhone = (phone: string | number, captcha: string | number, timestamp: number) => {
   return request({
     url: '/login/cellphone',
     method: 'post',
     data: {
-      phone, captcha,timestamp
+      phone, captcha, timestamp
     }
   })
 }
 // 手机密码登录
-export const loginPhonePassword = (phone: string | number, password: string | number, timestamp:number) => {
+export const loginPhonePassword = (phone: string | number, password: string | number, timestamp: number) => {
   return request({
     url: '/login/cellphone',
     method: 'post',
     data: {
-      phone, password,timestamp
+      phone, password, timestamp
     }
   })
 }
@@ -172,4 +172,37 @@ export const recommendResource = () => {
     method: 'get',
   })
 }
+
+// 新专辑
+export const albumNewest = () => {
+  return request({
+    url: '/album/newest',
+    method: 'get'
+  })
+}
+
+// 电台推荐
+export const djRecommend = () => {
+  return request({
+    url: '/dj/recommend',
+    method: 'get'
+  })
+}
+
+// 推荐mv
+export const personalizedMv = () => {
+  return request({
+    url: '/personalized/mv',
+    method: 'get'
+  })
+}
+
+// 热门歌手
+export const topArtists = () => {
+  return request({
+    url: '/top/artists',
+    method: 'get'
+  })
+}
+
 

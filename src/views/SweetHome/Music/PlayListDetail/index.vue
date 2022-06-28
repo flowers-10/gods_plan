@@ -1,7 +1,7 @@
 <template>
-  <div class="main-container">
+  <div class="main-container" @click="menuAcitve(9999,false)">
     <main-header :menuLink="menuLink" :menuItemsList="menuItemsList"></main-header>
-    <div class="content-wrapper">
+    <div class="content-wrapper" :class="flag == true ? 'overlay' : ''">
       <div class="content-wrapper-header">
         <img class="playList-img" :src="PlaylistDetails.playlist.coverImgUrl" alt="">
         <div class="playList-content">
@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="content-section">
-        <div class="content-section-title"><a>歌曲列表</a> 
+        <div class="content-section-title"><a>歌曲列表</a>
           <!-- <span class="allSongs" @click="addAllPlayList">添加全部歌曲</span> -->
         </div>
         <ul>
@@ -44,7 +44,13 @@
             </svg>
             <div class="button-wrapper">
               <div class="menu">
-
+                <button class="dropdown" :class="activeIndex === index ?'is-active':''" @click.stop="menuAcitve(index,true)">
+                  <ul>
+                    <li><a href="#">Go to Discover</a></li>
+                    <li><a href="#">Learn more</a></li>
+                    <li><a href="#">Uninstall</a></li>
+                  </ul>
+                </button>
               </div>
             </div>
           </li>
@@ -187,15 +193,24 @@ let playSongs = async (id: number) => {
 }
 
 //添加所有歌曲
-const addAllPlayList  = () => {
-  const idArray:number[] = songs.map((item:any)=>{
+const addAllPlayList = () => {
+  const idArray: number[] = songs.map((item: any) => {
     return item.id
   })
   console.log(idArray);
-  for(let i = 0 ;i<idArray.length;i++) {
-    
+  for (let i = 0; i < idArray.length; i++) {
+
   }
 }
+
+// 激活菜单
+let activeIndex = ref<number>(9999)
+
+const menuAcitve = (index:number,_flag:boolean) :void =>{
+    activeIndex.value = index
+    flag.value= _flag
+}
+
 
 onMounted(() => {
   // id.value = Number(route.params.id)
@@ -507,9 +522,9 @@ onMounted(() => {
 
 .dropdown {
   position: relative;
-  height: 53px;
+  height: 41px;
   width: 40px;
-  top: -24px;
+  top: -19px;
   display: flex;
   left: -5px;
   background: transparent;

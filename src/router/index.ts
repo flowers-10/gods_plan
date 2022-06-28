@@ -77,6 +77,16 @@ const router = createRouter({
         }
       ]
     },
+    {
+      path:'/:cathchAll(.*)',
+      name:'NotFound',
+      component:() => import('../views/NotFound/index.vue')
+    },
+    {
+      path:'/demo',
+      name:'demo',
+      component:() => import('../views/Demomo/index.vue')
+    }
   ]
 })
 

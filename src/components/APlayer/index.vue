@@ -134,7 +134,7 @@ watch(audioLists, function (newVal, oldVal) {
   // console.log(ap);
   // console.log('添加了新歌', newVal.length);
   // 选择播放的歌曲
-  ap.list.switch(newVal.length-1);
+  ap.list.switch(newVal.length - 1);
   // 播放,因为浏览器不允许自动播放，设置定时器就可以逃避这个监测
   setTimeout(() => {
     ap.play()
@@ -196,9 +196,15 @@ onBeforeUnmount(() => {
 <style lang="less" scoped>
 .myAplayer {
   position: absolute;
-  width: 100%;
+  width: calc(100% - 240px);
   bottom: 0;
   z-index: 999;
+  margin-left: 240px;
+
+  @media screen and (max-width: 945px) {
+    width:100% !important;
+    margin-left: 0;
+  }
 }
 
 /deep/ .aplayer.aplayer-fixed {

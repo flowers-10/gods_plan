@@ -16,7 +16,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 const props = defineProps<{
   menuLink: string,
   menuItemsList?: [
-    { title: string, path: string },
+    { title: string, path: string, slotName: string },
   ]
 }>()
 // 控制menu高亮
