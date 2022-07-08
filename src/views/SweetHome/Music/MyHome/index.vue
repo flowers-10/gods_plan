@@ -4,20 +4,20 @@
       <content-section v-for="(item, index) in menuItemsList" :key="index" :title="item.title"
         :slotName="item.slotName">
         <template #[item.slotName]>
-          <div v-if="index === 0" class="recommendList">
+          <!-- <div v-if="index === 0" class="recommendList">
             <div class="recommendList-card" v-for="(item, index) in recommendList" @click="goPlayListDetail(item.id)">
               <img class="card-img" :src="item.picUrl" alt="">
               <div class="card-detail">
                 <span class="detail-name">{{ item.name }}</span>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <div v-if="index === 1" class="ForYou">
+          <div v-if="index === 0" class="ForYou">
             <img class="botImg" src="../../../../assets/SPY×FAMILY/1.jpg" alt="">
             <img class="topImg" src="../../../../assets/SPY×FAMILY/1.jpg" alt="">
           </div>
-          <div v-if="index === 2" class="ArtistsList">
+          <div v-if="index === 1" class="ArtistsList">
             <div class="ArtistsList-card" v-for="(item, index) in topArtistsList" :key="index">
               <img class="card-img" :src="item.picUrl" alt="">
               <div class="card-detail">
@@ -25,7 +25,7 @@
               </div>
             </div>
           </div>
-          <div v-if="index === 3" class="recommendList">
+          <div v-if="index === 2" class="recommendList">
             <div class="recommendList-card" v-for="(item, index) in albumNewestList" :key="index">
               <img class="card-img" :src="item.picUrl" alt="">
               <div class="card-detail">
@@ -34,7 +34,7 @@
             </div>
           </div>
 
-          <div v-if="index === 4" class="recommendList">
+          <div v-if="index === 3" class="recommendList">
             <div class="recommendList-card" v-for="(item, index) in djRecommendList" :key="index">
               <img class="card-img" :src="item.picUrl" alt="">
               <div class="card-detail">
@@ -43,7 +43,7 @@
             </div>
           </div>
 
-          <div v-if="index === 5" class="mvList">
+          <div v-if="index === 4" class="mvList">
             <div class="mvList-card" v-for="(item, index) in personalizedMvList" :key="index">
               <img class="card-img" :src="item.picUrl" alt="">
               <div class="card-detail">
@@ -75,7 +75,7 @@ type menu = {
   title: string, path: string, slotName: string
 }
 const menuItemsList: menu[] = [
-  { title: '推荐歌单', slotName: 'playlist', path: '' },
+  // { title: '推荐歌单', slotName: 'playlist', path: '' },
   { title: 'For You', slotName: 'ForYou', path: '' },
   { title: '推荐艺人', slotName: 'artist', path: '' },
   { title: '新专速递', slotName: 'newAlbum', path: '' },
@@ -85,7 +85,7 @@ const menuItemsList: menu[] = [
 ]
 
 // 推荐歌单
-const recommendList = ref()
+// const recommendList = ref()
 // 新专速递
 const albumNewestList = ref()
 // 推荐电台
@@ -97,9 +97,8 @@ const topArtistsList = ref()
 // 获得首页数据
 const getHomePage = async () => {
   // 获得推荐歌单
-  let res: any = await recommendResource()
-  recommendList.value = res.recommend
-  // console.log(res);
+  // let res: any = await recommendResource()
+  // if (res) { recommendList.value = res.recommend }
   // 获得新专速递
   let albumRes: any = await albumNewest()
   albumNewestList.value = albumRes.albums.slice(0, 8)
@@ -114,7 +113,7 @@ const getHomePage = async () => {
   // console.log(mvRes.result);
   // 推荐艺人
   let artistsRes: any = await topArtists()
-  topArtistsList.value = artistsRes.artists.slice(0,6)
+  topArtistsList.value = artistsRes.artists.slice(0, 6)
   // console.log(artistsRes.artistsRes);
 
 }
@@ -263,7 +262,7 @@ onMounted(() => {
   }
 }
 
-.ArtistsList  {
+.ArtistsList {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -281,6 +280,7 @@ onMounted(() => {
     transition: 0.3s ease;
     margin: 0 20px 20px 0;
     text-align: center;
+
     .card-detail {
       margin-top: 15px;
       display: flex;
@@ -331,31 +331,37 @@ onMounted(() => {
   height: 200px;
   overflow: hidden;
   position: relative;
+
   .topImg {
     position: absolute;
     bottom: 0;
     animation: imgScroll linear 15s infinite;
   }
+
   .botImg {
     position: absolute;
     bottom: 0;
     animation: imgScroll2 linear 15s infinite;
 
   }
+
   @keyframes imgScroll {
-    0%{
+    0% {
       transform: translateY(0);
     }
+
     100% {
-      transform:  translateY(100%);
+      transform: translateY(100%);
     }
   }
+
   @keyframes imgScroll2 {
-    0%{
+    0% {
       transform: translateY(-100%);
     }
+
     100% {
-      transform:  translateY(0);
+      transform: translateY(0);
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="welcome">
-    <h1> 你好 welcome to heat waves</h1>
+    <h1> hello! welcome to heat waves</h1>
     <div class="login" @click="loginCloudMusic">登录</div>
     <router-link to="/app">游客访问</router-link>
   </div>
@@ -151,6 +151,7 @@ const loginContinue = async () => {
   transform: translate(-50%, -50%);
 
   h1 {
+    font-family: 'Luckiest Guy';
     margin-top: 30px;
     color: #fff;
     text-transform: uppercase;

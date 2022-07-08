@@ -258,14 +258,14 @@ img {
 
 .app {
   background-color: var(--theme-bg-color);
-  max-width: 1500px;
-  max-height: 880px;
+  // max-width: 1500px;
+  // max-height: 880px;
   height: 100vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   width: 100%;
-  border-radius: 14px;
+  // border-radius: 14px;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   font-size: 15px;

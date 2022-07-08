@@ -1,24 +1,28 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
-export const request = (option: any) => {
+export const request = (option: any, type: string = 'music') => {
   // console.log(import.meta.env.VITE_BASE_API);
   return new Promise((resolve, reject) => {
     // 创建一个axios实例
     const service = axios.create({
-      baseURL: import.meta.env.VITE_BASE_API,
+      baseURL: type === 'music' ? import.meta.env.VITE_BASE_API : import.meta.env.VITE_BASE_PUBLICAPI,
       timeout: 80000, //请求的时间
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     })
-    service.defaults.withCredentials = true;
-    service.defaults.transformRequest = [function (data) {
-      let ret = ''
-      for (let it in data) {
-        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-      }
-      return ret
-    }]
-      
+    // 跨源请求不提供凭据(cookie、HTTP认证及客户端SSL证明等)。通过将withCredentials属性设置为true，可以指定某个请求应该发送凭据。
+    if (type === 'music') {
+      service.defaults.withCredentials = true;
+      service.defaults.transformRequest = [function (data) {
+        let ret = ''
+        for (let it in data) {
+          ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+        }
+        return ret
+      }]
+    }
+    
+
 
     // 响应拦截器
     service.interceptors.response.use(

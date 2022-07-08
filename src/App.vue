@@ -105,9 +105,9 @@ body {
   background-image: url(https://wallpapershome.com/images/wallpapers/macos-big-sur-1280x720-dark-wwdc-2020-22655.jpg);
   background-size: cover;
   background-position: center;
-  padding: 2em;
+  // padding: 2em;
   // width: 100%;
-  // height: 100vh;
+  height: 100vh;
   @media screen and (max-width: 480px) {
     padding: 0em;
     // height: 100vh;
@@ -116,7 +116,7 @@ body {
 
 .heat-waves {
   width: 100%;
-  height: calc(100vh - 4em);
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;

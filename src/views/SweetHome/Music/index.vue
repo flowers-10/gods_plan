@@ -18,5 +18,6 @@ import APlayer from '@/components/APlayer/index.vue'
   display: flex;
   flex-grow: 1;
   overflow: hidden;
+  user-select: none;
 }
 </style>
