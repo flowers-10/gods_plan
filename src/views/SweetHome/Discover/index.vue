@@ -34,8 +34,8 @@
         <div class="video-overlay"></div>
 
         <section class="text-description">
-          <h1>{{ contentList[activeIndex].h1 }}</h1>
-          <h2>{{ contentList[activeIndex].h2 }}</h2>
+          <h1>never stop</h1>
+          <h2>explore th world</h2>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta culpa
             dolore reiciendis ipsa ducimus impedit exercitationem incidunt
@@ -105,7 +105,7 @@ const getVideos = async () => {
   //   console.log(res.data.message);
   //   videoList.value = res.data.message;
   // });
-  const res:any= await getVideo()
+  const res: any = await getVideo()
   // console.log(res);
   let message = res.message
   videoList.value = message;
@@ -116,28 +116,18 @@ let activeIndex = ref(1);
 // 文字内容
 const contentList = [
   {
-    h1: "never stop",
-    h2: "explore th world",
-    title: 'Islang'
+    title: 'Island'
   },
   {
-    h1: "never stop",
-    h2: "explore th world",
     title: 'Spring'
   },
   {
-    h1: "never stop",
-    h2: "explore th world",
     title: 'Summer',
   },
   {
-    h1: "never stop",
-    h2: "explore th world",
     title: 'Autumn',
   },
   {
-    h1: "never stop",
-    h2: "explore th world",
     title: 'Winter',
   },
 ];
@@ -151,6 +141,7 @@ onMounted(() => {
 <style lang="less" scoped>
 @--main-desktop-font-size: 30px;
 @--main-pad-font-size: calc(@--main-desktop-font-size * 4.8 / 6);
+@--main-phone-font-size: calc(@--main-pad-font-size * 4.8 / 6);
 @--main-border-color: #fff;
 @--header-toggle-width: 30px;
 @--main-background-color: #333;
@@ -212,9 +203,9 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - 58px);
+  height: calc(100vh - 61px);
   align-items: center;
-  top: 58px;
+  top: 61px;
   right: 0;
   bottom: 0;
   left: 0;
@@ -341,7 +332,7 @@ header {
     a {
       display: inline-block;
       text-decoration: none;
-      border: 2px solid @--main-background-color;
+      border: 2px solid @--main-color;
       color: @--main-text-color;
       padding: 10px 30px;
       letter-spacing: 2px;
@@ -362,7 +353,7 @@ header {
 .aside-menu {
   font-size: @--main-desktop-font-size;
   position: absolute;
-  top: 58px;
+  top: 61px;
   right: 0;
   bottom: 0;
   width: @--menu-width;
@@ -400,7 +391,7 @@ header {
 
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1280px) {
 
   .aside-menu,
   .main-structure {
@@ -438,5 +429,63 @@ header {
     max-width: 500px;
   }
 
+}
+
+@media (max-width:480px) {
+
+  .aside-menu,
+  .main-structure {
+    font-size: @--main-phone-font-size;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      filter: invert(1);
+    }
+  }
+
+  .main-structure header,
+  .main-structure .content,
+  .main-structure footer {
+    padding: @--screen-pad-padding-top-bottom @--screen-pad-padding-left-right;
+  }
+
+  h1 {
+    text-transform: uppercase;
+    font-size: 1.8em !important;
+
+  }
+
+  h2 {
+    text-transform: uppercase;
+    font-size: 1.4em !important;
+    line-height: 1.2em !important;
+  }
+
+  p {
+    font-size: 0.7em !important;
+    line-height: 1.5em;
+    min-width: 300px !important;
+    max-width: 400px !important;
+    text-align: justify;
+    }
+
+  .aside-menu {
+    font-size: 14px;
+    width: 100px;
+    a {
+      // margin-left: ;
+      padding: 5px 12px;
+      letter-spacing: 1px;
+    
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
+    }
+
+  }
+  .main-structureActive {
+    min-width: calc(100% - @--menu-width/1.3);
+  }
 }
 </style>

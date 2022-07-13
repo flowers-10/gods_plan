@@ -1,5 +1,5 @@
 <template>
-  <div class="app" @click="flag=false">
+  <div class="app" @click="flag = false">
     <div class="header" :class="SearchFlag === true ? 'wide' : ''">
       <div class="menu-circle" @click="leftSideShow">
         <img src="../../assets/images/logoG.png" alt="">
@@ -70,15 +70,15 @@
         <div class="side-title">Music</div>
         <div class="side-menu">
           <router-link @click="sideShow = false" to="/music/myhome">
-             <svg viewBox="0 0 48 48" fill="currentColor" stroke="currentColor">
-            <path d="M5 7L10 9V37L5 39V7Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
-            <path d="M16 23L21 25V37L16 39V23Z" fill="currentColor" stroke="currentColor" stroke-width="4"
-              stroke-linejoin="round" />
-            <path d="M27 21L32 19V35L27 33V21Z" fill="currentColor" stroke="currentColor" stroke-width="4"
-              stroke-linejoin="round" />
-            <path d="M38 9L43 11V37L38 39V9Z" fill="currentColor" stroke="currentColor" stroke-width="4"
-              stroke-linejoin="round" />
-          </svg>
+            <svg viewBox="0 0 48 48" fill="currentColor" stroke="currentColor">
+              <path d="M5 7L10 9V37L5 39V7Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+              <path d="M16 23L21 25V37L16 39V23Z" fill="currentColor" stroke="currentColor" stroke-width="4"
+                stroke-linejoin="round" />
+              <path d="M27 21L32 19V35L27 33V21Z" fill="currentColor" stroke="currentColor" stroke-width="4"
+                stroke-linejoin="round" />
+              <path d="M38 9L43 11V37L38 39V9Z" fill="currentColor" stroke="currentColor" stroke-width="4"
+                stroke-linejoin="round" />
+            </svg>
             My Home
           </router-link>
           <router-link @click="sideShow = false" to="/music/mymusic">
@@ -122,6 +122,14 @@
       <div class="side-wrapper">
         <div class="side-title">Discover</div>
         <div class="side-menu">
+          <router-link @click="sideShow = false" to="/discover">
+            <svg viewBox="0 0 1024 1024" fill="currentColor">
+              <path
+                d="M638.521 764.317c-10.333-24.883-44.436-67.424-101.372-126.45-15.196-15.782-14.218-27.892-8.789-63.869l0.625-4.064c3.69-24.648 9.882-39.22 93.813-52.384 42.638-6.679 53.85 10.158 69.395 33.478 1.72 2.58 3.44 5.117 5.197 7.656 14.766 21.331 25.704 26.212 42.23 33.634 7.402 3.32 16.64 7.502 29.022 14.453 29.339 16.566 29.339 35.276 29.339 76.293v4.648c0 65.552-24.415 101.023-33.947 112.389-36.369 30.98-78.578 55.392-124.83 71.408 22.93-42.306 5.39-92.54-0.683-107.192zM511.993 130.933c59.846 0 116.528 13.477 167.156 37.581-27.815 17.384-67.776 44.573-84.223 66.838-6.094 8.243-11.328 16.055-16.173 23.244-16.055 23.907-23.789 34.572-38.596 36.408-7.342 0.897-17.188 0.272-27.617-0.391-27.97-1.796-66.233-4.22-78.48 28.634-7.775 20.82-9.142 77.346 16.016 106.684 4.025 4.688 4.805 13.36 2.07 23.088-3.595 12.774-10.859 20.548-13.125 22.15-4.337-2.462-12.99-12.385-18.849-19.143-14.123-16.212-31.74-36.408-54.513-42.658-8.281-2.265-17.384-4.14-26.212-5.977-24.71-5.117-52.698-10.939-59.2-24.648-4.748-10.04-4.727-23.868-4.709-38.478 0-18.517 0-39.456-9.18-59.808-7.969-17.695-22.012-27.267-36.758-31.954 70.548-74.732 171.002-121.57 282.393-121.57zM92.348 511.885c0 228.723 187.879 414.12 419.645 414.12 231.768 0 419.645-185.397 419.645-414.12 0-228.719-187.877-414.116-419.645-414.116-231.767 0-419.645 185.397-419.645 414.116z"
+                p-id="4856"></path>
+            </svg>
+            Explore
+          </router-link>
         </div>
       </div>
       <div class="side-wrapper">
