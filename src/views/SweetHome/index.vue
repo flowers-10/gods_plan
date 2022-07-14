@@ -34,7 +34,6 @@
             <li><a href="#" @click="loginOutNow">退出登录</a></li>
           </ul>
         </div>
-
       </div>
     </div>
     <router-view></router-view>
@@ -501,7 +500,7 @@ img {
     border-radius: 14px;
     border: 1px solid var(--theme-bg-color);
     cursor: pointer;
-
+    z-index: 99999;
     li {
       width: 100%;
       height: 100%;

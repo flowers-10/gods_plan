@@ -3,39 +3,58 @@
     <h1> hello! welcome to heat waves</h1>
     <div class="login" @click="loginCloudMusic">登录</div>
     <router-link to="/app">游客访问</router-link>
+
+    <dialoge :flag="flag" :slot-name="slotName" :Login-form="LoginForm" @on-click="getFlag"
+      @keydown.enter="loginContinue">
+      <template #Title>
+        <span class="checkout" :class="slotName === 'Login' ? 'activeColor' : ''" @click="checkoutLogin('Login')">
+          Login
+        </span>
+
+        <span>|</span>
+
+        <span class="checkout" :class="slotName === 'Password' ? 'activeColor' : ''"
+          @click="checkoutLogin('Password')">Password</span>
+      </template>
+      <template #Login>
+        <div class="login-form">
+          <el-form ref="LoginFormRef" :model="LoginForm" status-icon :rules="rules" label-width="120px"
+            label-position="top" class="demo-ruleForm">
+            <el-form-item label="Phone Number" prop="PhoneNumber">
+              <el-input v-model="LoginForm.phoneNumber" />
+            </el-form-item>
+            <el-form-item label="SMS Verification" prop="verify">
+              <el-input v-model="LoginForm.verify" />
+              <el-button type="primary" class="Verification-button" @click="getVerification">Get Verification
+              </el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </template>
+      <template #Password>
+        <div class="login-form">
+          <el-form ref="LoginFormRef" :model="LoginForm" status-icon :rules="rules" label-width="120px"
+            label-position="top" class="demo-ruleForm">
+            <el-form-item label="Phone Number" prop="PhoneNumber">
+              <el-input v-model="LoginForm.phoneNumber" />
+            </el-form-item>
+            <el-form-item label="Phone Password" prop="password">
+              <el-input v-model="LoginForm.password" type="password" />
+            </el-form-item>
+          </el-form>
+        </div>
+      </template>
+      <template #Footer>
+        <div class="content-button-wrapper">
+          <button class="content-button status-button open close" @click="flag = false">Cancel</button>
+          <button class="content-button status-button" @click="loginContinue">Continue</button>
+        </div>
+      </template>
+    </dialoge>
+    <beian-gov></beian-gov>
+
   </div>
-  <beian-gov></beian-gov>
-  <dialoge :flag="flag" :LoginForm="LoginForm" @on-click="getFlag" @on-continue="loginContinue"
-    @on-checkout="checkoutMode">
-    <template #Login>
-      <div class="login-form">
-        <el-form ref="LoginFormRef" :model="LoginForm" status-icon :rules="rules" label-width="120px"
-          label-position="top" class="demo-ruleForm">
-          <el-form-item label="Phone Number" prop="PhoneNumber">
-            <el-input v-model="LoginForm.phoneNumber" />
-          </el-form-item>
-          <el-form-item label="SMS Verification" prop="verify">
-            <el-input v-model="LoginForm.verify" />
-            <el-button type="primary" class="Verification-button" @click="getVerification">Get Verification
-            </el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-    </template>
-    <template #Password>
-      <div class="login-form">
-        <el-form ref="LoginFormRef" :model="LoginForm" status-icon :rules="rules" label-width="120px"
-          label-position="top" class="demo-ruleForm">
-          <el-form-item label="Phone Number" prop="PhoneNumber">
-            <el-input v-model="LoginForm.phoneNumber" />
-          </el-form-item>
-          <el-form-item label="Phone Password" prop="password">
-            <el-input v-model="LoginForm.password" type="password" />
-          </el-form-item>
-        </el-form>
-      </div>
-    </template>
-  </dialoge>
+
 </template>
 
 <script setup lang="ts">
@@ -53,6 +72,8 @@ const router = useRouter()
 
 // 控制dialog状态
 let flag = ref<boolean>(false)
+// 切换登录模式
+let slotName = ref<string>('Login')
 
 // 点击打开登录弹框
 const loginCloudMusic = () => {
@@ -62,6 +83,11 @@ const loginCloudMusic = () => {
 const getFlag = (flagChild: boolean) => {
   // console.log(flagChild,'我接收到了子组件的传参')
   flag.value = flagChild
+}
+
+// 点击切换登录模式
+const checkoutLogin = (name: string) => {
+  slotName.value = name
 }
 // input中的数据
 const LoginForm = reactive({
@@ -83,23 +109,15 @@ const getVerification = async () => {
   }
 }
 
-// 当前的登录模式
-let nowLoginMode = ref<string>('Login')
-
-// 切换登录模式
-const checkoutMode = (cheackoutName: string) => {
-  // console.log(cheackoutName);
-  nowLoginMode.value = cheackoutName
-}
 
 // 点击登录按钮
 const loginContinue = async () => {
   let date = new Date().getTime()
-  if (nowLoginMode.value === 'Login') {
+  if (slotName.value === 'Login') {
     const Mcaptchares: any = await Mcaptcha(LoginForm.phoneNumber, LoginForm.verify)
     // console.log(Mcaptchares);
     if (Mcaptchares.code === 200) {
-      ElMessage.success('验证成功!')
+      // ElMessage.success('验证成功!')
       const res: any = await loginCellPhone(LoginForm.phoneNumber, LoginForm.verify, date)
       // console.log('获得了登录信息', res);
       if (res.code === 200) {
@@ -114,7 +132,7 @@ const loginContinue = async () => {
     } else {
       ElMessage.error('验证失败,请输入正确的验证码')
     }
-  } else if (nowLoginMode.value === 'Password') {
+  } else if (slotName.value === 'Password') {
     const res: any = await loginPhonePassword(LoginForm.phoneNumber, LoginForm.password, date)
     // console.log('获得了登录信息', res.token);
     if (res.code === 200) {
@@ -152,7 +170,7 @@ const loginContinue = async () => {
 
   h1 {
     font-family: 'Luckiest Guy';
-    margin-top: 30px;
+    margin-top: 120px;
     color: #fff;
     text-transform: uppercase;
     word-spacing: 100vw;
@@ -230,4 +248,76 @@ const loginContinue = async () => {
     cursor: pointer;
   }
 }
+
+span {
+  margin-right: 20px;
+  color: var(--content-title-color);
+
+}
+
+.activeColor {
+  color: var(--theme-color);
+}
+
+.checkout:hover {
+  color: #3a6df0;
+}
+
+
+// 按钮样式
+
+.content-button-wrapper .content-button.status-button.open.close {
+  width: auto;
+}
+
+
+
+.status-button {
+  font-size: 15px;
+  margin-top: 0;
+  padding: 6px 24px;
+
+  @media screen and (max-width: 390px) {
+    padding: 6px 14px;
+  }
+
+  &.open {
+    background: none;
+    color: var(--button-inactive);
+    border: 1px solid var(--button-inactive);
+  }
+
+  &:not(.open):hover {
+    color: #fff;
+    border-color: #fff;
+  }
+}
+
+.content-button-wrapper {
+  margin-top: auto;
+  margin-left: auto;
+
+  .open {
+    margin-right: 8px;
+  }
+
+  .content-button:not(.open):hover {
+    background: #1e59f1;
+  }
+
+
+}
+
+.content-button {
+  background-color: #3a6df0;
+  border: none;
+  padding: 8px 26px;
+  color: #fff;
+  border-radius: 20px;
+  margin-top: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+
 </style>
