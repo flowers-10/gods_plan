@@ -55,7 +55,7 @@ router.beforeEach((to, from, next) => {
   if (to.path == '/' && loginStatus) {
     // console.log(112);
     next({
-      path: '/music'
+      path: '/app'
     })
 
   }

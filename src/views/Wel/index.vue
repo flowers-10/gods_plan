@@ -5,38 +5,39 @@
     <router-link to="/app">游客访问</router-link>
 
     <dialoge :flag="flag" :slot-name="slotName" :Login-form="LoginForm" @on-click="getFlag"
-      @keydown.enter="loginContinue">
+      @keydown.enter="loginContinue(ruleFormRef)">
       <template #Title>
         <span class="checkout" :class="slotName === 'Login' ? 'activeColor' : ''" @click="checkoutLogin('Login')">
           Login
         </span>
-
         <span>|</span>
-
         <span class="checkout" :class="slotName === 'Password' ? 'activeColor' : ''"
           @click="checkoutLogin('Password')">Password</span>
       </template>
       <template #Login>
         <div class="login-form">
-          <el-form ref="LoginFormRef" :model="LoginForm" status-icon :rules="rules" label-width="120px"
+          <el-form ref="ruleFormRef" :model="LoginForm" status-icon :rules="rules" label-width="120px"
             label-position="top" class="demo-ruleForm">
+
             <el-form-item label="Phone Number" prop="PhoneNumber">
-              <el-input v-model="LoginForm.phoneNumber" />
+              <el-input v-model="LoginForm.PhoneNumber" />
             </el-form-item>
+
             <el-form-item label="SMS Verification" prop="verify">
               <el-input v-model="LoginForm.verify" />
               <el-button type="primary" class="Verification-button" @click="getVerification">Get Verification
               </el-button>
             </el-form-item>
+
           </el-form>
         </div>
       </template>
       <template #Password>
         <div class="login-form">
-          <el-form ref="LoginFormRef" :model="LoginForm" status-icon :rules="rules" label-width="120px"
+          <el-form ref="ruleFormRef" :model="LoginForm" :rules="rules" status-icon label-width="120px"
             label-position="top" class="demo-ruleForm">
             <el-form-item label="Phone Number" prop="PhoneNumber">
-              <el-input v-model="LoginForm.phoneNumber" />
+              <el-input v-model="LoginForm.PhoneNumber" />
             </el-form-item>
             <el-form-item label="Phone Password" prop="password">
               <el-input v-model="LoginForm.password" type="password" />
@@ -47,7 +48,7 @@
       <template #Footer>
         <div class="content-button-wrapper">
           <button class="content-button status-button open close" @click="flag = false">Cancel</button>
-          <button class="content-button status-button" @click="loginContinue">Continue</button>
+          <button class="content-button status-button" @click="loginContinue(ruleFormRef)">Continue</button>
         </div>
       </template>
     </dialoge>
@@ -67,6 +68,9 @@ import { useRouter } from 'vue-router'
 // 引入pinia
 import { useStore } from '../../stores'
 import { ElMessage } from 'element-plus'
+import type { FormRules, FormInstance } from 'element-plus'
+import { checkPhones } from '@/utils/checkPhone'
+
 const store = useStore()
 const router = useRouter()
 
@@ -91,16 +95,28 @@ const checkoutLogin = (name: string) => {
 }
 // input中的数据
 const LoginForm = reactive({
-  phoneNumber: "",
+  PhoneNumber: "",
   verify: "",
   password: ""
 })
+const ruleFormRef = ref<FormInstance>()
 // 表单验证规则
-const rules: any[] = []
+const rules = reactive<FormRules>({
+  verify: [
+    { required: true, message: 'Please input verify number', trigger: 'blur' },
+  ],
+  password: [
+    { required: true, message: 'Please input Password', trigger: 'blur' },
+  ],
+  PhoneNumber: [
+    { required: true, message: 'Please input PhoneNumber', trigger: 'blur' },
+    { validator: checkPhones, trigger: 'blur' }
+  ]
+})
 // 获得验证码
 const getVerification = async () => {
   // console.log(LoginForm.phoneNumber);
-  const res: any = await loginMusic(LoginForm.phoneNumber)
+  const res: any = await loginMusic(LoginForm.PhoneNumber)
   // console.log(res)
   if (res.code === 200) {
     ElMessage.success('发送成功!')
@@ -111,40 +127,49 @@ const getVerification = async () => {
 
 
 // 点击登录按钮
-const loginContinue = async () => {
-  let date = new Date().getTime()
-  if (slotName.value === 'Login') {
-    const Mcaptchares: any = await Mcaptcha(LoginForm.phoneNumber, LoginForm.verify)
-    // console.log(Mcaptchares);
-    if (Mcaptchares.code === 200) {
-      // ElMessage.success('验证成功!')
-      const res: any = await loginCellPhone(LoginForm.phoneNumber, LoginForm.verify, date)
-      // console.log('获得了登录信息', res);
-      if (res.code === 200) {
-        ElMessage.success('登录成功!')
-        store.userInfoActions(res)
-        localStorage.setItem('token', res.token)
-        router.push('/music/myhome')
-      } else {
-        ElMessage.error('登录失败，请稍后再尝试')
+const loginContinue = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate(async (valid, fields) => {
+    if (valid) {
+      let date = new Date().getTime()
+      if (slotName.value === 'Login') {
+        const Mcaptchares: any = await Mcaptcha(LoginForm.PhoneNumber, LoginForm.verify)
+        // console.log(Mcaptchares);
+        if (Mcaptchares.code === 200) {
+          // ElMessage.success('验证成功!')
+          const res: any = await loginCellPhone(LoginForm.PhoneNumber, LoginForm.verify, date)
+          // console.log('获得了登录信息', res);
+          if (res.code === 200) {
+            ElMessage.success('登录成功!')
+            store.userInfoActions(res)
+            localStorage.setItem('token', res.token)
+            router.push('/music/myhome')
+          } else {
+            ElMessage.error('登录失败，请稍后再尝试')
+          }
+
+        } else {
+          ElMessage.error('验证失败,请输入正确的验证码')
+        }
+      } else if (slotName.value === 'Password') {
+        const res: any = await loginPhonePassword(LoginForm.PhoneNumber, LoginForm.password, date)
+        // console.log('获得了登录信息', res.token);
+        if (res.code === 200) {
+          ElMessage.success('登录成功!')
+          store.userInfoActions(res)
+          localStorage.setItem('token', res.token)
+          router.push('/app')
+        } else {
+          ElMessage.error('登录失败，请稍后再尝试')
+        }
+
       }
 
     } else {
-      ElMessage.error('验证失败,请输入正确的验证码')
-    }
-  } else if (slotName.value === 'Password') {
-    const res: any = await loginPhonePassword(LoginForm.phoneNumber, LoginForm.password, date)
-    // console.log('获得了登录信息', res.token);
-    if (res.code === 200) {
-      ElMessage.success('登录成功!')
-      store.userInfoActions(res)
-      localStorage.setItem('token', res.token)
-      router.push('/music/myhome')
-    } else {
-      ElMessage.error('登录失败，请稍后再尝试')
-    }
 
-  }
+
+    }
+  })
 }
 </script>
 
@@ -252,7 +277,6 @@ const loginContinue = async () => {
 span {
   margin-right: 20px;
   color: var(--content-title-color);
-
 }
 
 .activeColor {
@@ -319,5 +343,4 @@ span {
   transition: 0.3s;
   white-space: nowrap;
 }
-
 </style>

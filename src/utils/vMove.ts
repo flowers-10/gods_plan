@@ -19,15 +19,15 @@ export const vMove: Directive = {
         let YSide = e.clientY - Y
         // console.log('当前的XY坐标：',XSide,YSide);
         
-        // 获取浏览器的宽高
-        let clientWidth = document.body.clientWidth
-        let clientHeight = document.body.clientHeight
+        // // 获取浏览器的宽高
+        // let clientWidth = document.body.clientWidth
+        // let clientHeight = document.body.clientHeight
         
         // 如果当前div坐标(x,y)在浏览器内可以自由移动
-        if (XSide > 0 && XSide < clientWidth - el.offsetWidth && YSide > 0 && YSide < clientHeight - el.offsetHeight) {
+        // if (XSide > 0 && XSide < clientWidth - el.offsetWidth && YSide > 0 && YSide < clientHeight - el.offsetHeight) {
           el.style.left = XSide + "px";
           el.style.top = YSide + "px";
-        }  
+        // }  
       };
       // 拖动时无法选中文字
       document.body.onselectstart = function () {

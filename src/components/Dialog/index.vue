@@ -1,12 +1,11 @@
 <template>
-    <div class="dialog" v-move>
+<div>
+    <div class="dialog" v-move >
       <transition enter-active-class="animate__animated animate__flipInX"
         leave-active-class="animate__animated animate__flipOutX">
         <div v-show="flag" class="pop-up">
           <div class="pop-up__title">
-
             <slot name="Title"></slot>
-
             <svg @click="clickTap" class="close feather feather-x-circle" width="24" height="24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10" />
@@ -19,6 +18,8 @@
         </div>
       </transition>
     </div>
+    <div class="overlay-app" :class="flag ? 'is-active' : ''" @click="clickTap"></div>
+</div>
 </template>
 
 <script setup lang="ts">
@@ -46,7 +47,9 @@ const clickTap = () => {
   position: absolute;
   z-index: 999;
   width: 500px;
-
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
   @media screen and (max-width: 570px) {
     width: 100%;
     left: 0%;
@@ -81,5 +84,24 @@ const clickTap = () => {
   }
 
 
+}
+
+.overlay-app {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  pointer-events: all;
+  background-color: rgba(36, 39, 59, 0.8);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  z-index: 99;
+
+  &.is-active {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 </style>
