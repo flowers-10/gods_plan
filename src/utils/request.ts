@@ -13,14 +13,14 @@ export const request = (option: any, type: string = 'music') => {
     // 跨源请求不提供凭据(cookie、HTTP认证及客户端SSL证明等)。通过将withCredentials属性设置为true，可以指定某个请求应该发送凭据。
     if (type === 'music') {
       service.defaults.withCredentials = true;
-      service.defaults.transformRequest = [function (data) {
-        let ret = ''
-        for (let it in data) {
-          ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-        }
-        return ret
-      }]
     }
+    service.defaults.transformRequest = [function (data) {
+      let ret = ''
+      for (let it in data) {
+        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+      }
+      return ret
+    }]
     
 
 

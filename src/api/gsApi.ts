@@ -39,3 +39,11 @@ export const saveArticle = (data: object) => {
     data: data
   }, 'a')
 }
+
+// 查看所有文章类型
+export const getArticleType = ()=>{
+  return request({
+    url:'/getArticleType',
+    method: 'get',
+  },'a')
+}

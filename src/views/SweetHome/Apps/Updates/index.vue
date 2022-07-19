@@ -1,9 +1,12 @@
 <template>
   <div class="update">
-    <md-editor v-model="saveForm.articleContent" theme="light" class="mdEditor" :toolbarsExclude="[
-      'github'
-    ]" @onSave="onSave" />
-
+    <div>
+      <el-button>添加文章类型</el-button>
+      <el-button>删除文章</el-button>
+      <el-button>编辑文章</el-button>
+      <el-button>添加文章</el-button>
+    </div>
+    <md-editor v-model="saveForm.articleContent" class="mdEditor" @onSave="onSave"/>
   </div>
 
   <dialoge :flag="flag" @on-click="closeDialog">
@@ -17,10 +20,9 @@
           <el-form-item label="article Title" prop="articleTitle">
             <el-input v-model="saveForm.articleTitle" />
           </el-form-item>
-          <el-form-item label="article Type" prop="articleType">
-            <el-select v-model="saveForm.articleType" placeholder="Activity zone">
-              <el-option label="Zone one" value="shanghai" />
-              <el-option label="Zone two" value="beijing" />
+          <el-form-item label="article Type" prop="typeId">
+            <el-select v-model="saveForm.typeId" placeholder="zone">
+              <el-option v-for="(item,index) in articleTypeList" :label="item.articleType" :value="item.t_id" />
             </el-select>
           </el-form-item>
 
@@ -34,17 +36,15 @@
       </div>
     </template>
   </dialoge>
-
-
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, toRaw } from 'vue';
+import { ref, reactive, toRaw, onMounted } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import dialoge from '../../../../components/Dialog/index.vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import { saveArticle } from '@/api/gsApi'
+import { saveArticle, getArticleType } from '@/api/gsApi'
 
 // 编辑器输入内容
 // const text = ref('');
@@ -66,8 +66,8 @@ const closeDialog = (flagChild: boolean) => {
 // input中的数据
 const saveForm = reactive({
   articleTitle: "",
-  articleType: "",
-  articleContent:""
+  typeId: "",
+  articleContent: ""
 })
 // formref节点
 const ruleFormRef = ref<FormInstance>()
@@ -76,7 +76,7 @@ const rules = reactive<FormRules>({
   articleTitle: [
     { required: true, message: 'Please input article title', trigger: 'blur' },
   ],
-  articleType: [
+  typeId: [
     { required: true, message: 'Please select article type', trigger: 'change' },
   ],
 })
@@ -85,16 +85,29 @@ const saveContinue = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      // flag.value = false
       let data = toRaw(saveForm)
       console.log(data)
-      
       let res = await saveArticle(data)
       console.log(res);
-
+      flag.value = false
     }
   })
 }
+// 总文章类型
+const articleTypeList = ref()
+// 获取总类型
+const getArticleTypes = async () =>{
+  let res = await getArticleType()
+  console.log(res.message);
+  articleTypeList.value = res.message
+}
+
+// 控制编辑器颜色
+
+onMounted(()=>{
+  getArticleTypes()
+  let status = localStorage.getItem('dark-light')
+})
 </script>
 
 <style lang="less" scoped>
@@ -103,8 +116,8 @@ const saveContinue = async (formEl: FormInstance | undefined) => {
   height: 100%;
   background-color: #fff;
   cursor: pointer;
+  background-color: var(--theme-bg-color);
 }
-
 .mdEditor {
   height: 100%;
 }

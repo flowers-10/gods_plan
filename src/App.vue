@@ -61,6 +61,8 @@ a {
   --content-title-color: --theme-color;
 }
 
+
+
 .light-mode {
   .dark-light svg {
     fill: transparent;

@@ -240,6 +240,16 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
+/deep/ .md {
+  background-color: transparent;
+  border-color: var(--border-color) !important;
+  color: var(--theme-color);
+
+  .default-theme {
+    color: var(--theme-color);
+  }
+}
+
 img {
   max-width: 100%;
 }
@@ -501,6 +511,7 @@ img {
     border: 1px solid var(--theme-bg-color);
     cursor: pointer;
     z-index: 99999;
+
     li {
       width: 100%;
       height: 100%;
