@@ -47,3 +47,12 @@ export const getArticleType = ()=>{
     method: 'get',
   },'a')
 }
+
+// 上传图片
+export const upload_image = (data:FormData) => {
+  return request({
+    url:'/uploadImage/img',
+    method: 'post',
+    data:data
+  },'a')
+}

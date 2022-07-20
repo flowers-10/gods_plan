@@ -28,11 +28,12 @@ onMounted(()=>{
 <style lang="less" scoped>
 .Konwledge {
   width: 100%;
-  height: 80vh;
+  // height: 80vh;
+  overflow: auto;
 }
 
 .mdEditor {
   width: 50%;
-  height: 100%;
+  // height: 100%;
 }
 </style>

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { type AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 
 export const request = (option: any, type: string = 'music') => {
@@ -8,7 +8,7 @@ export const request = (option: any, type: string = 'music') => {
     const service = axios.create({
       baseURL: type === 'music' ? import.meta.env.VITE_BASE_API : import.meta.env.VITE_BASE_PUBLICAPI,
       timeout: 80000, //请求的时间
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
     // 跨源请求不提供凭据(cookie、HTTP认证及客户端SSL证明等)。通过将withCredentials属性设置为true，可以指定某个请求应该发送凭据。
     if (type === 'music') {
@@ -22,7 +22,21 @@ export const request = (option: any, type: string = 'music') => {
       return ret
     }]
     
-
+    // 请求拦截器
+    service.interceptors.request.use(
+      (config:AxiosRequestConfig<any>)=>{
+        if(config.method === 'post') {
+        console.log(config);
+          if(config.data instanceof FormData) {
+           Object.assign(config.headers,{
+            'Accept': 'application/json','Content-Type': 'multipart/form-data'
+           })
+          
+          }
+        }
+        return config
+      }
+    )
 
     // 响应拦截器
     service.interceptors.response.use(
