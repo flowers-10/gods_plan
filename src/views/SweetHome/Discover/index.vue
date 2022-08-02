@@ -112,7 +112,7 @@ const getVideos = async () => {
 
 };
 // 控制视频选择文本更换
-let activeIndex = ref(1);
+let activeIndex = ref(0);
 // 文字内容
 const contentList = [
   {

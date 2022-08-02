@@ -241,10 +241,10 @@ onMounted(() => {
 
 <style lang="less" scoped>
 /deep/ .md {
-  background-color: transparent;
-  border-color: var(--border-color);
+  --md-bk-color: transparent;
+  --md-border-color: var(--border-color);
   color: var(--theme-color);
-
+  --md-scrollbar-bg-color:var(--scrollbar-bg);
   .default-theme {
     color: var(--theme-color);
   }

@@ -2,7 +2,7 @@
   <div class="main-container">
     <main-header :menuLink="menuLink" :menuItemsList="menuItemsList"></main-header>
 
-    <div class="content-section" id="playListsScrollTop">
+    <div class="content-section">
       <div class="playlists-card">
         <div class="playlist-card" v-for="(item, index) in TopChartsList" @click="goPlayListDetail(item.id)">
           <img class="card-img" :src="item.coverImgUrl" alt="">
