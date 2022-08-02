@@ -108,16 +108,16 @@ body {
   background-size: cover;
   background-position: center;
   // padding: 2em;
-  // width: 100%;
+  width: 100vw;
   height: 100vh;
   @media screen and (max-width: 480px) {
-    padding: 0em;
+    // padding: 0em;
     // height: 100vh;
   }
 }
 
 .heat-waves {
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;

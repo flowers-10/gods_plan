@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="dialog" v-move >
+    <div class="dialog"  v-move>
       <transition enter-active-class="animate__animated animate__flipInX"
         leave-active-class="animate__animated animate__flipOutX">
         <div v-show="flag" class="pop-up">
@@ -52,12 +52,10 @@ const clickTap = () => {
   transform: translate(-50%,-50%);
   @media screen and (max-width: 570px) {
     width: 100%;
-    left: 0%;
   }
 }
 
 .pop-up {
-  cursor: move;
   padding: 30px 40px;
   overflow-y: auto;
   box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.4);
@@ -71,6 +69,7 @@ const clickTap = () => {
 
   svg {
     margin-left: auto;
+    cursor: pointer;
   }
 
   &__title {
@@ -80,7 +79,7 @@ const clickTap = () => {
     // justify-content: space-between;
     align-items: center;
     color: var(--theme-color);
-    cursor: pointer;
+    cursor: move;
   }
 
 

@@ -3,11 +3,15 @@
     <div style="margin:10px 0">
       <el-button @click="addTypeflag = true">添加文章类型</el-button>
       <el-button @click="deleteAClick">删除文章</el-button>
-      <el-button>编辑文章</el-button>
+      <el-button @click="editorAClick">编辑文章</el-button>
       <el-button @click="addArticle">新增文章（不是保存！！按下后会重置所有内容）</el-button>
     </div>
-    <md-editor v-model="saveForm.articleContent" class="mdEditor" @onSave="onSave" @onUploadImg="onUploadImg"
-      :toolbars-exclude="['github', 'pageFullscreen',
+
+    <md-editor v-if="dialogeModelFlag === 'save'" v-model="saveForm.articleContent" class="mdEditor" @onSave="onSave"
+      @onUploadImg="onUploadImg" :toolbars-exclude="['github', 'pageFullscreen',
+      'fullscreen',]" />
+    <md-editor v-else v-model="editAForm.articleContent" class="mdEditor" @onSave="onEditorSave"
+      @onUploadImg="onUploadImg" :toolbars-exclude="['github', 'pageFullscreen',
       'fullscreen',]" />
   </div>
 
@@ -27,7 +31,7 @@
             <el-input v-model="saveForm.articleIntroduce" autosize type="textarea" />
           </el-form-item>
           <el-form-item label="article IMG">
-            <el-upload class="avatar-uploader" ref="uploadFile" action='#' :http-request="uploadAction" :limit="1"
+            <el-upload class="avatar-uploader" action='#' :http-request="uploadAction" :limit="1"
               :show-file-list="false" :auto-upload="true" :before-upload="beforeUpload" :file-list="fileList">
               <img v-if="saveForm.articleIMG" :src="saveForm.articleIMG" class="avatar" />
               <el-icon v-else class="avatar-uploader-icon">
@@ -106,7 +110,79 @@
       </div>
     </template>
   </dialoge>
+  <!-- 编辑文章 -->
+  <dialoge :flag="editAflag" @on-click="closeDialog">
+    <template #Title>
+      <span>Edit</span>
+    </template>
+    <template #default>
+      <div class="formClass">
+        <el-form ref="editAFormRef" :model="editASelectForm" status-icon label-width="120px" label-position="top"
+          class="demo-ruleForm">
+          <el-form-item label="article Type" prop="typeId">
+            <el-select v-model="editASelectForm.typeId" placeholder="zone">
+              <el-option label="全部" value="0" @click="optionClick()" />
+              <el-option v-for="(item, index) in articleTypeList" :label="item.articleType" :value="item.t_id"
+                @click="optionClick(item.t_id)" />
+            </el-select>
+          </el-form-item>
 
+          <el-form-item label="articles" prop="type">
+            <el-table :data="tableData" style="width: 100%" height="300" highlight-current-row
+              @current-change="handleCurrentChange">
+              <el-table-column type="index" width="55" />
+              <el-table-column property="articleTitle" label="articleTitle" />
+            </el-table>
+          </el-form-item>
+        </el-form>
+      </div>
+    </template>
+    <template #Footer>
+      <div class="content-button-wrapper">
+        <button class="content-button status-button open close" @click="editAflag = false">Cancel</button>
+        <button class="content-button status-button" @click="editAflag = false">Continue</button>
+      </div>
+    </template>
+  </dialoge>
+  <!-- 保存编辑的文章 -->
+  <dialoge :flag="saveEidtflag" @on-click="closeDialog">
+    <template #Title>
+      <span>Save Editor</span>
+    </template>
+    <template #default>
+      <div class="formClass">
+        <el-form ref="ruleFormRef" :model="editAForm" status-icon :rules="rules" label-width="120px"
+          label-position="top" class="demo-ruleForm">
+          <el-form-item label="article Title" prop="articleTitle">
+            <el-input v-model="editAForm.articleTitle" />
+          </el-form-item>
+          <el-form-item label="article Introduce" prop="articleIntroduce">
+            <el-input v-model="editAForm.articleIntroduce" autosize type="textarea" />
+          </el-form-item>
+          <el-form-item label="article IMG">
+            <el-upload class="avatar-uploader" action='#' :http-request="uploadAction" :limit="1"
+              :show-file-list="false" :auto-upload="true" :before-upload="beforeUpload" :file-list="fileList">
+              <img v-if="editAForm.articleIMG" :src="editAForm.articleIMG" class="avatar" />
+              <el-icon class="avatar-uploader-icon">
+                <Plus />
+              </el-icon>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="article Type" prop="typeId">
+            <el-select v-model="editAForm.typeId" placeholder="zone">
+              <el-option v-for="(item, index) in articleTypeList" :label="item.articleType" :value="item.t_id" />
+            </el-select>
+          </el-form-item>
+        </el-form>
+      </div>
+    </template>
+    <template #Footer>
+      <div class="content-button-wrapper">
+        <button class="content-button status-button open close" @click="saveEidtflag = false">Cancel</button>
+        <button class="content-button status-button" @click="saveContinue(ruleFormRef)">Continue</button>
+      </div>
+    </template>
+  </dialoge>
 </template>
 
 <script lang="ts" setup>
@@ -115,64 +191,63 @@ import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import dialoge from '../../../../components/Dialog/index.vue'
 import type { FormInstance, FormRules, UploadRawFile } from 'element-plus'
-import { saveArticle, getArticleType, _addArticleType, _deleteArticle, getArticle } from '@/api/gsApi'
+import { saveArticle, getArticleType, _addArticleType, _deleteArticle, getArticle, _editArticle } from '@/api/gsApi'
 import { ElMessage, ElTable } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import type { UploadProps, UploadFile } from 'element-plus'
+import type { UploadProps } from 'element-plus'
 import axios from 'axios';
 
-// 编辑器输入内容
-// const text = ref('');
-// 控制diglog开关
-let flag = ref<boolean>(false)
-let addTypeflag = ref<boolean>(false)
-let deleteAflag = ref<boolean>(false)
-// 点击保存按钮
-// const dialogVisible = ref(false)
-const onSave = () => {
-  // console.log(v);
-  // dialogVisible.value = true
-  flag.value = true
-}
-// elupload节点
-const uploadFile = ref();
-const fileList = ref([])
-// 点击上传图片
-const onUploadImg = async (files: any, callback: any) => {
-  // console.log(`${import.meta.env.VITE_BASE_PUBLICAPI}uploadImage/img`);
-
-  const res = await Promise.all(
-    files.map((file: any) => {
-      return new Promise((rev, rej) => {
-        const form = new FormData();
-        form.append('file', file);
-        axios
-          .post(`${import.meta.env.VITE_BASE_PUBLICAPI}uploadImage/img`, form, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          })
-          .then((res) => rev(
-            res
-          ))
-          .catch((error) => rej(error));
-      });
-    })
-  );
-
-  callback(res.map((item) => {
-    // console.log(item);
-    return import.meta.env.VITE_BASE_PUBLICAPI + item.data.data
-  }));
-}
-// 控制dialog状态
+// 通用功能公共部分
+// 控制所有dialog状态
 const closeDialog = (flagChild: boolean) => {
   flag.value = flagChild
   addTypeflag.value = flagChild
   deleteAflag.value = flagChild
+  editAflag.value = flagChild
+  saveEidtflag.value = flagChild
 }
+// 所有文章类型列表
+const articleTypeList = ref()
+// 通过接口获取总类型数据
+const getArticleTypes = async () => {
+  let res: any = await getArticleType()
+  // console.log(res.message);
+  articleTypeList.value = res.message
+}
+// 接口的文章type
+type Article = {
+  articleContent: string
+  articleIMG: null | string
+  articleTitle: string
+  creatTime: string
+  id: string | number
+  typeId: string | number
+  views: string | number
+  articleIntroduce: string
+}
+// 抽离的公共部分 获取文章
+const _getArticle = async (id?: number | string) => {
+  if (id) {
+    let res: any = await getArticle({ 'typeId': id })
+    // console.log(res);
+    tableData.value = res.result
+  } else {
+    let res: any = await getArticle()
+    // console.log(res);
+    tableData.value = res.result
+  }
+}
+// 判断当前弹框是 edit or save
+let dialogeModelFlag = ref<string>('save')
 
-// Form中的数据
+// 1.保存文章功能 (编辑保存 和 新增文章保存)
+// 控制保存弹框的状态
+let flag = ref<boolean>(false)
+// 点击保存按钮
+const onSave = () => {
+  flag.value = true
+}
+// 保存弹框中的Form数据
 const saveForm = reactive({
   articleTitle: "",
   typeId: "",
@@ -180,17 +255,54 @@ const saveForm = reactive({
   articleIMG: '',
   articleIntroduce: ''
 })
-const addTypeForm = reactive({
-  articleType: '',
-})
-const deleteAForm = reactive({
-  typeId: "0",
-})
-// formref节点
+// 保存弹框的ref元素节点
 const ruleFormRef = ref<FormInstance>()
-const addTyperuleFormRef = ref<FormInstance>()
-const deleteAFormRef = ref<FormInstance>()
-// 表单验证规则
+
+// 上传图片到服务器并返回图片url
+const uploadAction: UploadProps['onChange'] = (option: any) => {
+  let file = option.file
+  let param: string | FormData = new FormData();
+  param.append('file', file);
+  axios({
+    method: 'post',
+    url: `${import.meta.env.VITE_BASE_PUBLICAPI}uploadImage/img`,
+    data: param,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }).then((res: any) => {
+    // console.log(import.meta.env.VITE_BASE_PUBLICAPI + res.data.data);
+    if (res && res.data.code === 200) {
+      if (dialogeModelFlag.value === 'save') {
+        saveForm.articleIMG = import.meta.env.VITE_BASE_PUBLICAPI + res.data.data;
+      } else {
+        editAForm.articleIMG = import.meta.env.VITE_BASE_PUBLICAPI + res.data.data;
+      }
+      ElMessage.success('图片上传成功！');
+      param = ''
+      fileList.value = []
+    } else {
+      if (res && res.msg) {
+        ElMessage.error(res.msg);
+      } else {
+        ElMessage.error('图片上传失败！');
+      }
+    }
+  })
+}
+// 图片更新之前验证格式
+const beforeUpload = (file: UploadRawFile) => {
+  const type = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif']
+  if (type.indexOf(file.type) === -1) {
+    ElMessage.error('上传的文件格式必须是JPG、JPEG、PNG、WEBP、GIF!')
+    return false
+  } else if (file.size / 1024 / 1024 > 2) {
+    ElMessage.error('图片大小不能超过2MB!')
+    return false
+  }
+  return true
+}
+// 保存弹框的验证规则
 const rules = reactive<FormRules>({
   articleTitle: [
     { required: true, message: 'Please input article title', trigger: 'blur' },
@@ -199,32 +311,74 @@ const rules = reactive<FormRules>({
     { required: true, message: 'Please select article type', trigger: 'change' },
   ],
 })
-const addTyperules = reactive<FormRules>({
-  articleType: [
-    { required: true, message: 'Please input article type', trigger: 'blur' },
-  ]
-})
-// 继续保存
+// 按下Continue按钮继续保存
 const saveContinue = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      let data = toRaw(saveForm)
-      // console.log(data)
-      let res: any = await saveArticle(data)
-      console.log(res);
-      if (res.code === 200) {
-        flag.value = false
-        addArticle()
-        ElMessage.success('保存成功')
-      }else {
-        ElMessage.error('保存失败')
+      if (dialogeModelFlag.value === 'save') {
+        let data = toRaw(saveForm)
+        // console.log(data)
+        let res: any = await saveArticle(data)
+        console.log(res);
+        if (res.code === 200) {
+          flag.value = false
+          addArticle()
+          ElMessage.success('保存成功')
+        } else {
+          ElMessage.error('保存失败')
+        }
+      } else {
+        let data = toRaw(editAForm)
+        // console.log(data);
+        let res: any = await _editArticle(data)
+        // console.log(res);
+        if (res.code === 200) {
+          editAForm.articleContent = ''
+          editAForm.articleIMG = ''
+          editAForm.articleIntroduce = ''
+          editAForm.articleTitle = ''
+          editAForm.creatTime = ''
+          editAForm.id = ''
+          editAForm.typeId = ''
+          editAForm.views = ''
+          saveEidtflag.value = false
+          ElMessage.success('编辑保存成功')
+        } else {
+          ElMessage.error('编辑保存失败')
+        }
       }
 
     }
   })
 }
-// 添加文章类型
+
+// 2.添加新文章按钮
+const addArticle = () => {
+  dialogeModelFlag.value = 'save'
+  saveForm.articleContent = ""
+  saveForm.articleIMG = ""
+  saveForm.articleTitle = ""
+  saveForm.typeId = ""
+  saveForm.articleIntroduce = ""
+}
+
+// 3.添加文章类型功能
+// 控制添加文章类型弹框
+let addTypeflag = ref<boolean>(false)
+// 添加文章类型弹框中的Form数据
+const addTypeForm = reactive({
+  articleType: '',
+})
+// 添加文章类型弹框的ref元素节点
+const addTyperuleFormRef = ref<FormInstance>()
+// 添加文章类型表单验证规则
+const addTyperules = reactive<FormRules>({
+  articleType: [
+    { required: true, message: 'Please input article type', trigger: 'blur' },
+  ]
+})
+// 按下继续按钮添加文章类型
 const addTypeContinue = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
@@ -243,121 +397,14 @@ const addTypeContinue = async (formEl: FormInstance | undefined) => {
     }
   })
 }
-// 删除文章
-const deleteAContinue = async () => {
-  // console.log({id:selectDeleteOption.value});
-  if (selectDeleteOption.value) {
-    let res: any = await _deleteArticle({ id: selectDeleteOption.value })
-    // console.log(res);
-    if (res.code == 200) {
-      ElMessage.success('删除文章成功')
-      deleteAflag.value = false
-    } else {
-      ElMessage.error('删除文章失败了！')
-    }
-  }
 
-
-
-}
-// 总文章类型
-const articleTypeList = ref()
-// 获取总类型
-const getArticleTypes = async () => {
-  let res: any = await getArticleType()
-  // console.log(res.message);
-  articleTypeList.value = res.message
-}
-
-
-// 更新之后验证格式
-const beforeUpload = (file: UploadRawFile) => {
-  const type = ['image/jpeg', 'image/jpg', 'image/png']
-  if (type.indexOf(file.type) === -1) {
-    ElMessage.error('上传的文件必须是JPG、JPEG、PNG三种之一!')
-    return false
-  } else if (file.size / 1024 / 1024 > 2) {
-    ElMessage.error('图片大小不能超过2MB!')
-    return false
-  }
-  return true
-}
-
-
-// 上传图片到服务器并返回图片url
-const uploadAction: UploadProps['onChange'] = (option: any) => {
-  console.log(`${import.meta.env.VITE_BASE_PUBLICAPI}uploadImage/img`);
-
-  let file = option.file
-  let param: string | FormData = new FormData();
-  param.append('file', file);
-  axios({
-    method: 'post',
-    url: `${import.meta.env.VITE_BASE_PUBLICAPI}uploadImage/img`,
-    data: param,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  }).then((res: any) => {
-    // console.log(import.meta.env.VITE_BASE_PUBLICAPI + res.data.data);
-    if (res && res.data.code === 200) {
-      saveForm.articleIMG = import.meta.env.VITE_BASE_PUBLICAPI + res.data.data;
-      ElMessage.success('图片上传成功！');
-      param = ''
-      fileList.value = []
-    } else {
-      if (res && res.msg) {
-        ElMessage.error(res.msg);
-      } else {
-        ElMessage.error('图片上传失败！');
-      }
-    }
-  })
-}
-
-// 添加新文章按钮
-const addArticle = () => {
-  saveForm.articleContent = ""
-  saveForm.articleIMG = ""
-  saveForm.articleTitle = ""
-  saveForm.typeId = ""
-  saveForm.articleIntroduce = ""
-}
-
-// 获得的文章类型
-type Article = {
-  articleContent: string
-  articleIMG: null | string
-  articleTitle: string
-  creatTime: string
-  id: string | number
-  typeId: string | number
-  views: string | number
-  articleIntroduce: string
-}
-// 获得表格数据
-const tableData = ref([])
-// 当前选中的文章选项
-const selectDeleteOption = ref<string>()
-// 点击了多选框
-const handleSelectionChange = (val: Article[]) => {
-  let ids = (val.map((item: Article) => item.id)).toString()
-  selectDeleteOption.value = ids
-  // console.log(selectDeleteOption.value);
-}
-// 获取文章
-const _getArticle = async (id?: number | string) => {
-  if (id) {
-    let res: any = await getArticle({ 'typeId': id })
-    // console.log(res);
-    tableData.value = res.result
-  } else {
-    let res: any = await getArticle()
-    // console.log(res);
-    tableData.value = res.result
-  }
-
-}
+// 4.删除文章功能
+// 控制删除文章弹框的状态
+let deleteAflag = ref<boolean>(false)
+// 控制删除文章弹框Form中的数据
+const deleteAForm = reactive({
+  typeId: "0",
+})
 // 点击删除文章按钮
 const deleteAClick = () => {
   deleteAflag.value = true
@@ -370,12 +417,117 @@ const deleteAClick = () => {
   }
 
 }
-// 点击选择删除文章的文章选项
+// 控制删除文章formref节点
+const deleteAFormRef = ref<FormInstance>()
+// 点击选择要删除文章的复选框
 const optionClick = (id?: number | string) => {
   _getArticle(id)
 }
+// 填充到页面中的表格数据
+const tableData = ref([])
+// 当前选中的多选框 例：'1,2,3,4'
+const selectDeleteOption = ref<string>()
+// 点击了table中的多选框
+const handleSelectionChange = (val: Article[]) => {
+  let ids = (val.map((item: Article) => item.id)).toString()
+  selectDeleteOption.value = ids
+  // console.log(selectDeleteOption.value);
+}
+// 按下继续按钮后删除文章
+const deleteAContinue = async () => {
+  // console.log({id:selectDeleteOption.value});
+  if (selectDeleteOption.value) {
+    let res: any = await _deleteArticle({ id: selectDeleteOption.value })
+    // console.log(res);
+    if (res.code == 200) {
+      ElMessage.success('删除文章成功')
+      deleteAflag.value = false
+    } else {
+      ElMessage.error('删除文章失败了！')
+    }
+  }
+}
+
+// 5.md编辑器上传图片功能
+// upload中上传文件的列表存储在这里
+const fileList = ref([])
+// 点击上传图片
+const onUploadImg = async (files: any, callback: any) => {
+  // console.log(`${import.meta.env.VITE_BASE_PUBLICAPI}uploadImage/img`);
+
+  const res = await Promise.all(
+    files.map((file: any) => {
+      return new Promise((rev, rej) => {
+        const form = new FormData();
+        form.append('file', file);
+        axios.post(`${import.meta.env.VITE_BASE_PUBLICAPI}uploadImage/img`, form, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+          .then((res) => rev(
+            res
+          ))
+          .catch((error) => rej(error));
+      });
+    })
+  );
+
+  callback(res.map((item) => {
+    // console.log(item);
+    return import.meta.env.VITE_BASE_PUBLICAPI + item.data.data
+  }));
+}
+
+// 6.编辑文章功能
+// 控制编辑文章dialog开关
+const editAflag = ref<boolean>(false)
+// 编辑文章弹框中的Form数据
+const editASelectForm = reactive({
+  typeId: "0",
+})
+// 点击编辑文章按钮
+const editorAClick = () => {
+  editAflag.value = true
+  if (toRaw(editASelectForm.typeId) === '0') {
+    _getArticle()
+  } else {
+    _getArticle(toRaw(editASelectForm.typeId))
+  }
+}
+// 当前选中要编辑的文章数据
+const editAForm = reactive<Article>({
+  articleTitle: "",
+  typeId: "",
+  articleContent: "",
+  articleIMG: '',
+  articleIntroduce: '',
+  creatTime: '',
+  id: '',
+  views: ''
+})
+// 选中需要编辑的文章
+const handleCurrentChange = (val: Article | undefined) => {
+  // console.log(val);
+  dialogeModelFlag.value = 'edit'
+  if (val) {
+    editAForm.articleTitle = val.articleTitle
+    editAForm.typeId = val.typeId
+    editAForm.articleContent = val.articleContent
+    editAForm.articleIMG = val.articleIMG
+    editAForm.articleIntroduce = val.articleIntroduce
+    editAForm.id = val.id
+  }
+}
+// 控制保存弹框开关
+const saveEidtflag = ref<boolean>(false)
+// 点击继续保存编辑内容按钮
+const onEditorSave = () => {
+  saveEidtflag.value = true
+}
 
 
+// 挂载阶段
 onMounted(() => {
   getArticleTypes()
 })

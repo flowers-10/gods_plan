@@ -77,3 +77,12 @@ export const _deleteArticle = (data: object) => {
     params: data
   }, 'a')
 }
+
+// 编辑文章
+export const _editArticle = (data:object) => {
+  return request({
+    url:'/editArticle',
+    method: 'post',
+    data:data
+  },'a')
+}
