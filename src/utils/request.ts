@@ -1,5 +1,7 @@
 import axios, { type AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
+import { showLoading, hideLoading } from './loading'
+
 
 export const request = (option: any, type: string = 'music') => {
   // console.log(import.meta.env.VITE_BASE_API);
@@ -21,21 +23,29 @@ export const request = (option: any, type: string = 'music') => {
       }
       return ret
     }]
-    
+
     // 请求拦截器
-    // service.interceptors.request.use(
-    //   (config:AxiosRequestConfig<any>)=>{
-       
-    //     console.log(config);
-        
-    //     return config
-    //   }
-    // )
+    service.interceptors.request.use(
+      (config: AxiosRequestConfig<any>) => {
+
+        // console.log(config);
+        showLoading()
+        return config
+      }
+    )
 
     // 响应拦截器
     service.interceptors.response.use(
-      response => response.data,
+      response => { 
+        setTimeout(()=>{
+          hideLoading()
+        },200)
+        return response.data 
+      },
       error => {
+        setTimeout(()=>{
+          hideLoading()
+        },200)
         console.log('err:' + error) //错误打印
         if (error.response.status == 403) {
           ElMessage.error('资源不可用或者您没有权限')

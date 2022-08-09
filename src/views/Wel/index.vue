@@ -53,7 +53,6 @@
       </template>
     </dialoge>
     <beian-gov></beian-gov>
-
   </div>
 
 </template>
@@ -143,7 +142,8 @@ const loginContinue = async (formEl: FormInstance | undefined) => {
             ElMessage.success('登录成功!')
             store.userInfoActions(res)
             localStorage.setItem('token', res.token)
-            router.push('/music/myhome')
+            localStorage.setItem('phone', LoginForm.PhoneNumber)
+            router.push('/app')
           } else {
             ElMessage.error('登录失败，请稍后再尝试')
           }
@@ -158,19 +158,17 @@ const loginContinue = async (formEl: FormInstance | undefined) => {
           ElMessage.success('登录成功!')
           store.userInfoActions(res)
           localStorage.setItem('token', res.token)
+          localStorage.setItem('phone', LoginForm.PhoneNumber)
           router.push('/app')
         } else {
           ElMessage.error('登录失败，请稍后再尝试')
         }
 
       }
-
-    } else {
-
-
     }
   })
 }
+
 </script>
 
 <style lang="less" scoped>

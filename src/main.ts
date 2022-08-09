@@ -3,13 +3,13 @@ import { createApp } from 'vue'
 import { filterformat } from './utils/filterformat'
 import { createPinia } from 'pinia'
 import { piniaPlugin } from './utils/piniaPlugin'
+import { routerBeforeEach,routerAfterEach } from './utils/routerGuard'
 
 import App from './App.vue'
 import router from './router'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-import { ElMessage } from 'element-plus'
 
 // 引入全局组件
 import MainHeader from '@/components/MainHeader/index.vue'
@@ -43,38 +43,9 @@ app.use(ElementPlus)
 app.use(store)
 app.use(router)
 
-// 白名单
-const whileList = ['/', '/apps/allapps', '/apps/updates', '/music/myhome', '/music/playlistdetail/3136952023']
-// 路由导航
-router.beforeEach((to, from, next) => {
-  let loginStatus = localStorage.getItem
-    ('token')
-  // console.log(to.path);
-
-  // 如果用户在首页并且已经存入登录信息则自动进入music
-  if (to.path == '/' && loginStatus) {
-    // console.log(112);
-    next({
-      path: '/app'
-    })
-
-  }
-  // 如果访问在白名单可以任意通行
-  if (whileList.includes(to.path)) {
-    next()
-    // 或者已经登录可以任意通行
-  } else if (loginStatus) {
-    next()
-  }
-  // 没有登录信息则返回登录页面
-  else {
-    ElMessage.error('请登录后访问')
-    next({
-      path: '/'
-    })
-  }
-
-})
+// 路由守卫
+routerBeforeEach
+routerAfterEach
 
 // 链式调用
 app.component('main-header', MainHeader).component('content-section', ContentSection).mount('#app')

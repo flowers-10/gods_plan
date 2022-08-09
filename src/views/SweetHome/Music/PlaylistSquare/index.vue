@@ -45,6 +45,8 @@ import { useRouter } from 'vue-router';
 import { useStore } from '../../../../stores';// pinia
 import { catlist, topPlaylist } from '../../../../api/api'
 import { debounce } from '../../../../utils/debounce'
+
+
 // 给子组件传参
 const menuLink = ref<string>('Playlist Square')
 const menuItemsList = ref<object[]>([])
@@ -97,17 +99,20 @@ const getTopPlaylist = async (cat: string, offset: string | number) => {
 // 默认全部
 let tags = ref('全部')
 // 获得子组件传的tag值
-const getTag = (tag: string) => {
+const getTag = (tag: any) => {
   // console.log(tag);
   const playListsScrollTop: HTMLElement = document.querySelector("#playListsScrollTop") as HTMLElement
   // 每次切换tag栏都让页面回到顶部
   if (playListsScrollTop) {
-    playListsScrollTop.scrollTop = 0
+    playListsScrollTop.scrollTo({
+      top:0,
+      behavior:"smooth"
+    })
   }
   // 通过当前的tag名字获得数据
   // 例： getTopPlaylist('流行', 0) 页面就会渲染出'流行'的数据内容
-  tags.value = tag
-  getTopPlaylist(tag, 0)
+  tags.value = tag.title
+  getTopPlaylist(tag.title, 0)
   // 当前开始请求的条数也归零
   offset.value = 0
 }

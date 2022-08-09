@@ -86,3 +86,13 @@ export const _editArticle = (data:object) => {
     data:data
   },'a')
 }
+
+// 获得当前标签的总文章数
+
+export const _getArticleTotal = (data:object) => {
+  return request({
+    url:'/getArticleTotal',
+    method: 'get',
+    params:data
+  },'a')
+}

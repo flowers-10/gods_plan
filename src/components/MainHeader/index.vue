@@ -3,7 +3,7 @@
     <div class="menu-link-main">{{ menuLink }}</div>
     <div class="header-menu">
       <a v-for="(item, index) in menuItemsList" :key="index" class="main-header-link"
-        :class="index == flag ? 'is-active' : ''" @click="clickTags(index, item.title)">
+        :class="index == flag ? 'is-active' : ''" @click="clickTags(index, item)">
         {{ item.title }}
       </a>
     </div>
@@ -16,19 +16,23 @@ import { ref, onMounted, onUnmounted } from 'vue'
 const props = defineProps<{
   menuLink: string,
   menuItemsList?: [
-    { title: string, path: string, slotName: string },
+    { title: string, path: string, slotName: string, id: string | number },
   ]
 }>()
+
 // 控制menu高亮
 let flag = ref<number>(0)
 // 派生事件给父组件传参
 const emit = defineEmits(['on-click'])
 // 点击tag栏
-const clickTags = (index: number, tag: string): void => {
+type _menuItemsList = { title: string, path: string, slotName: string, id: string | number }
+
+const clickTags = (index: number, tag: _menuItemsList): void => {
   // 控制menu高亮
   flag.value = index
   // 给父组件传递tag
   emit('on-click', tag)
+
   // 获取父元素整个滚动的div
   let scrollContainer = <HTMLDivElement | null>document.querySelector('.content-wrapper')
   // 点击滚动到相应位置
@@ -53,7 +57,7 @@ const handleScroll = (): void => {
   let scrollContainer = <HTMLDivElement | null>document.querySelector('.content-wrapper')
   // arr存放每一层的高度
   let arr: number[] = []
-  if (props.menuItemsList) {
+  if (props.menuItemsList && scrollContainer) {
     for (let i = 0; i < props.menuItemsList.length; i++) {
       if (scrollContainer) {
         let _childrenHTML = <HTMLDivElement | null>scrollContainer.children[i]
@@ -126,7 +130,7 @@ onUnmounted(() => {
 
     a {
       cursor: pointer;
-      padding: 20px 24px;
+      padding: 16px 24px;
       text-decoration: none;
       color: var(--inactive-color);
       border-bottom: 2px solid transparent;
@@ -149,7 +153,7 @@ onUnmounted(() => {
   color: var(--theme-color);
   padding: 0 30px;
   user-select: none;
-
+  position:absolute;
   // cursor: pointer;
   @media screen and (max-width: 1055px) {
     display: none;

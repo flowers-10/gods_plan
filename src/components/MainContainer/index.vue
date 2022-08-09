@@ -24,7 +24,7 @@ const props = defineProps<{
   flex-direction: column;
   flex-grow: 1;
   padding-bottom: 100px;
-}
+  }
 
 
 .content-wrapper {

@@ -1,6 +1,6 @@
 <template>
-  <div class="dark-light"  v-if="!status" @dblclick="toggleButton" v-move>
-    
+  <div class="dark-light" v-if="!status" @dblclick="toggleButton" v-move>
+
     <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"
       stroke-linejoin="round">
       <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
@@ -17,9 +17,13 @@ const toggleButton = () => {
   if (status === 'dark') {
     localStorage.setItem('dark-light', 'light')
     document.body.classList.add('light-mode')
+    document.querySelector('.TopButton')?.classList.remove('black')
+    document.querySelector('.TopButton')?.classList.add('white')
   } else if (status === 'light') {
     localStorage.setItem('dark-light', 'dark')
     document.body.classList.remove('light-mode')
+    document.querySelector('.TopButton')?.classList.remove('white')
+    document.querySelector('.TopButton')?.classList.add('black')
   }
 }
 
@@ -30,19 +34,23 @@ const IsPc = () => {
     return userAgent.includes(i)
   })
 }
-let status  = IsPc()
+let status = IsPc()
 
 onMounted(() => {
   // 因为换肤是永久性的，不能刷新就又变成黑色模式，所以在挂在阶段就通过 localStorge 浏览器缓存 light 与 dark 的状态键值对
   let status = localStorage.getItem('dark-light')
-  // 如果是 light ，就向 body 添加全局 class：light-mode
   if (status === 'light') {
+    // 如果是 light ，就向 body 添加全局 class：light-mode
     document.body.classList.add('light-mode')
-  // 如果是 dark ，就向 body 删除全局 class：light-mode
+    document.querySelector('.TopButton')?.classList.remove('white')
+    document.querySelector('.TopButton')?.classList.add('black')
   } else if (status === 'dark') {
+    // 如果是 dark ，就向 body 删除全局 class：light-mode
     document.body.classList.remove('light-mode')
-  // 如果不存在，就向用户存储默认dark
+    document.querySelector('.TopButton')?.classList.remove('black')
+    document.querySelector('.TopButton')?.classList.add('white')
   } else {
+    // 如果不存在，就向用户存储默认dark
     localStorage.setItem('dark-light', 'dark')
   }
 })
@@ -53,7 +61,7 @@ onMounted(() => {
   position: absolute;
   width: 40px;
   height: 40px;
-  left:95%;
+  left: 95%;
   top: 90%;
   background-color: var(--dropdown-bg);
   box-shadow: -1px 3px 8px -1px rgba(0, 0, 0, 0.2);

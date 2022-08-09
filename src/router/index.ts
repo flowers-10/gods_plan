@@ -70,22 +70,28 @@ const router = createRouter({
           path: '/discover',
           name: 'Discover',
           component: () => import('../views/SweetHome/Discover/index.vue'),
-        }, {
+        }, 
+        {
           path: '/knowledge',
           name: 'Knowledge',
           component: () => import('../views/SweetHome/Knowledge/index.vue'),
+        },
+        {
+          path:'/knowledge/Article/:id',
+          name: 'Article',
+          component: () => import('../views/SweetHome/Knowledge/Article/index.vue'),
         }
       ]
     },
     {
-      path:'/:cathchAll(.*)',
-      name:'NotFound',
-      component:() => import('../views/NotFound/index.vue')
+      path: '/:cathchAll(.*)',
+      name: 'NotFound',
+      component: () => import('../views/NotFound/index.vue')
     },
     {
-      path:'/demo',
-      name:'demo',
-      component:() => import('../views/Demomo/index.vue')
+      path: '/demo',
+      name: 'demo',
+      component: () => import('../views/Demomo/index.vue')
     }
   ]
 })
