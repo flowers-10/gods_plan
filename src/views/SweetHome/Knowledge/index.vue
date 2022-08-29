@@ -15,7 +15,8 @@
         <div class="article">
           <div class="article-card wow animate__fadeInUp" v-for="(item, index) in articleShow" :key="index"
             :class="index % 2 === 0 ? 'row-reverse' : ''" @click="toArticle(item.id)">
-            <img class="card-img" :src="item.articleIMG !== '' ? item.articleIMG : ''" alt="">
+            <img v-if="item.articleIMG !==''" class="card-img" :src="item.articleIMG" alt="">
+            <img v-else class="card-img" :src="imgUrl()" alt="">
             <div class="card-detail">
               <span class="detail-title">{{ item.articleTitle }}</span>
               <span class="detail-date">发布于 {{ $filters.formatTime(item.createTime) }}</span>
@@ -33,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, onMounted } from 'vue';
 import 'md-editor-v3/lib/style.css';
 import { getArticle, getArticleType, _getArticleTotal } from '@/api/gsApi'
 import { useRouter } from 'vue-router';
@@ -142,6 +143,12 @@ const addNewContent = () => {
     }
   }
 }
+
+// 默认图片
+const imgUrl = () => {
+  return new URL('../../../assets/SPY×FAMILY/1.jpg', import.meta.url).href
+}
+
 
 onMounted(() => {
   getData()
@@ -272,6 +279,7 @@ onMounted(() => {
           .card-img {
             width: 100%;
             border-radius: 10px;
+            max-height: 205px;
           }
 
           .card-detail {

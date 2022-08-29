@@ -196,4 +196,82 @@ export const topArtists = () => {
   })
 }
 
+// 歌手榜
+export const topListArtist = (type?: object) => {
+  return request({
+    url: '/toplist/artist',
+    method: 'get',
+    params: {
+      type
+    }
+  })
+}
+
+// 获取歌手单曲
+export const getArtists = (id: string | string[]) => {
+  return request({
+    url: '/artists',
+    method: 'get',
+    params: {
+      id
+    }
+  })
+}
+
+// 获取歌手mv
+export const getArtistMV = (id: string | string[]) => {
+  return request({
+    url: '/artist/mv',
+    method: 'get',
+    params: {
+      id
+    }
+  })
+}
+
+// 获取歌手专辑
+export const getArtistAlbum = (id: string | string[]) => {
+  return request({
+    url: '/artist/album',
+    method: 'get',
+    params: {
+      id
+    }
+  })
+}
+
+// 获取专辑详情
+
+// 获取mv播放地址
+export const getMVUrl = (id:string | string[]) => {
+  return request({
+    url: '/mv/url',
+    method: 'get',
+    params: {
+      id
+    }
+  })
+}
+
+// 获取mv详情
+export const getMVDetail = (mvid:string | string[]) => {
+  return request({
+    url: '/mv/detail',
+    method: 'get',
+    params: {
+      mvid
+    }
+  })
+}
+
+// 相似mv
+export const getSimiMV = (mvid:string | string[]) => {
+  return request({
+    url: '/simi/mv',
+    method: 'get',
+    params: {
+      mvid
+    }
+  })
+}
 

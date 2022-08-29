@@ -34,11 +34,11 @@ const clickTags = (index: number, tag: _menuItemsList): void => {
   emit('on-click', tag)
 
   // 获取父元素整个滚动的div
-  let scrollContainer = <HTMLDivElement | null>document.querySelector('.content-wrapper')
+  let scrollContainer:any = document.querySelector('.content-wrapper')
   // 点击滚动到相应位置
   if (scrollContainer) {
     // 获得子元素的节点
-    let _childrenHTML = <HTMLDivElement | null>scrollContainer.children[index]
+    let _childrenHTML = scrollContainer.children[index]
     // console.log(_childrenHTML.offsetTop);
     if (_childrenHTML) {
       // 滚动到相应位置
@@ -54,13 +54,13 @@ const clickTags = (index: number, tag: _menuItemsList): void => {
 // 监听滚轮
 const handleScroll = (): void => {
   // 获得当前的滚轮高度
-  let scrollContainer = <HTMLDivElement | null>document.querySelector('.content-wrapper')
+  let scrollContainer = document.querySelector('.content-wrapper')
   // arr存放每一层的高度
   let arr: number[] = []
   if (props.menuItemsList && scrollContainer) {
     for (let i = 0; i < props.menuItemsList.length; i++) {
       if (scrollContainer) {
-        let _childrenHTML = <HTMLDivElement | null>scrollContainer.children[i]
+        let _childrenHTML:any = scrollContainer.children[i]
         if (_childrenHTML) {
           arr.push(_childrenHTML.offsetTop - 136)
         }
@@ -75,7 +75,7 @@ const handleScroll = (): void => {
 
   if (scrollContainer) {
     // 获得滚轮高度
-    let scrollTop = <number>scrollContainer?.scrollTop
+    let scrollTop = scrollContainer?.scrollTop
     arr.map((item, index, arr) => {
       // console.log(arr[index]);
       // 如果滚轮在当前层就高亮当前层
@@ -153,7 +153,8 @@ onUnmounted(() => {
   color: var(--theme-color);
   padding: 0 30px;
   user-select: none;
-  position:absolute;
+  position: absolute;
+
   // cursor: pointer;
   @media screen and (max-width: 1055px) {
     display: none;

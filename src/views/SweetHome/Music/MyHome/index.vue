@@ -4,28 +4,15 @@
       <content-section v-for="(item, index) in menuItemsList" :key="index" :title="item.title"
         :slotName="item.slotName">
         <template #[item.slotName]>
-          <!-- <div v-if="index === 0" class="recommendList">
-            <div class="recommendList-card" v-for="(item, index) in recommendList" @click="goPlayListDetail(item.id)">
-              <img class="card-img" :src="item.picUrl" alt="">
-              <div class="card-detail">
-                <span class="detail-name">{{ item.name }}</span>
-              </div>
-            </div>
-          </div> -->
-
-          <div v-if="index === 0" class="ForYou">
-            <img class="botImg" src="../../../../assets/SPY×FAMILY/1.jpg" alt="">
-            <img class="topImg" src="../../../../assets/SPY×FAMILY/1.jpg" alt="">
-          </div>
-          <div v-if="index === 1" class="ArtistsList">
-            <div class="ArtistsList-card" v-for="(item, index) in topArtistsList" :key="index">
+          <div v-if="index === 0" class="ArtistsList">
+            <div class="ArtistsList-card" v-for="(item, index) in topArtistsList" :key="index" @click="goArtistPage(item.id)">
               <img class="card-img" :src="item.picUrl" alt="">
               <div class="card-detail">
                 <span class="detail-name">{{ item.name }}</span>
               </div>
             </div>
           </div>
-          <div v-if="index === 2" class="recommendList">
+          <div v-if="index === 1" class="recommendList">
             <div class="recommendList-card" v-for="(item, index) in albumNewestList" :key="index">
               <img class="card-img" :src="item.picUrl" alt="">
               <div class="card-detail">
@@ -34,7 +21,7 @@
             </div>
           </div>
 
-          <div v-if="index === 3" class="recommendList">
+          <div v-if="index === 2" class="recommendList">
             <div class="recommendList-card" v-for="(item, index) in djRecommendList" :key="index">
               <img class="card-img" :src="item.picUrl" alt="">
               <div class="card-detail">
@@ -43,8 +30,8 @@
             </div>
           </div>
 
-          <div v-if="index === 4" class="mvList">
-            <div class="mvList-card" v-for="(item, index) in personalizedMvList" :key="index">
+          <div v-if="index === 3" class="mvList">
+            <div class="mvList-card" v-for="(item, index) in personalizedMvList" :key="index" @click="goMvPage(item.id)">
               <img class="card-img" :src="item.picUrl" alt="">
               <div class="card-detail">
                 <span class="detail-name">{{ item.name }}</span>
@@ -58,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { recommendResource, albumNewest, djRecommend, personalizedMv, topArtists } from '@/api/api'
+import { albumNewest, djRecommend, personalizedMv, topArtists } from '@/api/api'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router';
 import { useStore } from '@/stores'// pinia
@@ -76,7 +63,7 @@ type menu = {
 }
 const menuItemsList: menu[] = [
   // { title: '推荐歌单', slotName: 'playlist', path: '' },
-  { title: 'For You', slotName: 'ForYou', path: '' },
+  // { title: 'For You', slotName: 'ForYou', path: '' },
   { title: '推荐艺人', slotName: 'artist', path: '' },
   { title: '新专速递', slotName: 'newAlbum', path: '' },
   { title: '推荐电台', slotName: 'dj', path: '' },
@@ -128,6 +115,30 @@ const goPlayListDetail = (id: string) => {
     }
   })
 }
+
+// 点击前往歌手详情
+const goArtistPage = (id:number) => {
+  console.log(id);
+  router.push({
+    name:'Artist',
+    params:{
+      id
+    }
+  })
+}
+
+// 前往mv
+const goMvPage = (id:number) => {
+    console.log(id);
+    router.push({
+        name: 'MV',
+        params: {
+            id
+        }
+    })
+}
+
+
 onMounted(() => {
   getHomePage()
 })

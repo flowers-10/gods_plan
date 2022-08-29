@@ -1,5 +1,6 @@
 <template>
-  <div ref="TopButton" @click="goTop" class="TopButton" :class="[status === 'dark' ? 'black' : 'white',flag ?'active':'']" alt=""></div>
+  <div ref="TopButton" @click="goTop" class="TopButton"
+    :class="[status === 'dark' ? 'black' : 'white', flag ? 'active' : '']" alt=""></div>
 </template>
 
 <script lang="ts" setup>
@@ -7,9 +8,10 @@ import { ref, onMounted, onUnmounted } from 'vue'
 const TopButton = ref()
 // 回到顶部
 const goTop = (e: Event) => {
-  let parent = (<HTMLElement>e.target).parentNode
+  let parent:any = (e.target as HTMLDivElement).parentNode
+
   if (parent) {
-    (<HTMLElement>parent).scrollTo({
+    parent.scrollTo({
       top: 0,
       behavior: "smooth"
     })
@@ -19,11 +21,11 @@ const flag = ref<boolean>(false)
 
 // 监听滚轮
 const handleScroll = () => {
-  let scrollTop:number = TopButton.value.parentNode.scrollTop
-  if(scrollTop>100) {
-    flag.value  = true
-  }else {
-    flag.value  = false
+  let scrollTop: number = TopButton.value.parentNode.scrollTop
+  if (scrollTop > 100) {
+    flag.value = true
+  } else {
+    flag.value = false
   }
 }
 
@@ -50,6 +52,7 @@ onUnmounted(() => {
   background-position: center center;
   background-size: 100% 100%;
   transition: 0.35s;
+
   @media screen and (max-width:1050px) {
     width: 45px;
     height: 50px;
@@ -64,6 +67,7 @@ onUnmounted(() => {
 
 
 }
+
 .active {
   bottom: 0px;
 }

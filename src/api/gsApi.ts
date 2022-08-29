@@ -96,3 +96,14 @@ export const _getArticleTotal = (data:object) => {
     params:data
   },'a')
 }
+
+// 用户浏览了页面
+export const _incrementViews = (id:string | string[]) => {
+  return request({
+    url:'/incrementViews',
+    method: 'post',
+    data:{
+      id
+    }
+  },'a')
+}

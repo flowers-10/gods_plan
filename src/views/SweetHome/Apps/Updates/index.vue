@@ -189,7 +189,6 @@
 import { ref, reactive, toRaw, onMounted } from 'vue';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import dialoge from '../../../../components/Dialog/index.vue'
 import type { FormInstance, FormRules, UploadRawFile } from 'element-plus'
 import { saveArticle, getArticleType, _addArticleType, _deleteArticle, getArticle, _editArticle } from '@/api/gsApi'
 import { ElMessage, ElTable } from 'element-plus'

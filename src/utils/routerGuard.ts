@@ -2,7 +2,7 @@ import router from '../router'
 import { ElMessage } from 'element-plus'
 import { close, start } from '@/utils/nporgress'
 
-// 白名单
+// 黑名单
 const blacklist:string[] = ['/music/mymusic']
 // 路由前置守卫导航
 export const routerBeforeEach = router.beforeEach((to, from, next) => {

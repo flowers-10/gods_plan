@@ -58,7 +58,6 @@
 </template>
 
 <script setup lang="ts">
-import dialoge from '../../components/Dialog/index.vue'
 import BeianGov from '../../components/BeianGov/index.vue'
 // 引入api
 import { loginMusic, Mcaptcha, loginCellPhone, loginPhonePassword } from '../../api/api'

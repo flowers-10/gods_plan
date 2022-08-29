@@ -23,7 +23,7 @@ const props = defineProps<{
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding-bottom: 100px;
+  padding-bottom: 90px;
   }
 
 

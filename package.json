@@ -18,7 +18,8 @@
     "pinia": "^2.0.13",
     "vue": "^3.2.31",
     "vue-router": "^4.0.14",
-    "vue-slider-component": "^3.2.16"
+    "vue-slider-component": "^3.2.16",
+    "vue3-video-play": "^1.3.1-beta.6"
   },
   "devDependencies": {
     "@types/node": "^16.11.45",

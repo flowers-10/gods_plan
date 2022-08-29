@@ -14,6 +14,7 @@ import 'element-plus/dist/index.css'
 // 引入全局组件
 import MainHeader from '@/components/MainHeader/index.vue'
 import ContentSection from '@/components/ContentSection/index.vue'
+import Dialog from '@/components/Dialog/index.vue'
 
 // 使用pinia持久化插件
 const store = createPinia()
@@ -25,7 +26,10 @@ let app = createApp(App)
 
 
 type Filter = {
-  formatTime: <T extends any>(str: T) => T
+  formatTime: <T extends any>(str: T) => T,
+  filtersinger:<T extends any>(str: T) => T,
+  filterSongTime:<T extends any>(str: T) => T,
+  keepTwoDecimalFull:<T extends any>(str: T) => T
 }
 // 声明要扩充@vue/runtime-core包的声明.
 // 这里扩充"ComponentCustomProperties"接口, 因为他是vue3中实例的属性的类型.
@@ -48,4 +52,5 @@ routerBeforeEach
 routerAfterEach
 
 // 链式调用
-app.component('main-header', MainHeader).component('content-section', ContentSection).mount('#app')
+app.component('main-header', MainHeader).component('content-section', ContentSection).
+component('dialoge',Dialog).mount('#app')

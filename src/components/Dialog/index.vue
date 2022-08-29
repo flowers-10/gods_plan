@@ -6,7 +6,7 @@
         <div v-show="flag" class="pop-up">
           <div class="pop-up__title">
             <slot name="Title"></slot>
-            <svg @click="clickTap" class="close feather feather-x-circle" width="24" height="24" fill="none"
+            <svg @click="clickTap" width="24" height="24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10" />
               <path d="M15 9l-6 6M9 9l6 6" />
@@ -68,8 +68,13 @@ const clickTap = () => {
   opacity: 1;
 
   svg {
+    border-radius: 50%;
     margin-left: auto;
     cursor: pointer;
+    transition: 0.6s all;
+  }
+  svg:hover {
+    transform: scale(1.2);
   }
 
   &__title {

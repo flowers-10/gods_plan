@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container" @click="menuAcitve(9999,false)">
+  <div class="main-container" @click="menuAcitve(9999, false)">
     <main-header :menuLink="menuLink" :menuItemsList="menuItemsList"></main-header>
     <div class="content-wrapper" :class="flag == true ? 'overlay' : ''">
       <div class="content-wrapper-header">
@@ -23,16 +23,24 @@
             <div class="main-songs">
               <div class="songs-name">{{ item.name }}</div>
               <div class="phone-singer">
-                <span class="singer">{{ filtersinger(item.ar) }}</span>
+                <div class="singer">
+                  <div class="singer-item" v-for="(iten, indey) in item.ar" :key="indey">
+                    <span @click="goArtists(iten.id)" class="singer-item">{{ iten.name }}</span>
+                    <span v-if="indey !== item.ar.length - 1" class="slash">/</span>
+                  </div>
+                </div>
               </div>
             </div>
             <span class="playTime">
-              {{ filterTime(item.dt) }}
+              {{ $filters.filterSongTime(item.dt) }}
             </span>
             <div class="song-detail">
-              <span class="singer">
-                {{ filtersinger(item.ar) }}
-              </span>
+              <div class="singer">
+                <div v-for="(iten, indey) in item.ar" :key="indey">
+                  <span @click="goArtists(iten.id)" class="singer-item">{{ iten.name }}</span>
+                  <span v-if="indey !== item.ar.length - 1" class="slash">/</span>
+                </div>
+              </div>
             </div>
             <span class="song-detail album">
               {{ item.al.name }}
@@ -44,7 +52,8 @@
             </svg>
             <div class="button-wrapper">
               <div class="menu">
-                <button class="dropdown" :class="activeIndex === index ?'is-active':''" @click.stop="menuAcitve(index,true)">
+                <button class="dropdown" :class="activeIndex === index ? 'is-active' : ''"
+                  @click.stop="menuAcitve(index, true)">
                   <ul>
                     <li><a href="#">Go to Discover</a></li>
                     <li><a href="#">Learn more</a></li>
@@ -64,13 +73,14 @@
 
 <script setup lang="ts">
 // 引入工具
-import { useRoute } from 'vue-router';
-import { ref, onMounted, computed, toRaw, watch, reactive } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { ref, onMounted, computed, toRaw, reactive } from 'vue';
 import { playListDetail, songDetail, songUrl, lyric } from '@/api/api'
 import { useStore } from '@/stores';
 
 // 使用路由
 const route = useRoute()
+const router = useRouter()
 // 给子组件传参
 const menuLink = ref<string>('Playlist Detail')
 const menuItemsList = ref([
@@ -89,6 +99,8 @@ let id: any = computed(() => {
 const getPlaylistDetail = async (ids: number) => {
   // console.log('传参的', ids);
   const res: any = await playListDetail(ids)
+  // console.log(res);
+
   PlaylistDetails.playlist = res.playlist
   // 根据歌曲id获得歌曲详情
   const idss = PlaylistDetails.playlist.trackIds.map((item: any) => item.id)
@@ -97,49 +109,14 @@ const getPlaylistDetail = async (ids: number) => {
   // 过滤出需要用的数据
   const song = songRes.songs.map((item: any,) => {
     return { al: item.al, name: item.name, id: item.id, ar: item.ar, dt: item.dt }
-
   })
   // console.log(songsDetail);
   songs.push(...song)
-  // console.log(toRaw(songs));
+  console.log(toRaw(songs));
 
 }
 // 控制歌曲小菜单打开关闭
 const flag = ref<boolean>(false)
-
-// 过滤歌手名字
-const filtersinger = (item: any) => {
-  const singer = toRaw(item)
-  // console.log(...singer);
-  const newSinger = [...singer]
-
-  if (singer.length > 1) {
-    // const s.map(item=>`${item.name}/`)
-    const newSingers = newSinger.map(item => `${item.name} /`)
-    newSingers.slice(0, newSingers.length - 1)
-
-    return newSingers.slice(0, newSingers.length - 1).join(' ') + ' ' + newSinger.pop().name
-  } else {
-    return newSinger[0].name
-  }
-}
-
-// 过滤时间
-const filterTime = (item: number) => {
-  let m: string | number = item / 1000 / 60
-  let s: string | number = (item / 1000) % 60
-  if (m < 10) {
-    m = '0' + parseInt(m.toString())
-  } else {
-    m = parseInt(m.toString())
-  }
-  if (s < 10) {
-    s = '0' + parseInt(s.toString())
-  } else {
-    s = parseInt(s.toString())
-  }
-  return `${m}:${s}`
-}
 
 // 播放的歌曲列表
 type Audio = {
@@ -156,6 +133,7 @@ type Audio = {
   // 歌曲id
   id: string | number;
 }
+// 播放歌曲
 let playSongs = async (id: number) => {
   let audioList: Audio = {
     artist: '',
@@ -206,9 +184,20 @@ const addAllPlayList = () => {
 // 激活菜单
 let activeIndex = ref<number>(9999)
 
-const menuAcitve = (index:number,_flag:boolean) :void =>{
-    activeIndex.value = index
-    flag.value= _flag
+const menuAcitve = (index: number, _flag: boolean): void => {
+  activeIndex.value = index
+  flag.value = _flag
+}
+
+// 到歌手详情页面
+const goArtists = (id: number) => {
+  console.log(id);
+  router.push({
+    name:'Artist',
+    params: {
+      id
+    }
+  })
 }
 
 
@@ -432,11 +421,65 @@ onMounted(() => {
       flex-shrink: 0;
     }
   }
+
+  .song-detail {
+    width: 250px;
+    margin-right: 20px;
+    font-size: 15px;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    display: flex;
+    height: 100%;
+    align-items: center;
+
+    @media screen and (max-width: 1120px) {
+      width: 180px;
+      font-size: 14px;
+    }
+
+    @media screen and (max-width: 700px) {
+      display: none;
+    }
+  }
+
+  .album {
+    @media screen and (max-width: 1380px) {
+      display: none !important;
+    }
+  }
+
+  .playTime {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    width: 75px;
+    margin-left: 8px;
+
+    @media screen and (max-width: 1000px) {
+      display: none !important;
+    }
+  }
+
+  .menu {
+    width: 5px;
+    height: 5px;
+    background-color: var(--button-inactive);
+    border-radius: 50%;
+    box-shadow: 7px 0 0 0 var(--button-inactive), 14px 0 0 0 var(--button-inactive);
+    margin: 0 12px;
+  }
 }
 
 .main-songs {
-  width: 320px;
   margin-right: auto;
+
+  @media screen and (max-width: 1500px) {
+    width: 300px;
+    font-size: 14px;
+  }
 
   @media screen and (max-width: 1120px) {
     width: 250px;
@@ -444,7 +487,7 @@ onMounted(() => {
   }
 
   @media screen and (max-width: 480px) {
-    width: 240px;
+    width: 200px;
     font-size: 14px;
   }
 
@@ -468,57 +511,10 @@ onMounted(() => {
       display: block;
     }
   }
+
 }
 
-.song-detail {
-  width: 250px;
-  margin-right: 20px;
-  font-size: 15px;
-  position: relative;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  -o-text-overflow: ellipsis;
-  display: flex;
-  height: 100%;
-  align-items: center;
 
-  @media screen and (max-width: 1120px) {
-    width: 180px;
-    font-size: 14px;
-  }
-
-  @media screen and (max-width: 700px) {
-    display: none;
-  }
-}
-
-.album {
-  @media screen and (max-width: 1380px) {
-    display: none !important;
-  }
-}
-
-.playTime {
-  display: flex;
-  height: 100%;
-  align-items: center;
-  width: 75px;
-  margin-left: 8px;
-
-  @media screen and (max-width: 1000px) {
-    display: none !important;
-  }
-}
-
-.menu {
-  width: 5px;
-  height: 5px;
-  background-color: var(--button-inactive);
-  border-radius: 50%;
-  box-shadow: 7px 0 0 0 var(--button-inactive), 14px 0 0 0 var(--button-inactive);
-  margin: 0 12px;
-}
 
 .dropdown {
   position: relative;
@@ -584,5 +580,14 @@ onMounted(() => {
   margin-left: 20px;
   font-size: 16px;
   cursor: pointer;
+}
+
+
+.singer {
+  display: flex;
+
+  .singer-item:hover {
+    text-decoration: underline;
+  }
 }
 </style>
