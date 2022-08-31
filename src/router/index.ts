@@ -40,6 +40,16 @@ const router = createRouter({
           component: () => import('../views/SweetHome/Music/index.vue'),
           children: [
             {
+              path: '/music/audiolist',
+              name: 'AudioList',
+              component: () => import('../views/SweetHome/Music/AudioList/index.vue'),
+            },
+            {
+              path: '/music/Album/:id',
+              name: 'Album',
+              component: () => import('../views/SweetHome/Music/Album/index.vue'),
+            },
+            {
               path: '/music/MV/:id',
               name: 'MV',
               component: () => import('../views/SweetHome/Music/MV/index.vue'),

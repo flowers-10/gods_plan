@@ -81,7 +81,7 @@ export const loginOut = () => {
 }
 
 // 获取歌单详情
-export const playListDetail = (id: number | string) => {
+export const playListDetail = (id: string | string []) => {
   return request({
     url: '/playlist/detail',
     method: 'get',
@@ -241,6 +241,15 @@ export const getArtistAlbum = (id: string | string[]) => {
 }
 
 // 获取专辑详情
+export const getAlbum = (id: string | string[]) => {
+  return request({
+    url: '/album',
+    method: 'get',
+    params: {
+      id
+    }
+  })
+}
 
 // 获取mv播放地址
 export const getMVUrl = (id:string | string[]) => {

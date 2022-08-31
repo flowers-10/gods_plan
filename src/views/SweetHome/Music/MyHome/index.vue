@@ -5,18 +5,20 @@
         :slotName="item.slotName">
         <template #[item.slotName]>
           <div v-if="index === 0" class="ArtistsList">
-            <div class="ArtistsList-card" v-for="(item, index) in topArtistsList" :key="index" @click="goArtistPage(item.id)">
+            <div class="ArtistsList-card" v-for="(item, index) in topArtistsList" :key="index"
+              @click="goArtistPage(item.id)">
               <img class="card-img" :src="item.picUrl" alt="">
               <div class="card-detail">
-                <span class="detail-name">{{ item.name }}</span>
+                <span class="detail-name">{{  item.name  }}</span>
               </div>
             </div>
           </div>
           <div v-if="index === 1" class="recommendList">
-            <div class="recommendList-card" v-for="(item, index) in albumNewestList" :key="index">
+            <div class="recommendList-card" v-for="(item, index) in albumNewestList" :key="index"
+              @click="goAlbum(item.id)">
               <img class="card-img" :src="item.picUrl" alt="">
               <div class="card-detail">
-                <span class="detail-name">{{ item.name }}</span>
+                <span class="detail-name">{{  item.name  }}</span>
               </div>
             </div>
           </div>
@@ -25,16 +27,17 @@
             <div class="recommendList-card" v-for="(item, index) in djRecommendList" :key="index">
               <img class="card-img" :src="item.picUrl" alt="">
               <div class="card-detail">
-                <span class="detail-name">{{ item.name }}</span>
+                <span class="detail-name">{{  item.name  }}</span>
               </div>
             </div>
           </div>
 
           <div v-if="index === 3" class="mvList">
-            <div class="mvList-card" v-for="(item, index) in personalizedMvList" :key="index" @click="goMvPage(item.id)">
+            <div class="mvList-card" v-for="(item, index) in personalizedMvList" :key="index"
+              @click="goMvPage(item.id)">
               <img class="card-img" :src="item.picUrl" alt="">
               <div class="card-detail">
-                <span class="detail-name">{{ item.name }}</span>
+                <span class="detail-name">{{  item.name  }}</span>
               </div>
             </div>
           </div>
@@ -117,25 +120,36 @@ const goPlayListDetail = (id: string) => {
 }
 
 // 点击前往歌手详情
-const goArtistPage = (id:number) => {
+const goArtistPage = (id: number) => {
   console.log(id);
   router.push({
-    name:'Artist',
-    params:{
+    name: 'Artist',
+    params: {
       id
     }
   })
 }
 
 // 前往mv
-const goMvPage = (id:number) => {
-    console.log(id);
-    router.push({
-        name: 'MV',
-        params: {
-            id
-        }
-    })
+const goMvPage = (id: number) => {
+  // console.log(id);
+  router.push({
+    name: 'MV',
+    params: {
+      id
+    }
+  })
+}
+
+// 前往专辑
+const goAlbum = (id: number) => {
+  // console.log(id);
+  router.push({
+    name: 'Album',
+    params: {
+      id
+    }
+  })
 }
 
 
@@ -204,6 +218,7 @@ onMounted(() => {
     @media screen and (max-width: 565px) {
       width: calc(50% - 20px);
       font-size: 10px;
+      padding: 10px;
     }
 
   }
@@ -227,7 +242,7 @@ onMounted(() => {
     cursor: pointer;
     transition: 0.3s ease;
     margin: 0 20px 20px 0;
-
+    min-height: 180px;
     .card-detail {
       margin-top: 15px;
       display: flex;
@@ -268,6 +283,7 @@ onMounted(() => {
     @media screen and (max-width: 565px) {
       width: calc(50% - 20px);
       font-size: 10px;
+      padding: 10px;
     }
 
   }
@@ -309,6 +325,7 @@ onMounted(() => {
     }
 
     .card-img {
+      aspect-ratio: 1/1;
       width: 100%;
       height: 100%;
       border-radius: 50%;

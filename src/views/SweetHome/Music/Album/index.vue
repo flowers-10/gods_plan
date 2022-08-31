@@ -3,18 +3,17 @@
     <main-header :menuLink="menuLink" :menuItemsList="menuItemsList"></main-header>
     <div class="content-wrapper">
       <div class="content-wrapper-header">
-        <img class="playList-img" :src="PlaylistDetails.playlist.coverImgUrl" alt="">
+        <img class="playList-img" :src="AlbumDetails.blurPicUrl" alt="">
         <div class="playList-content">
-          <div class="infor-title">{{  PlaylistDetails?.playlist.name  }} </div>
+          <div class="infor-title">  {{AlbumDetails?.name}}   </div>
           <div class="content-songInfor">
-            <img class="profile-img" :src="PlaylistDetails.playlist.creator.avatarUrl" alt="">
-            <span>{{  PlaylistDetails?.playlist.creator.nickname  }}</span>
+            <span> {{AlbumDetails?.artist?.name}}  </span>
           </div>
-          <div class="content-label">标签: {{  PlaylistDetails?.playlist.tags.join(',')  }}</div>
-          <div class="content-songInfor">简介: {{  PlaylistDetails?.playlist.description  }}</div>
+          <div class="content-label">发布时间： {{$filters.formatTime(AlbumDetails?.publishTime)}}  </div>
+          <div class="content-songInfor">简介:   {{AlbumDetails?.description}}  </div>
         </div>
       </div>
-      <song-lists type="song" :id="id"></song-lists>
+      <song-lists type="album" :id="id"></song-lists>
     </div>
   </div>
 </template>
@@ -22,28 +21,32 @@
 <script setup lang="ts">
 // 引入工具
 import { useRoute } from 'vue-router';
-import { ref, onMounted, computed, reactive } from 'vue';
-import { playListDetail } from '@/api/api'
+import { ref, onMounted, computed } from 'vue';
+import { getAlbum } from '@/api/api'
 import SongLists from '@/components/SongLists/index.vue'
 
 // 使用路由
 const route = useRoute()
 // 给子组件传参
-const menuLink = ref<string>('Playlist Detail')
+const menuLink = ref<string>('Album')
 const menuItemsList = ref([
   { title: '歌曲列表' },
 ])
 // 歌单所有歌曲
-const PlaylistDetails: any = reactive({ playlist: { tags: [], creator: {} } })
+const AlbumDetails = ref<any>({})
 // 获取id
-let id: any = computed(() => {
+let id: string | string[] = computed(() => {
   return route.params.id
 }).value
 // 获取歌单详情
-const getPlaylistDetail = async (ids: string | string[]) => {
-  const res: any = await playListDetail(ids)
-  PlaylistDetails.playlist = res.playlist
+const getPlaylistDetail = async (ids: string | string[] ) => {
+  const res: any = await getAlbum(ids)
+  // console.log(res.album);
+  if(res.code === 200) {
+    AlbumDetails.value = res.album
+  }
 }
+
 
 onMounted(() => {
   getPlaylistDetail(id)
@@ -122,7 +125,7 @@ onMounted(() => {
 
   .infor-title {
     font-weight: 600;
-    font-size: 17px;
+    font-size: 24px;
     display: flex;
     align-items: center;
     padding: 10px;

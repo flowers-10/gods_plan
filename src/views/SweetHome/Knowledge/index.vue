@@ -16,7 +16,7 @@
           <div class="article-card wow animate__fadeInUp" v-for="(item, index) in articleShow" :key="index"
             :class="index % 2 === 0 ? 'row-reverse' : ''" @click="toArticle(item.id)">
             <img v-if="item.articleIMG !==''" class="card-img" :src="item.articleIMG" alt="">
-            <img v-else class="card-img" :src="imgUrl()" alt="">
+            <img v-else class="card-img" src="../../../assets/SPY×FAMILY/1.jpg" alt="">
             <div class="card-detail">
               <span class="detail-title">{{ item.articleTitle }}</span>
               <span class="detail-date">发布于 {{ $filters.formatTime(item.createTime) }}</span>
@@ -144,10 +144,6 @@ const addNewContent = () => {
   }
 }
 
-// 默认图片
-const imgUrl = () => {
-  return new URL('../../../assets/SPY×FAMILY/1.jpg', import.meta.url).href
-}
 
 
 onMounted(() => {

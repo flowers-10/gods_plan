@@ -10,7 +10,8 @@ import APlayer from 'APlayer';
 import 'APlayer/dist/APlayer.min.css';
 import type { PropType } from '@vue/runtime-core';
 import { useStore } from '@/stores';
-import { onMounted, ref, onBeforeUnmount, computed, watch, toRaw, nextTick } from 'vue'
+import { onMounted, ref, onBeforeUnmount, watch, nextTick,computed } from 'vue'
+import { debounce } from '@/utils/debounce';
 
 // 使用pinia
 const store = useStore()
@@ -18,7 +19,11 @@ const store = useStore()
 // 获得歌曲列表 
 let audioLists = computed(() => {
   return store.$state.audioLists
+}).value
+let activeSongsIndex = computed(() => {
+  return store.$state.activeSongsIndex
 })
+
 // 获得dom节点
 const playerRef: any = ref()
 // 存放dom容器
@@ -111,8 +116,9 @@ const props = defineProps({
   },
 })
 
-watch(audioLists, function (newVal, oldVal) {
-  // console.log(ap);
+watch([audioLists,activeSongsIndex], function ([newVal,newVal2], oldVal) {
+  console.log(newVal2);
+  
   ap = new APlayer({
     container: playerRef.value, //dom挂载
     fixed: props.fixed,
@@ -131,18 +137,13 @@ watch(audioLists, function (newVal, oldVal) {
     audio: store.$state.audioLists
     //获得总歌单
   })
-  // console.log(ap);
-  // console.log('添加了新歌', newVal.length);
   // 选择播放的歌曲
-  ap.list.switch(newVal.length - 1);
-  // 播放,因为浏览器不允许自动播放，设置定时器就可以逃避这个监测
+  ap.list.switch(newVal2)
   setTimeout(() => {
     ap.play()
   }, 20)
 
 }, { deep: true })
-
-// 初始化
 onMounted(() => {
   nextTick(() => {
     // console.log(ap);
@@ -174,9 +175,9 @@ onMounted(() => {
     // ap.on('play', function () {
     //   console.log('player paly');
     // });
-    ap.on('listadd', function () {
-      // console.log('player 添加了新歌曲');
-    });
+    // ap.on('listadd', function () {
+    // console.log('player 添加了新歌曲');
+    // });
     // ap.on('listswitch', function () {
     //   console.log('player 切换了歌曲');
     // });
@@ -186,7 +187,6 @@ onMounted(() => {
 
 // 销毁
 onBeforeUnmount(() => {
-  // console.log('组件销毁了！');
   // 离开后销毁aplayer
   // ap.destroy()
 })
@@ -202,7 +202,7 @@ onBeforeUnmount(() => {
   margin-left: 240px;
 
   @media screen and (max-width: 945px) {
-    width:100% !important;
+    width: 100% !important;
     margin-left: 0;
   }
 }

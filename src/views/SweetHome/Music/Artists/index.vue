@@ -71,7 +71,7 @@ const getTag = async (tag: any) => {
 
 // 点击前往歌手详情
 const goArtistPage = (id:number) => {
-  console.log(id);
+  // console.log(id);
   router.push({
     name:'Artist',
     params:{

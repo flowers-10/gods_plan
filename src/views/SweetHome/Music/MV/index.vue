@@ -5,10 +5,10 @@
         <vue3VideoPlay v-bind="options" class="video-hw" />
         <div class="video-info">
           <div class="title">
-            {{ MVDetail.artistName }} - {{ MVDetail.name }}
+            {{  MVDetail.artistName  }} - {{  MVDetail.name  }}
           </div>
           <div class="info">
-            {{ $filters.keepTwoDecimalFull(MVDetail.playCount) }}Views · {{ MVDetail.publishTime }}
+            {{  $filters.keepTwoDecimalFull(MVDetail.playCount)  }}Views · {{  MVDetail.publishTime  }}
           </div>
         </div>
       </div>
@@ -16,10 +16,10 @@
         <div class="content-section-title">更多MV
         </div>
         <div class="cards">
-          <div class="card" v-for="(item, index) in simiMv" :key="index">
+          <div class="card" v-for="(item, index) in simiMv" :key="index" @click="getMoreMv(item.id)">
             <img class="card-img" :src="item.cover" alt="">
             <div class="card-detail">
-              <span class="detail-name"> {{ item.name }} </span>
+              <span class="detail-name"> {{  item.name  }} </span>
             </div>
           </div>
         </div>
@@ -33,11 +33,12 @@ import { ref, onMounted, computed, reactive } from 'vue'
 import "vue3-video-play/dist/style.css";
 import vue3VideoPlay from "vue3-video-play";
 // 引入工具
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { getMVUrl, getMVDetail, getSimiMV } from '../../../../api/api'
 
 // 使用路由
 const route = useRoute()
+const router = useRouter()
 
 // 获得歌手id
 let idNumber = computed(() => {
@@ -79,22 +80,54 @@ const options = reactive({
 const simiMv: any = ref([])
 
 // 请求页面数据
-const getData = () => {
-  let _MVUrl: any = getMVUrl(idNumber)
-  let _MVDetail: any = getMVDetail(idNumber)
-  let _SimiMV: any = getSimiMV(idNumber)
-  Promise.all([_MVUrl, _MVDetail, _SimiMV]).then(([res, resDetail, resSimi]) => {
-    if (res.code == 200) {
-      options.src = res.data.url
-    }
-    if (resDetail.code == 200) {
-      MVDetail.value = resDetail.data
-    }
-    if (resSimi.code == 200) {
-      // console.log(resSimi);
-      simiMv.value = resSimi.mvs
+const getData = (id?: string) => {
+  if (id) {
+    let _MVUrl: any = getMVUrl(id)
+    let _MVDetail: any = getMVDetail(id)
+    let _SimiMV: any = getSimiMV(id)
+    Promise.all([_MVUrl, _MVDetail, _SimiMV]).then(([res, resDetail, resSimi]) => {
+      if (res.code == 200) {
+        options.src = res.data.url
+      }
+      if (resDetail.code == 200) {
+        MVDetail.value = resDetail.data
+      }
+      if (resSimi.code == 200) {
+        // console.log(resSimi);
+        simiMv.value = resSimi.mvs
+      }
+    })
+  } else {
+    let _MVUrl: any = getMVUrl(idNumber)
+    let _MVDetail: any = getMVDetail(idNumber)
+    let _SimiMV: any = getSimiMV(idNumber)
+    Promise.all([_MVUrl, _MVDetail, _SimiMV]).then(([res, resDetail, resSimi]) => {
+      if (res.code == 200) {
+        options.src = res.data.url
+      }
+      if (resDetail.code == 200) {
+        MVDetail.value = resDetail.data
+      }
+      if (resSimi.code == 200) {
+        // console.log(resSimi);
+        simiMv.value = resSimi.mvs
+      }
+    })
+  }
+
+}
+
+// 获取更多mv
+const getMoreMv = (id: string) => {
+  console.log(id);
+  router.push({
+    name: 'MV',
+    params: {
+      id
     }
   })
+  getData(id)
+
 }
 
 onMounted(() => {
@@ -130,9 +163,11 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     width: 100%;
+
     &:last-child {
       padding-bottom: 100px;
     }
+
     &-title {
       color: var(--content-title-color);
       margin-bottom: 14px;

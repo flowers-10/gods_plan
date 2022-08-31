@@ -1,5 +1,5 @@
 /* 封装防抖函数 */ 
-export const debounce = (fun: any, delay: number) => {
+export const debounce = (fun: any, delay: number = 500) => {
   let t: any = ''
   return (args: any) => {
     let that: any = this
