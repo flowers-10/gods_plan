@@ -107,3 +107,16 @@ export const _incrementViews = (id:string | string[]) => {
     }
   },'a')
 }
+
+type UserId = {
+  id: string
+}
+
+// token获取
+export const _token = (data:UserId):any => {
+  return request({
+    url:'/user/token',
+    method:'post',
+    data: data
+  },'a')
+}

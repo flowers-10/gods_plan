@@ -7,7 +7,7 @@
           <div v-if="index === 0" class="ArtistsList">
             <div class="ArtistsList-card" v-for="(item, index) in topArtistsList" :key="index"
               @click="goArtistPage(item.id)">
-              <img class="card-img" :src="item.picUrl" alt="">
+              <img class="card-img" v-lazy="item.img1v1Url" alt="">
               <div class="card-detail">
                 <span class="detail-name">{{  item.name  }}</span>
               </div>
@@ -16,7 +16,7 @@
           <div v-if="index === 1" class="recommendList">
             <div class="recommendList-card" v-for="(item, index) in albumNewestList" :key="index"
               @click="goAlbum(item.id)">
-              <img class="card-img" :src="item.picUrl" alt="">
+              <img class="card-img" v-lazy="item.picUrl" alt="">
               <div class="card-detail">
                 <span class="detail-name">{{  item.name  }}</span>
               </div>
@@ -25,7 +25,7 @@
 
           <div v-if="index === 2" class="recommendList">
             <div class="recommendList-card" v-for="(item, index) in djRecommendList" :key="index">
-              <img class="card-img" :src="item.picUrl" alt="">
+              <img class="card-img" v-lazy="item.picUrl" alt="">
               <div class="card-detail">
                 <span class="detail-name">{{  item.name  }}</span>
               </div>
@@ -35,7 +35,7 @@
           <div v-if="index === 3" class="mvList">
             <div class="mvList-card" v-for="(item, index) in personalizedMvList" :key="index"
               @click="goMvPage(item.id)">
-              <img class="card-img" :src="item.picUrl" alt="">
+              <img class="card-img" v-lazy="item.picUrl" alt="">
               <div class="card-detail">
                 <span class="detail-name">{{  item.name  }}</span>
               </div>
@@ -91,7 +91,7 @@ const getHomePage = async () => {
   // if (res) { recommendList.value = res.recommend }
   // 获得新专速递
   let albumRes: any = await albumNewest()
-  albumNewestList.value = albumRes.albums.slice(0, 8)
+  albumNewestList.value = albumRes.albums.slice(0, 12)
   // console.log(albumRes.albums);
   // 推荐电台
   let djRes: any = await djRecommend()
@@ -104,7 +104,7 @@ const getHomePage = async () => {
   // 推荐艺人
   let artistsRes: any = await topArtists()
   topArtistsList.value = artistsRes.artists.slice(0, 6)
-  // console.log(artistsRes.artistsRes);
+  // console.log(artistsRes);
 
 }
 
@@ -216,9 +216,11 @@ onMounted(() => {
     }
 
     @media screen and (max-width: 565px) {
-      width: calc(50% - 20px);
+      width: calc(33.333% - 14px);
       font-size: 10px;
       padding: 10px;
+      margin: 0 10px 10px 0;
+    
     }
 
   }
@@ -272,7 +274,7 @@ onMounted(() => {
     }
 
     @media screen and (max-width: 1110px) {
-      width: calc(33.333% - 20px);
+      width: calc(50% - 20px);
       font-size: 12px;
 
       &:last-child {
@@ -281,7 +283,6 @@ onMounted(() => {
     }
 
     @media screen and (max-width: 565px) {
-      width: calc(50% - 20px);
       font-size: 10px;
       padding: 10px;
     }
@@ -347,8 +348,9 @@ onMounted(() => {
     }
 
     @media screen and (max-width: 565px) {
-      width: calc(50% - 20px);
       font-size: 10px;
+      padding: 10px;
+      margin:  0 10px 10px 0;
     }
 
   }

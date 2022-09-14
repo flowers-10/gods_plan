@@ -59,17 +59,23 @@ const getData = async () => {
   let res: any = await getArticle({
     id: route.params.id
   })
-  let result: any = res.result
-  // console.log(result);
-  let a: any = result[0]
-  // console.log(a);
+  console.log(res);
 
-  articleShow.articleContent = a.articleContent
-  articleShow.articleTitle = a.articleTitle
-  articleShow.createTime = a.createTime
-  articleShow.updateTime = a.updateTime
-  articleShow.views = a.views
-  articleShow.articleIMG = a.articleIMG
+  if (res.code === 200) {
+    let result: any = res.result
+    // console.log(result);
+    let a: any = result[0]
+    // console.log(a);
+
+    articleShow.articleContent = a.articleContent
+    articleShow.articleTitle = a.articleTitle
+    articleShow.createTime = a.createTime
+    articleShow.updateTime = a.updateTime
+    articleShow.views = a.views
+    articleShow.articleIMG = a.articleIMG
+    document.title = a.articleTitle
+  }
+
 
 }
 
@@ -79,7 +85,7 @@ const back = () => {
 }
 
 // 用户浏览次数
-_incrementViews(route.params.id).then(res=>{
+_incrementViews(route.params.id).then(res => {
   // console.log(res);
 })
 
@@ -214,5 +220,4 @@ onMounted(() => {
 :deep(.md-preview-wrapper) {
   overflow: hidden;
 }
-
 </style>

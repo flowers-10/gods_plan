@@ -14,7 +14,7 @@
     <div class="content-section" id="playListsScrollTop">
       <div class="playlists-card">
         <div class="playlist-card" v-for="(item, index) in palyLists" @click="goPlayListDetail(item.id)">
-          <img class="card-img" :src="item.coverImgUrl" alt="">
+          <img class="card-img" v-lazy="item.coverImgUrl" alt="">
           <div class="card-detail">
             <span class="detail-name">{{ item.name }}</span>
             <span class="detail-playCount">
@@ -105,8 +105,8 @@ const getTag = (tag: any) => {
   // 每次切换tag栏都让页面回到顶部
   if (playListsScrollTop) {
     playListsScrollTop.scrollTo({
-      top:0,
-      behavior:"smooth"
+      top: 0,
+      behavior: "smooth"
     })
   }
   // 通过当前的tag名字获得数据
@@ -147,7 +147,7 @@ const addPlayLists = () => {
   // 当滚轮滚动到了底部就加载下一页的内容，如果加载的条数已经超过总条数了，就显示'一点都没有咯'
   if (clientHeight + scrollTop > scrollHeight - 100) {
     // console.log('你已经到底了');
-    offset.value += 51
+    offset.value += 60
     // console.log(offset.value);
     if (offset.value < total.value) {
       getTopPlaylist(tags.value, offset.value)
@@ -203,7 +203,9 @@ onMounted(() => {
     margin-bottom: 14px;
   }
 
-
+  @media screen and (max-width: 565px) {
+    padding: 10px 10px 90px;
+  }
 }
 
 
@@ -216,7 +218,7 @@ onMounted(() => {
   .playlist-card {
     display: flex;
     flex-direction: column;
-    width: calc(33.3% - 20px);
+    width: calc(20% - 20px);
     font-size: 16px;
     background-color: var(--content-bg);
     border-radius: 14px;
@@ -233,6 +235,11 @@ onMounted(() => {
 
       .detail-name {
         color: var(--theme-color);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
       }
 
       .detail-playCount {
@@ -257,7 +264,10 @@ onMounted(() => {
     }
 
     @media screen and (max-width: 1110px) {
-      width: calc(50% - 20px);
+      width: calc(25% - 10px);
+      font-size: 14px;
+      margin-right: 10px;
+      padding: 12px;
 
       &:last-child {
         margin-left: 0px;
@@ -265,7 +275,14 @@ onMounted(() => {
     }
 
     @media screen and (max-width: 565px) {
-      width: calc(100% - 20px);
+      font-size: 12px;
+      width: calc(33.33% - 12px);
+      margin-right: 5px;
+      padding: 8px;
+
+      .card-detail {
+        margin-top: 5px;
+      }
     }
 
   }

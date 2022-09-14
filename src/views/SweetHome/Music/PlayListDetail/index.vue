@@ -43,10 +43,12 @@ let id: any = computed(() => {
 const getPlaylistDetail = async (ids: string | string[]) => {
   const res: any = await playListDetail(ids)
   PlaylistDetails.playlist = res.playlist
+  document.title=`热浪 - ${PlaylistDetails.playlist.name}`
 }
 
 onMounted(() => {
   getPlaylistDetail(id)
+
 })
 </script>
 

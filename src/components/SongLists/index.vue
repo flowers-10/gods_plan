@@ -89,7 +89,7 @@ const getPlaylistDetail = async (ids: string | string[]) => {
     // 根据歌曲id获得歌曲详情
     const idss = res.playlist.trackIds.map((item: any) => item.id)
     const songRes: any = await songDetail(idss.join())
-    console.log(songRes.songs);
+    // console.log(songRes.songs);
     if (res.code === 200) {
       songs.value = songRes.songs
     }
@@ -152,7 +152,7 @@ const playSongs = async (id: number) => {
     audioList.url = url
     // 获得歌曲详情
     let songsDetailRes: any = await songDetail(id)
-    console.log(songsDetailRes);
+    // console.log(songsDetailRes);
     // 音频艺术家
     let artist = songsDetailRes.songs[0].ar[0].name
     audioList.artist = artist
@@ -163,7 +163,7 @@ const playSongs = async (id: number) => {
     let cover = songsDetailRes.songs[0].al.picUrl
     audioList.cover = cover
     let mv = songsDetailRes.songs[0].mv
-    console.log(mv);
+    // console.log(mv);
     audioList.mv = mv
     // 歌词
     let lyricRes: any = await lyric(id)

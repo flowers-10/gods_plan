@@ -5,7 +5,7 @@
     <div class="content-section">
       <div class="playlists-card">
         <div class="playlist-card" v-for="(item, index) in TopChartsList" @click="goPlayListDetail(item.id)">
-          <img class="card-img" :src="item.coverImgUrl" alt="">
+          <img class="card-img" v-lazy="item.coverImgUrl" alt="">
           <div class="card-detail">
             <span class="detail-name">{{ item.name }}</span>
             <span class="detail-renew">{{ item.updateFrequency }}</span>
@@ -47,15 +47,15 @@ const goPlayListDetail = (id: string) => {
 
 const TopChartsList = ref()
 // 获得排行榜
-const getTopCharts = async() => {
-  const res:any = await toplistDetail()
+const getTopCharts = async () => {
+  const res: any = await toplistDetail()
   // console.log(res);
   TopChartsList.value = res.list
   // console.log(TopChartsList.value);
 }
 
 onMounted(() => {
- getTopCharts()
+  getTopCharts()
 })
 
 </script>
@@ -82,6 +82,9 @@ onMounted(() => {
     margin-bottom: 14px;
   }
 
+  @media screen and (max-width: 565px) {
+    padding: 10px 10px 90px;
+  }
 
 }
 
@@ -95,7 +98,7 @@ onMounted(() => {
   .playlist-card {
     display: flex;
     flex-direction: column;
-    width: calc(33.3% - 20px);
+    width: calc(20% - 20px);
     font-size: 16px;
     background-color: var(--content-bg);
     border-radius: 14px;
@@ -134,7 +137,10 @@ onMounted(() => {
     }
 
     @media screen and (max-width: 1110px) {
-      width: calc(50% - 20px);
+      width: calc(25% - 10px);
+      font-size: 14px;
+      margin-right: 10px;
+      padding: 12px;
 
       &:last-child {
         margin-left: 0px;
@@ -142,7 +148,14 @@ onMounted(() => {
     }
 
     @media screen and (max-width: 565px) {
-      width: calc(100% - 20px);
+      font-size: 12px;
+      width: calc(33.33% - 12px);
+      margin-right: 5px;
+      padding: 8px;
+
+      .card-detail {
+        margin-top: 5px;
+      }
     }
 
   }

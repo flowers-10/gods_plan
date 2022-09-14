@@ -142,7 +142,7 @@ export const topPlaylist = (cat: string, offset: string | number) => {
     method: 'get',
     params: {
       cat,
-      limit: 51,
+      limit: 60,
       offset
     }
   })

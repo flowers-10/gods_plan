@@ -2,14 +2,14 @@
     <div class="main-container">
         <div class="content-wrapper">
             <div class="content-wrapper-header">
-                <img class="artist-img" :src="artist.img1v1Url" alt="">
+                <img class="artist-img" :src="artist.img1v1Url" :alt="artist.name">
                 <div class="artist-content">
-                    <div class="infor-title"> {{  artist.name  }} </div>
+                    <div class="infor-title"> {{ artist.name }} </div>
                     <div class="content-songInfor">
-                        <span>{{  artist.albumSize  }}个专辑 ·</span> <span>{{  artist.musicSize  }}首歌 ·</span>
-                        <span>{{  artist.mvSize  }}个mv</span>
+                        <span>{{ artist.albumSize }}个专辑 ·</span> <span>{{ artist.musicSize }}首歌 ·</span>
+                        <span>{{ artist.mvSize }}个mv</span>
                     </div>
-                    <div @click="introductionflag = true" class="content-songInfor">简介: {{  artist.briefDesc  }}
+                    <div @click="introductionflag = true" class="content-songInfor">简介: {{ artist.briefDesc }}
                     </div>
                 </div>
             </div>
@@ -19,9 +19,9 @@
                 </div>
                 <div class="cards">
                     <div class="card" v-for="(item, index) in AlbumList" :key="index" @click="goAlbumList(item.id)">
-                        <img class="card-img" :src="item.picUrl" alt="">
+                        <img class="card-img" v-lazy="item.picUrl" alt="">
                         <div class="card-detail">
-                            <span class="detail-name"> {{  item.name  }} </span>
+                            <span class="detail-name"> {{ item.name }} </span>
                         </div>
                     </div>
                 </div>
@@ -31,9 +31,9 @@
                 </div>
                 <div class="cards">
                     <div class="card" v-for="(item, index) in MVList" :key="index" @click="goMvPage(item.id)">
-                        <img class="card-img" :src="item.imgurl" alt="">
+                        <img class="card-img" v-lazy="item.imgurl" alt="">
                         <div class="card-detail">
-                            <span class="detail-name"> {{  item.name  }} </span>
+                            <span class="detail-name"> {{ item.name }} </span>
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
         </template>
         <template #default>
             <div class="artistClass">
-                {{  artist.briefDesc  }}
+                {{ artist.briefDesc }}
             </div>
         </template>
     </dialoge>
@@ -74,7 +74,7 @@ let idNumber = computed(() => {
 }).value
 
 watch(() =>
-    router.currentRoute.value.params.id, (newval,oldval) => {
+    router.currentRoute.value.params.id, (newval, oldval) => {
         // console.log(newval);
         getData(newval)
     }
@@ -107,6 +107,7 @@ const getData = async (id?: string | string[]) => {
                     AlbumList.value = resAlbum.hotAlbums
                     console.log(AlbumList.value);
                 }
+                document.title = `热浪 - ${res.artist.name} ${res.artist.alias}`
             }
         )
     } else {
@@ -127,10 +128,10 @@ const getData = async (id?: string | string[]) => {
                 if (resAlbum.code == 200) {
                     AlbumList.value = resAlbum.hotAlbums
                 }
+                document.title = `热浪 - ${res.artist.name} ${res.artist.alias}`
             }
         )
     }
-
 }
 
 // 控制歌曲小菜单打开关闭

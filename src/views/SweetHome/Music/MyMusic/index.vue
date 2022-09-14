@@ -43,7 +43,7 @@
           <div class="playlists-card" v-if="index === 2">
             <div class="playlist-card" v-for="(item, index) in userPlaylists[0]?.playlist"
               @click="goPlayListDetail(item.id)">
-              <img class="card-img" :src="item.coverImgUrl" alt="">
+              <img class="card-img" v-lazy="item.coverImgUrl" alt="">
               <div class="card-detail">
                 <span class="detail-name">{{ item.name }}</span>
                 <span class="detail-trackCount">{{ item.trackCount }}首</span>
@@ -86,7 +86,7 @@ const menuItemsList = ref([
 const flag = ref<boolean>(false)
 
 // 获得用户id
-const uid: string = store.$state.userinfo.account.id
+const uid: string|number = store.$state.userinfo.account.id
 // 用户详情
 const userDetails: any = reactive([])
 // 用户的歌单列表
@@ -99,7 +99,7 @@ const likeLists: any = reactive([])
 const getMyMusicData = async () => {
   // 用户信息
   const res: any = await userDetail(uid)
-  // console.log(res);
+  console.log(res);
   userDetails.push(res)
   const result: any = await userPlaylist(uid)
   userPlaylists.push(result)
@@ -110,7 +110,7 @@ const getMyMusicData = async () => {
     userPlaylists[0].playlist.shift()
   )
   // console.log(likeLists);
-
+  document.title=`热浪 - ${res.profile.nickname} - 累计听歌 ${res.listenSongs}首`
 }
 
 // 路由传参跳到歌单详情

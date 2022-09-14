@@ -1,11 +1,23 @@
 import { defineStore } from 'pinia'
 
+type Userinfo = {
+  account : {
+    id: string | number
+  },
+  profile: {
+    avatarUrl : string
+  }
+}
+
+export interface NewUserinfo extends Userinfo {
+  token: string
+}
+
 export const useStore = defineStore({
   id: 'CloudMusic',
   state: () => ({
-    userinfo: { account: { id: '' }, profile: { avatarUrl: '' }, }
+    userinfo: <Userinfo>{ account: { id: '' }, profile: { avatarUrl: '' }, }
     ,
-    uid: '',
     playListId: '3136952023',
     audioLists: [{
       artist: "Glass Animals",
@@ -17,7 +29,6 @@ export const useStore = defineStore({
       mv:0
     }],
     activeSongsIndex: 0,
-    lastAudio: {}
   }),
   actions: {
     // 用户信息
@@ -42,6 +53,10 @@ export const useStore = defineStore({
       }
       // console.log(this.activeSongsIndex);
     },
+    // 重置激活
+    resetActiveSongsIndex() {
+      this.activeSongsIndex +=1
+    },
     // 删除歌曲
     deleteSongsDetail(id:number) {
       for (let i = 0, iLen = this.audioLists.length; i < iLen; i++) {
@@ -57,6 +72,10 @@ export const useStore = defineStore({
         item.id === audioLists.id ? item.url=audioLists.url : item.url
       })
       
+    },
+    // 保存token
+    setToken(token:string) {
+      (<NewUserinfo>this.userinfo).token = token
     }
   }
 })

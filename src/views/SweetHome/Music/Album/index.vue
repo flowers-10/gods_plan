@@ -41,9 +41,10 @@ let id: string | string[] = computed(() => {
 // 获取歌单详情
 const getPlaylistDetail = async (ids: string | string[] ) => {
   const res: any = await getAlbum(ids)
-  // console.log(res.album);
+  console.log(res.album);
   if(res.code === 200) {
     AlbumDetails.value = res.album
+    document.title = `热浪 - ${res.album.name} ${res.album.alias} - ${res.album.artist.name} - 专辑`
   }
 }
 

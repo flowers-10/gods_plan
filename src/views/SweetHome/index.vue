@@ -188,7 +188,7 @@ const router = useRouter()
 // pinia
 const store = useStore()
 // 获得头像(ts报错因为没有整合类型)
-const avatarUrl = ref<string>(toRaw(store.$state.userinfo.profile.avatarUrl))
+const avatarUrl = ref<string >(toRaw(store.$state.userinfo.profile.avatarUrl))
 // 控制头像详情信息展示
 const flag = ref(false)
 // 导航栏的数据
@@ -335,7 +335,7 @@ img {
     border-bottom: 1px solid var(--border-color);
     padding: 0 30px;
     white-space: nowrap;
-
+    user-select: none;
     @media screen and (max-width: 480px) {
       padding: 0 16px;
     }
@@ -599,7 +599,6 @@ img {
   padding: 26px 26px 90px 26px;
   overflow: auto;
   flex-shrink: 0;
-
   .side-wrapper+.side-wrapper {
     margin-top: 20px;
   }

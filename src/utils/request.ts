@@ -1,7 +1,10 @@
 import axios, { type AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 import { showLoading, hideLoading } from './loading'
+import { useStore } from '@/stores'
+import type { NewUserinfo } from '@/stores'
 
+const sotre = useStore()
 
 export const request = (option: any, type: string = 'music') => {
   // console.log(import.meta.env.VITE_BASE_API);
@@ -27,8 +30,9 @@ export const request = (option: any, type: string = 'music') => {
     // 请求拦截器
     service.interceptors.request.use(
       (config: AxiosRequestConfig<any>) => {
-
-        // console.log(config);
+        // if((<NewUserinfo>sotre.userinfo).token) {
+        //   (<any>config.headers)['token'] = (<NewUserinfo>sotre.userinfo).token
+        // }
         showLoading()
         return config
       }

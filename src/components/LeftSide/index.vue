@@ -68,15 +68,12 @@
         </router-link>
       </div>
     </div>
-
-
   </div>
 </template>
 
 <script setup lang="ts">
 // 引入工具
 import { useStore } from '@/stores';
-import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 // 使用路由
@@ -96,11 +93,6 @@ const getPlayListId = () => {
   })
 }
 
-
-
-onMounted(() => {
-
-})
 </script>
 
 <style lang="less" scoped>

@@ -231,11 +231,13 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
+
 const mainHeaderList = reactive([
   { title: 'Desktop', path: '/apps/allapps/desktop' },
   { title: 'Mobile', path: '/apps/allapps/mobile' },
   { title: 'Web', path: '/apps/allapps/web' }
 ])
+
 const tabSwitch = ref<number>(0)
 
 </script>

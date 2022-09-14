@@ -14,7 +14,7 @@
     <div class="content-section" id="artistWrap">
       <div class="artists-card">
         <div class="artist-card" v-for="(item, index) in artistList" @click="goArtistPage(item.id)">
-          <img class="card-img" :src="item.picUrl" alt="">
+          <img class="card-img" v-lazy="item.picUrl" alt="">
           <div class="card-detail">
             <span class="detail-name"> {{ item.name }} </span>
           </div>
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick ,watchEffect } from 'vue'
 // 引入工具
 import { useRouter } from 'vue-router';
 import { topListArtist } from '../../../../api/api'
@@ -46,7 +46,6 @@ const menuItemsList = ref<object[]>([
 
 // 渲染歌手数据
 const artistList = ref<any>([])
-
 // 默认获取歌手数据
 const getDefaultArtistList = async () => {
   let res: any = await topListArtist()
@@ -65,7 +64,11 @@ const getTag = async (tag: any) => {
   }
   // 通过当前的tag名字获得数据
   let res: any = await topListArtist(tag.id)
-  artistList.value = res.list.artists
+  // nextTick(() => {})
+  if(res.code==200) {
+    artistList.value = res.list.artists
+  }
+  
   // console.log(artistList.value);
 }
 

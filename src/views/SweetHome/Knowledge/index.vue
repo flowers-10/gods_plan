@@ -15,9 +15,9 @@
         <div class="article">
           <div class="article-card wow animate__fadeInUp" v-for="(item, index) in articleShow" :key="index"
             :class="index % 2 === 0 ? 'row-reverse' : ''" @click="toArticle(item.id)">
-            <img v-if="item.articleIMG !==''" class="card-img" :src="item.articleIMG" alt="">
-            <img v-else class="card-img" src="../../../assets/SPY×FAMILY/1.jpg" alt="">
-            <div class="card-detail">
+            <img v-if="item.articleIMG !==''" class="card-img" v-lazy="item.articleIMG" alt="">
+            <!-- <img v-else class="card-img" src="../../../assets/SPY×FAMILY/1.jpg" alt=""> -->
+            <div class="card-detail" :class="item.articleIMG ==''?'active':''">
               <span class="detail-title">{{ item.articleTitle }}</span>
               <span class="detail-date">发布于 {{ $filters.formatTime(item.createTime) }}</span>
               <span class="detail-introduce">{{ item.articleIntroduce }}</span>
@@ -256,6 +256,9 @@ onMounted(() => {
             -webkit-line-clamp: 7; //行数
             -webkit-box-orient: vertical; //盒子中内容竖直排列
           }
+        }
+        .active {
+          width: 100%;
         }
 
         &:hover {

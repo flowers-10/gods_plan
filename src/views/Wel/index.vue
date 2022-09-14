@@ -58,15 +58,17 @@
 </template>
 
 <script setup lang="ts">
-import BeianGov from '../../components/BeianGov/index.vue'
-// 引入api
-import { loginMusic, Mcaptcha, loginCellPhone, loginPhonePassword } from '../../api/api'
+// 引入工具插件
 import { ref, reactive, toRaw } from 'vue'
-import { useRouter } from 'vue-router'
-// 引入pinia
 import { useStore } from '../../stores'
 import { ElMessage } from 'element-plus'
 import type { FormRules, FormInstance } from 'element-plus'
+import { useRouter } from 'vue-router'
+
+// 组件
+import BeianGov from '../../components/BeianGov/index.vue'
+// 引入自定义工具
+import { loginMusic, Mcaptcha, loginCellPhone, loginPhonePassword } from '../../api/api'
 import { checkPhones } from '@/utils/checkPhone'
 
 const store = useStore()
@@ -123,7 +125,10 @@ const getVerification = async () => {
   }
 }
 
-
+type ResTokenType = {
+  code: string | number,
+  token: string
+}
 // 点击登录按钮
 const loginContinue = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
@@ -140,8 +145,6 @@ const loginContinue = async (formEl: FormInstance | undefined) => {
           if (res.code === 200) {
             ElMessage.success('登录成功!')
             store.userInfoActions(res)
-            localStorage.setItem('token', res.token)
-            localStorage.setItem('phone', LoginForm.PhoneNumber)
             router.push('/app')
           } else {
             ElMessage.error('登录失败，请稍后再尝试')
@@ -156,8 +159,6 @@ const loginContinue = async (formEl: FormInstance | undefined) => {
         if (res.code === 200) {
           ElMessage.success('登录成功!')
           store.userInfoActions(res)
-          localStorage.setItem('token', res.token)
-          localStorage.setItem('phone', LoginForm.PhoneNumber)
           router.push('/app')
         } else {
           ElMessage.error('登录失败，请稍后再尝试')

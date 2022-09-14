@@ -17,7 +17,7 @@
         </div>
         <div class="cards">
           <div class="card" v-for="(item, index) in simiMv" :key="index" @click="getMoreMv(item.id)">
-            <img class="card-img" :src="item.cover" alt="">
+            <img class="card-img" v-lazy="item.cover" alt="">
             <div class="card-detail">
               <span class="detail-name"> {{  item.name  }} </span>
             </div>
@@ -90,7 +90,9 @@ const getData = (id?: string) => {
         options.src = res.data.url
       }
       if (resDetail.code == 200) {
+        // console.log(resDetail.data)
         MVDetail.value = resDetail.data
+        document.title = `热浪 - ${ resDetail.data.name}`
       }
       if (resSimi.code == 200) {
         // console.log(resSimi);
@@ -106,7 +108,9 @@ const getData = (id?: string) => {
         options.src = res.data.url
       }
       if (resDetail.code == 200) {
+        // console.log(resDetail.data)
         MVDetail.value = resDetail.data
+        document.title = `热浪 - ${ resDetail.data.name}`
       }
       if (resSimi.code == 200) {
         // console.log(resSimi);
