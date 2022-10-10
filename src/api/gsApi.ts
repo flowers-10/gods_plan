@@ -120,3 +120,11 @@ export const _token = (data:UserId):any => {
     data: data
   },'a')
 }
+
+// 动态路由
+export const getrouter = ():any => {
+  return request({
+    url:'/user/route',
+    method:'get'
+  },'a')
+}

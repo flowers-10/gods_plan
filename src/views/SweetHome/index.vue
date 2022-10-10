@@ -8,7 +8,7 @@
         <router-link class="menu-link"
           :class="[tabSwith === index ? 'is-active' : '', (index + 1) % 2 === 0 ? 'notify' : '']" :to="item.path"
           @click="tabSwith = index" v-for="(item, index) in tabSwithList">
-          {{  item.title  }}
+          {{ item.title }}
         </router-link>
       </div>
       <div class="search-bar">
@@ -40,7 +40,7 @@
     </div>
     <router-view></router-view>
     <transition enter-active-class="animate__animated animate__slideInLeft"
-        leave-active-class="animate__animated animate__slideOutLeft">
+      leave-active-class="animate__animated animate__slideOutLeft">
       <div class="left-side" v-if="status && sideShow">
         <div class="side-wrapper">
           <div class="side-title">App</div>
@@ -66,6 +66,32 @@
               </svg>
               Updates
               <span class="notification-number updates">3</span>
+            </router-link>
+            <router-link @click="sideShow = false" to="/apps/goodchat">
+              <svg t="1662018358765" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                xmlns="http://www.w3.org/2000/svg" p-id="4857">
+                <path
+                  d="M476.666667 810.666667H243.5l-121.746667 121.753333A21.333333 21.333333 0 0 1 85.333333 917.333333v-106.666666A85.426667 85.426667 0 0 1 0 725.333333V213.333333a85.426667 85.426667 0 0 1 85.333333-85.333333h768a85.426667 85.426667 0 0 1 85.333334 85.333333v213.333334H597.333333c-70.58 0-128 57.42-128 128v213.333333a127.466667 127.466667 0 0 0 7.333334 42.666667z m462-341.333334H597.333333a85.426667 85.426667 0 0 0-85.333333 85.333334v213.333333a85.426667 85.426667 0 0 0 85.333333 85.333333h225.833334l79.08 79.086667A21.333333 21.333333 0 0 0 938.666667 917.333333v-64a85.426667 85.426667 0 0 0 85.333333-85.333333V554.666667a85.426667 85.426667 0 0 0-85.333333-85.333334z"
+                  fill="currentColor" p-id="4858"></path>
+              </svg>
+              Good Chat
+            </router-link>
+            <router-link @click="sideShow = false" to="/apps/animegirl">
+              <svg t="1662019099686" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                xmlns="http://www.w3.org/2000/svg" p-id="16242" fill="currentColor">
+                <path
+                  d="M725.507 669.185l-4.797 36.784h-25.587v-33.585l-52.775-7.997 4.799-20.788c22.39-15.992 115.145 17.589 182.313-78.367 67.168-95.954 12.993-157.595 0-167.905-16.793-13.326-105.551 1.597-105.551 1.597s51.178-44.592 63.968-92.757 0-123.138 0-123.138C740 102 648.742 96.668 648.742 96.668 552 160.667 519.205 326.959 519.205 326.959l-22.389-1.598c-17.591-70.366-73.566-148.729-174.319-175.918-100.752-27.189-139.134 89.559-139.134 89.559-3.2 150.33 126.341 239.885 126.341 239.885C61.822 515.68 68.217 632.404 68.217 632.404c79.961 134.337 319.852 87.959 319.852 87.959l4.797 73.563c148.729 9.597 217.496-39.98 217.496-39.98l6.398 68.766c-47.979 54.374-38.382 123.145-38.382 123.145 91.157-20.789 118.344-118.345 118.344-118.345l39.98-15.992 105.55-14.393c111.949-113.549 113.547-190.313 113.547-190.313-150.331-9.595-230.292 62.371-230.292 62.371zM519.205 530.051c-15.898 0-28.788-12.889-28.788-28.788 0-15.897 12.89-28.786 28.788-28.786 15.896 0 28.786 12.888 28.786 28.786 0 15.899-12.889 28.788-28.786 28.788z m187.11 239.887v-7.993s68.77-57.573 87.96-52.776c19.192 4.798-38.384 68.762-87.96 60.769z"
+                  p-id="16243"></path>
+              </svg>
+              Anime Girl
+            </router-link>
+            <router-link @click="sideShow = false" to="/apps/echartmap">
+              <svg t="1665393207399" fill="currentColor" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                xmlns="http://www.w3.org/2000/svg" p-id="8699">
+                <path d="M87.45984 588.91264 827.262976 186.5728 491.702272 958.961664 416.700416 638.511104Z"
+                  p-id="8700"></path>
+              </svg>
+              Echart Map
             </router-link>
           </div>
         </div>
@@ -128,7 +154,7 @@
                   opacity=".3" p-id="4253"></path>
               </svg>
               Playlist Detail
-            </a> 
+            </a>
             <router-link @click="sideShow = false" to="/music/audiolist">
               <svg viewBox="0 0 1024 1024">
                 <path
@@ -188,7 +214,7 @@ const router = useRouter()
 // pinia
 const store = useStore()
 // 获得头像(ts报错因为没有整合类型)
-const avatarUrl = ref<string >(toRaw(store.$state.userinfo.profile.avatarUrl))
+const avatarUrl = ref<string>(toRaw(store.$state.userinfo.profile.avatarUrl))
 // 控制头像详情信息展示
 const flag = ref(false)
 // 导航栏的数据
@@ -336,6 +362,7 @@ img {
     padding: 0 30px;
     white-space: nowrap;
     user-select: none;
+
     @media screen and (max-width: 480px) {
       padding: 0 16px;
     }
@@ -599,6 +626,7 @@ img {
   padding: 26px 26px 90px 26px;
   overflow: auto;
   flex-shrink: 0;
+
   .side-wrapper+.side-wrapper {
     margin-top: 20px;
   }

@@ -56,6 +56,14 @@ const router = createRouter({
               },
             },
             {
+              path: '/apps/echartmap',
+              name: 'EchartMap',
+              component: () => import('../views/SweetHome/Apps/EchartMap/index.vue'),
+              meta: {
+                title: '热浪 - 数据可视化大屏 - 杭州入驻体系'
+              },
+            },
+            {
               path: '/apps/updates',
               name: 'Updates',
               component: () => import('../views/SweetHome/Apps/Updates/index.vue'),
