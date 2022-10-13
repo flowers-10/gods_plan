@@ -1,7 +1,9 @@
 /// <reference types="vite/client" />
 declare module 'APlayer';
 declare module 'vue3-video-play';
-
+declare interface Window {
+  L2Dwidget: any
+}
 
 // vue3 报错提示 找不到模块“./XXX.vue”或其相应的类型声明
 // 报错原因：typescript 只能理解 .ts 文件，无法理解 .vue文件
