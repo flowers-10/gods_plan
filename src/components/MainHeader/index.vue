@@ -86,7 +86,7 @@ const handleScroll = (): void => {
   }
 }
 onMounted(() => {
- 
+ window.addEventListener('scroll', handleScroll, true)
 })
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll, true)

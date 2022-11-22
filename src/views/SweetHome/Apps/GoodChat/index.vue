@@ -1,11 +1,19 @@
 <template>
   <div class="chat">
+    <div class="userRoom">
+      <div v-for="(item, k) in msgList" :key="k">
+        {{item.set}}
+      </div>
+    </div>
+    <div class="draw" id="drawBox">
+      <canvas id="canvas" style="border-radius: 10px;"></canvas>
+    </div>
     <div class="chat-box">
       <div class="chat-main">
-        <div class="chat-info">
+        <div class="chat-info" id="chartInfo">
           <div class="info-detail" v-for="(item, k) in msgList" :key="k">
             <div :class="item.left ? 'head' : 'head-a'">
-              <span class="name">{{ item.name }}</span>
+              <span class="name" :class="item.name === '系统' ? 'systemName':''">{{ item.name }}</span>
               <span>{{ item.date }}</span>
             </div>
             <div :class="item.left ? 'info-main' : 'info-main-a'">
@@ -19,21 +27,20 @@
           </el-input>
         </div>
       </div>
-      
     </div>
-
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, reactive } from 'vue'
+import { ref, onMounted, reactive, nextTick } from 'vue'
 const ws = new WebSocket(import.meta.env.VITE_BASE_WS)
 // 'ws://localhost:8000/talk'
 // 'ws://124.223.168.27:8889/talk'
 
-let msg = ref()
-let msgList = reactive<any>([])
-let names = ref()
+const msg = ref()
+const msgList = reactive<any>([])
+const setDraw = reactive<any>([])
+const names = ref()
 // 打开了ws
 const openWs = (e: any) => {
   // console.log('打开了ws',e);
@@ -65,51 +72,110 @@ const sendMessage = () => {
   }
   const date = `${currentY}-${currentM}-${currentD} ${currentH}:${currentMin}:${currentS}`
   const name = names.value
+  const msgValue = msg.value.replace(/\r|\n/ig, "")
   let msgs: any = JSON.stringify({
-    msg: msg.value,
+    msg: msgValue,
     name: name,
     date: date,
-    left: false
+    left: false,
   })
+  // console.log(msgs);
+
   ws.send(msgs)
   // 发送完清空聊天框
   msg.value = ''
+  const chartDiv = (document.getElementById('chartInfo') as HTMLDivElement)
+  setTimeout(() => {
+    chartDiv.scrollTop = chartDiv.scrollHeight
+  }, 10);
 }
 
 // 收发消息
 const handleWsMessage = (e: any) => {
   // console.log(e.data)
   const msg = JSON.parse(e.data)
-  msgList.push(msg)
-  console.log(msg.name);
+  if (msg.name) {
+    msgList.push(msg)
+  } else {
+    const cvs = (document.getElementById('canvas') as HTMLCanvasElement)
+    const ctx = cvs.getContext('2d')
+    if (ctx) {
+      ctx.lineWidth = 2
+      ctx.strokeStyle = 'red'
+      ctx.lineTo(msg.setX, msg.setY)
+      ctx.stroke()
+    }
+  }
 }
 
+// 画布
+const init = () => {
+  const drawDiv = document.getElementById('drawBox')
+  let height = (drawDiv as HTMLDivElement).clientHeight
+  let width = (drawDiv as HTMLDivElement).clientWidth
+  const cvs = (document.getElementById('canvas') as HTMLCanvasElement)
+  if (cvs) {
+    const ctx = cvs.getContext('2d')
+    cvs.width = width
+    cvs.height = height
+    let isDrawing = false
+    if (ctx) {
+      cvs.addEventListener('mousedown', e => {
+        isDrawing = true
+        ctx.moveTo((e.pageX - 50), (e.pageY - 108))
+      })
+      cvs.addEventListener('mousemove', e => {
+        if (isDrawing) {
+          ctx.lineWidth = 2
+          ctx.strokeStyle = 'red'
+          // console.log(e.pageX);
+
+          ctx.lineTo((e.pageX - 50), (e.pageY - 108))
+          ws.send(JSON.stringify({ setX: (e.pageX - 50), setY: (e.pageY - 108), palyer: 1 }))
+          // ws.send()
+          ctx.stroke()
+        }
+      })
+      cvs.addEventListener('mouseup', e => {
+        isDrawing = false
+      })
+    }
+
+  }
 
 
+}
 
 onMounted(() => {
   ws.addEventListener('message', handleWsMessage, false)
-
   ws.addEventListener('open', openWs, false)
-
+  init()
 })
 </script>
 
 <style lang="less" scoped>
 .chat {
   padding: 50px;
-  display: flex;
-  justify-content: center;
   width: 100%;
+  height: 100%;
+  display: flex;
+
+  .draw {
+    margin-right: 20px;
+    background-color: var(--theme-bg-color);
+    border-radius: 10px;
+    width: 80%;
+    height: 82vh;
+  }
 
   .chat-box {
     padding: 20px;
-    width: 100%;
-    height: calc(100% - 58px);
+    width: 20%;
     background-color: var(--theme-bg-color);
     border-radius: 10px;
-    display: flex;
-    height: 100%;
+    height: 82vh;
+    min-width: 400px;
+
 
     .chat-main {
       width: 100%;
@@ -130,10 +196,7 @@ onMounted(() => {
             display: flex;
             flex-direction: row-reverse;
 
-            .name {
-              margin-left: 5px;
-              color: rgb(240, 74, 74);
-            }
+
           }
 
           .head-a {
@@ -144,6 +207,11 @@ onMounted(() => {
               margin-right: 5px;
               color: rgb(22, 189, 240);
 
+            }
+
+            .systemName {
+              margin-left: 5px;
+              color: rgb(240, 74, 74);
             }
           }
 
@@ -168,14 +236,26 @@ onMounted(() => {
       }
     }
 
-    
+
 
   }
 
 }
+
 @media screen and(max-width:580px) {
   .chat {
     padding: 0 !important;
+    display: block;
+
+    .draw {
+      width: 100%;
+      height: 70%;
+    }
+
+    .chat-box {
+      width: 100%;
+      height: 30%;
+    }
   }
 }
 </style>

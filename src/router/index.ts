@@ -39,14 +39,7 @@ const router = createRouter({
                 title: '热浪 - 设置'
               },
             },
-            {
-              path: '/apps/goodchat',
-              name: 'GoodChat',
-              component: () => import('../views/SweetHome/Apps/GoodChat/index.vue'),
-              meta: {
-                title: '热浪 - 聊天室 - 畅所欲言'
-              },
-            },
+            
             {
               path: '/apps/animegirl',
               name: 'AnimeGirl',
@@ -72,6 +65,14 @@ const router = createRouter({
               },
             }
           ],
+        },
+        {
+          path: '/apps/goodchat',
+          name: 'GoodChat',
+          component: () => import('../views/SweetHome/Apps/GoodChat/index.vue'),
+          meta: {
+            title: '热浪 - 你画我猜'
+          },
         },
         {
           path: '/music',
