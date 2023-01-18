@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <left-side :sideNavList="sideNavList"></left-side>
-    <a-player></a-player>
+    <!-- <a-player></a-player> -->
     <router-view></router-view>
   </div>
 </template>
@@ -11,7 +11,6 @@ import { ref } from 'vue'
 
 // 引入子组件
 import LeftSide from '@/components/LeftSide/index.vue'
-import APlayer from '@/components/APlayer/index.vue'
 
 
 const sideNavList = ref([

@@ -24,7 +24,6 @@
 
 <script setup lang="ts">
 import 'animate.css'
-import { ref } from 'vue'
 // 拖动效果
 import { vMove } from '@/utils/vMove';
 

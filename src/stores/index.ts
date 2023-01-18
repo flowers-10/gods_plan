@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 
 type Userinfo = {
-  account : {
+  account: {
     id: string | number
   },
   profile: {
-    avatarUrl : string
+    avatarUrl: string
   }
 }
 
@@ -18,7 +18,7 @@ export const useStore = defineStore({
   state: () => ({
     userinfo: <Userinfo>{ account: { id: '' }, profile: { avatarUrl: '' }, }
     ,
-    playListId: '3136952023',
+    playListId: <string | string[]>'3136952023',
     audioLists: [{
       artist: "Glass Animals",
       cover: "https://p1.music.126.net/7QQmLDI1wgOapW1AzkPMEw==/109951165099694316.jpg",
@@ -26,9 +26,12 @@ export const useStore = defineStore({
       name: "Heat Waves",
       url: "http://m8.music.126.net/20220516220845/40ed96529bec9199f042b826f9cb0bc6/ymusic/obj/w5zDlMODwrDDiGjCn8Ky/3055153974/856a/a46a/b9b2/c4ae9b782e5313fa0627c652dae8abad.mp3",
       id: 1459128908,
-      mv:0
+      mv: 0
     }],
     activeSongsIndex: 0,
+    AssistiveTouchFlag:true,
+    AplayFlag:true,
+    AplayFixedMode:true
   }),
   actions: {
     // 用户信息
@@ -37,7 +40,7 @@ export const useStore = defineStore({
       // setLocalstorage('userStore',toRaw(this.userStore))
     },
     // 用户歌单id
-    getplayListId(id: string) {
+    getplayListId(id: string | string[]) {
       this.playListId = id
     },
     // 添加总歌曲列表
@@ -45,7 +48,7 @@ export const useStore = defineStore({
       this.audioLists.push(audioList)
     },
     // 重复的歌曲就立即播放
-    setActiveSongsIndex(id:number) {
+    setActiveSongsIndex(id: number) {
       for (let i = 0, iLen = this.audioLists.length; i < iLen; i++) {
         if (this.audioLists[i].id == id) {
           this.activeSongsIndex = i
@@ -55,13 +58,13 @@ export const useStore = defineStore({
     },
     // 重置激活
     resetActiveSongsIndex() {
-      this.activeSongsIndex +=1
+      this.activeSongsIndex += 1
     },
     // 删除歌曲
-    deleteSongsDetail(id:number) {
+    deleteSongsDetail(id: number) {
       for (let i = 0, iLen = this.audioLists.length; i < iLen; i++) {
         if (this.audioLists[i].id === id) {
-          this.audioLists.splice(i,1)
+          this.audioLists.splice(i, 1)
         }
       }
     },
@@ -69,13 +72,24 @@ export const useStore = defineStore({
     resetAudioList(audioLists: any) {
       // console.log(audioLists)
       this.audioLists.map((item) => {
-        item.id === audioLists.id ? item.url=audioLists.url : item.url
+        item.id === audioLists.id ? item.url = audioLists.url : item.url
       })
-      
+
     },
     // 保存token
-    setToken(token:string) {
+    setToken(token: string) {
       (<NewUserinfo>this.userinfo).token = token
+    },
+    // 控制AssistiveTouchVal开关
+    setAssistiveTouch(status:boolean) {
+      this.AssistiveTouchFlag = status
+    },
+    // 控制播放器销毁
+    setAplayFlag(status:boolean) {
+      this.AplayFlag = status
+    },
+    setAplayFixedMode(status:boolean) {
+      this.AplayFixedMode = status
     }
   }
 })

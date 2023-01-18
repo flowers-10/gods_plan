@@ -1,5 +1,5 @@
 <template>
-  <div class="dark-light" v-if="!status" @dblclick="toggleButton" v-move>
+  <div class="dark-light" v-if="!status && statusAssistiveTouch" @dblclick="toggleButton" v-move>
 
     <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"
       stroke-linejoin="round">
@@ -9,8 +9,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, ref, watchEffect } from 'vue'
 import { vMove } from '@/utils/vMove';
+import { useStore } from '@/stores';
+
+const store = useStore()
+
 // 通过点击事件，用户可以手动切换亮色主题或者暗色主题
 const toggleButton = () => {
   let status = localStorage.getItem('dark-light')
@@ -34,8 +38,14 @@ const IsPc = () => {
     return userAgent.includes(i)
   })
 }
-let status = IsPc()
+let status = ref(true)
 
+let statusAssistiveTouch = ref(true)
+
+watchEffect(() => {
+  statusAssistiveTouch.value = store.AssistiveTouchFlag
+  status.value = IsPc()
+})
 onMounted(() => {
   // 因为换肤是永久性的，不能刷新就又变成黑色模式，所以在挂在阶段就通过 localStorge 浏览器缓存 light 与 dark 的状态键值对
   let status = localStorage.getItem('dark-light')
@@ -62,7 +72,7 @@ onMounted(() => {
   width: 40px;
   height: 40px;
   left: 95%;
-  top: 90%;
+  top: 85%;
   background-color: var(--dropdown-bg);
   box-shadow: -1px 3px 8px -1px rgba(0, 0, 0, 0.2);
   padding: 8px;

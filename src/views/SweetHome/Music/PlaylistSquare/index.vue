@@ -12,22 +12,33 @@
       </svg>
     </div>
     <div class="content-section" id="playListsScrollTop">
-      <div class="playlists-card">
-        <div class="playlist-card" v-for="(item, index) in palyLists" @click="goPlayListDetail(item.id)">
-          <img class="card-img" v-lazy="item.coverImgUrl" alt="">
-          <div class="card-detail">
-            <span class="detail-name">{{ item.name }}</span>
-            <span class="detail-playCount">
+      <Waterfall v-if="flag" :lazyload="true" class="playlists-card" :list="palyLists" :breakpoints="{
+        1900: { //当屏幕宽度小于等于1200
+          rowPerView: 5,
+        },
+        1100: { //当屏幕宽度小于等于800
+          rowPerView: 4,
+        },
+        500: { //当屏幕宽度小于等于500
+          rowPerView: 3,
+        }
+      }">
+        <template #item="{ item }">
+          <div class="playlist-card" @click="goPlayListDetail(item.id)">
+            <LazyImg class="card-img" :url="item.coverImgUrl" alt="" />
+            <div class="card-detail">
+              <span class="detail-name">{{ item.name }}</span>
+              <span class="detail-playCount">
               <svg viewBox="0 0 1024 1024">
                 <path
                   d="M870.2 466.333333l-618.666667-373.28a53.333333 53.333333 0 0 0-80.866666 45.666667v746.56a53.206667 53.206667 0 0 0 80.886666 45.666667l618.666667-373.28a53.333333 53.333333 0 0 0 0-91.333334z"
                   fill="currentColor"></path>
               </svg>
               {{ item.playCount }}</span>
+            </div>
           </div>
-
-        </div>
-      </div>
+        </template>
+      </Waterfall>
 
       <div v-if="status === false" class="loading">
         已经在玩命加载了。。。</div>
@@ -39,10 +50,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 // 引入工具
 import { useRouter } from 'vue-router';
-import { useStore } from '../../../../stores';// pinia
 import { catlist, topPlaylist } from '../../../../api/api'
 import { debounce } from '../../../../utils/debounce'
 
@@ -52,8 +62,7 @@ const menuLink = ref<string>('Playlist Square')
 const menuItemsList = ref<object[]>([])
 // 路由
 const router = useRouter()
-// pinia
-const store = useStore()
+
 // 歌单分类
 const catlists = ref()
 
@@ -119,8 +128,6 @@ const getTag = (tag: any) => {
 
 // 路由传参跳到歌单详情
 const goPlayListDetail = (id: string) => {
-  // 存入pinia中保存,下次进入后还是当前点击的歌单
-  store.getplayListId(id)
   // 点击后跳转到相应的歌单
   router.push({
     name: 'PlayListDetail',
@@ -167,6 +174,9 @@ const goTop = () => {
     })
   }
 }
+// 控制瀑布流组件渲染
+const flag = ref<boolean>(true)
+
 onMounted(() => {
   // 获取歌单分类
   getCatlist()
@@ -177,6 +187,14 @@ onMounted(() => {
   playListsScroll.addEventListener('scroll',
     debounce(addPlayLists, 1000)
   )
+  nextTick(() => {
+    window.addEventListener('resize', () => {
+      flag.value = false
+      setTimeout(() => {
+        flag.value = true
+      }, 100);
+    })
+  })
 })
 
 </script>
@@ -192,11 +210,8 @@ onMounted(() => {
 .content-section {
   padding: 20px 40px 100px;
   margin-top: 30px;
-  display: flex;
-  flex-direction: column;
   width: 100%;
-  overflow: auto;
-  overflow-x: hidden;
+  overflow-y: auto;
 
   &-title {
     color: var(--content-title-color);
@@ -210,15 +225,11 @@ onMounted(() => {
 
 
 .playlists-card {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+  overflow-y: auto;
   width: calc(100% + 20px);
+  background-color: transparent;
 
   .playlist-card {
-    display: flex;
-    flex-direction: column;
-    width: calc(20% - 20px);
     font-size: 16px;
     background-color: var(--content-bg);
     border-radius: 14px;
@@ -226,7 +237,6 @@ onMounted(() => {
     padding: 20px;
     cursor: pointer;
     transition: 0.3s ease;
-    margin: 0 20px 20px 0;
 
     .card-detail {
       margin-top: 15px;
@@ -264,25 +274,11 @@ onMounted(() => {
     }
 
     @media screen and (max-width: 1110px) {
-      width: calc(25% - 10px);
       font-size: 14px;
-      margin-right: 10px;
-      padding: 12px;
-
-      &:last-child {
-        margin-left: 0px;
-      }
     }
 
     @media screen and (max-width: 565px) {
       font-size: 12px;
-      width: calc(33.33% - 12px);
-      margin-right: 5px;
-      padding: 8px;
-
-      .card-detail {
-        margin-top: 5px;
-      }
     }
 
   }
@@ -293,12 +289,13 @@ onMounted(() => {
   color: var(--theme-color);
   font-size: 20px;
   margin: 20px auto;
+  text-align: center;
 }
 
 .goTop {
   position: fixed;
   bottom: 90px;
-  right: 20px;
+  right: 8px;
   // right: 10px;
   cursor: pointer;
 

@@ -1,5 +1,6 @@
 <template>
   <div class="chat">
+    <div class="back" @click="backHome">返回</div>
     <div class="userRoom">
       <div v-for="(item, k) in msgList" :key="k">
         {{item.set}}
@@ -33,6 +34,9 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, reactive, nextTick } from 'vue'
+import { useRouter } from 'vue-router';
+const router = useRouter()
+
 const ws = new WebSocket(import.meta.env.VITE_BASE_WS)
 // 'ws://localhost:8000/talk'
 // 'ws://124.223.168.27:8889/talk'
@@ -146,6 +150,10 @@ const init = () => {
 
 }
 
+const backHome  =() => {
+  router.push('/apps/games')
+}
+
 onMounted(() => {
   ws.addEventListener('message', handleWsMessage, false)
   ws.addEventListener('open', openWs, false)
@@ -159,6 +167,11 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   display: flex;
+  position: absolute;
+  .back{
+    cursor: pointer;
+    
+  }
 
   .draw {
     margin-right: 20px;

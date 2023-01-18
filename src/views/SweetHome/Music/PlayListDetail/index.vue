@@ -23,9 +23,11 @@
 // 引入工具
 import { useRoute } from 'vue-router';
 import { ref, onMounted, computed, reactive } from 'vue';
+import { useStore } from '../../../../stores';// pinia
 import { playListDetail } from '@/api/api'
 import SongLists from '@/components/SongLists/index.vue'
-
+// pinia
+const store = useStore()
 // 使用路由
 const route = useRoute()
 // 给子组件传参
@@ -36,7 +38,7 @@ const menuItemsList = ref([
 // 歌单所有歌曲
 const PlaylistDetails: any = reactive({ playlist: { tags: [], creator: {} } })
 // 获取id
-let id: any = computed(() => {
+let id: string | string[] = computed(() => {
   return route.params.id
 }).value
 // 获取歌单详情
@@ -44,11 +46,12 @@ const getPlaylistDetail = async (ids: string | string[]) => {
   const res: any = await playListDetail(ids)
   PlaylistDetails.playlist = res.playlist
   document.title=`热浪 - ${PlaylistDetails.playlist.name}`
+  // 存入pinia中保存,下次进入后还是当前点击的歌单
+  store.getplayListId(ids)
 }
 
 onMounted(() => {
   getPlaylistDetail(id)
-
 })
 </script>
 

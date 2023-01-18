@@ -9,7 +9,7 @@
               @click="goArtistPage(item.id)">
               <img class="card-img" v-lazy="item.img1v1Url" alt="">
               <div class="card-detail">
-                <span class="detail-name">{{  item.name  }}</span>
+                <span class="detail-name">{{ item.name }}</span>
               </div>
             </div>
           </div>
@@ -18,29 +18,37 @@
               @click="goAlbum(item.id)">
               <img class="card-img" v-lazy="item.picUrl" alt="">
               <div class="card-detail">
-                <span class="detail-name">{{  item.name  }}</span>
+                <span class="detail-name">{{ item.name }}</span>
               </div>
             </div>
           </div>
 
-          <div v-if="index === 2" class="recommendList">
+          <div v-if="index === 3" class="recommendList">
             <div class="recommendList-card" v-for="(item, index) in djRecommendList" :key="index">
               <img class="card-img" v-lazy="item.picUrl" alt="">
               <div class="card-detail">
-                <span class="detail-name">{{  item.name  }}</span>
+                <span class="detail-name">{{ item.name }}</span>
               </div>
             </div>
           </div>
 
-          <div v-if="index === 3" class="mvList">
-            <div class="mvList-card" v-for="(item, index) in personalizedMvList" :key="index"
-              @click="goMvPage(item.id)">
-              <img class="card-img" v-lazy="item.picUrl" alt="">
-              <div class="card-detail">
-                <span class="detail-name">{{  item.name  }}</span>
+
+          <Waterfall v-if="index === 2 && flag === true" class="mvList" :lazyload="true" :list="personalizedMvList"
+            :breakpoints="{
+              1900: { //当屏幕宽度小于等于1200
+                rowPerView: 2,
+              },
+              
+            }">
+            <template #item="{ item }">
+              <div class="mvList-card" @click="goPlayListDetail(item.id)">
+                <LazyImg class="card-img" :url="item.picUrl" alt="" />
+                <div class="card-detail">
+                  <span class="detail-name">{{ item.name }}</span>
+                </div>
               </div>
-            </div>
-          </div>
+            </template>
+          </Waterfall>
         </template>
       </content-section>
     </template>
@@ -49,7 +57,7 @@
 
 <script setup lang="ts">
 import { albumNewest, djRecommend, personalizedMv, topArtists } from '@/api/api'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router';
 import { useStore } from '@/stores'// pinia
 import MainContainer from '@/components/MainContainer/index.vue'
@@ -152,9 +160,19 @@ const goAlbum = (id: number) => {
   })
 }
 
+// 控制瀑布流组件渲染
+const flag = ref<boolean>(true)
 
 onMounted(() => {
   getHomePage()
+  nextTick(() => {
+    window.addEventListener('resize', () => {
+      flag.value = false
+      setTimeout(() => {
+        flag.value = true
+      }, 100);
+    })
+  })
 })
 </script>
 
@@ -220,22 +238,18 @@ onMounted(() => {
       font-size: 10px;
       padding: 10px;
       margin: 0 10px 10px 0;
-    
+
     }
 
   }
 }
 
 .mvList {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+  background-color: transparent !important;
   width: calc(100% + 20px);
 
   .mvList-card {
-    display: flex;
-    flex-direction: column;
-    width: calc(50% - 20px);
+   
     font-size: 16px;
     background-color: var(--content-bg);
     border-radius: 14px;
@@ -245,6 +259,7 @@ onMounted(() => {
     transition: 0.3s ease;
     margin: 0 20px 20px 0;
     min-height: 180px;
+
     .card-detail {
       margin-top: 15px;
       display: flex;
@@ -274,17 +289,13 @@ onMounted(() => {
     }
 
     @media screen and (max-width: 1110px) {
-      width: calc(50% - 20px);
+
       font-size: 12px;
 
-      &:last-child {
-        margin-left: 0px;
-      }
     }
 
     @media screen and (max-width: 565px) {
       font-size: 10px;
-      padding: 10px;
     }
 
   }
@@ -350,7 +361,7 @@ onMounted(() => {
     @media screen and (max-width: 565px) {
       font-size: 10px;
       padding: 10px;
-      margin:  0 10px 10px 0;
+      margin: 0 10px 10px 0;
     }
 
   }

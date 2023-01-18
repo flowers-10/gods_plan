@@ -39,7 +39,14 @@ const router = createRouter({
                 title: '热浪 - 设置'
               },
             },
-            
+            {
+              path: '/apps/games',
+              name: 'Games',
+              component: () => import('../views/SweetHome/Apps/Games/index.vue'),
+              meta: {
+                title: '热浪 - 小游戏集合'
+              },
+            },
             {
               path: '/apps/animegirl',
               name: 'AnimeGirl',
@@ -63,16 +70,9 @@ const router = createRouter({
               meta: {
                 title: '热浪 - 文章更新'
               },
-            }
+            },
+           
           ],
-        },
-        {
-          path: '/apps/goodchat',
-          name: 'GoodChat',
-          component: () => import('../views/SweetHome/Apps/GoodChat/index.vue'),
-          meta: {
-            title: '热浪 - 你画我猜'
-          },
         },
         {
           path: '/music',
@@ -170,6 +170,30 @@ const router = createRouter({
           component: () => import('../views/SweetHome/Knowledge/Article/index.vue'),
         }
       ]
+    },
+    {
+      path: '/games/draw',
+      name: 'Draw',
+      component: () => import('../views/Games/GoodChat/index.vue'),
+      meta: {
+        title: '热浪 - 你画我猜'
+      },
+    },
+    {
+      path: '/games/animalChecker',
+      name: 'AnimalChecker',
+      component: () => import('../views/Games/AnimalChecker/index.vue'),
+      meta: {
+        title: '热浪 - 斗兽棋'
+      },
+    },
+    {
+      path: '/games/turnChess',
+      name: 'TurnChess',
+      component: () => import('../views/Games/TurnChess/index.vue'),
+      meta: {
+        title: '热浪 - 斗兽棋'
+      },
     },
     {
       path: '/:cathchAll(.*)',

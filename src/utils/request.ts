@@ -2,7 +2,6 @@ import axios, { type AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 import { showLoading, hideLoading } from './loading'
 import { useStore } from '@/stores'
-import type { NewUserinfo } from '@/stores'
 
 const sotre = useStore()
 

@@ -87,7 +87,6 @@ const MVList = ref<any>([])
 const AlbumList = ref<any>([])
 // 获得歌手数据
 const getData = async (id?: string | string[]) => {
-    // console.log(idNumber);
     if (id) {
         let Artists: any = getArtists(id)
         let ArtistMV: any = getArtistMV(id)

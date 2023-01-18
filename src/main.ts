@@ -11,11 +11,13 @@ import router from './router'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import 'vue-waterfall-plugin-next/style.css'
 
 // 引入全局组件
 import MainHeader from '@/components/MainHeader/index.vue'
 import ContentSection from '@/components/ContentSection/index.vue'
 import Dialog from '@/components/Dialog/index.vue'
+import { LazyImg, Waterfall } from 'vue-waterfall-plugin-next'
 
 
 // 使用pinia持久化插件
@@ -60,4 +62,4 @@ routerAfterEach
 
 // 链式调用
 app.component('main-header', MainHeader).component('content-section', ContentSection).
-component('dialoge',Dialog).mount('#app')
+component('dialoge',Dialog).component('LazyImg',LazyImg).component('Waterfall',Waterfall).mount('#app')
