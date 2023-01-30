@@ -1,5 +1,6 @@
 <template>
   <div class="GodsGames">
+    <!-- 手机端适配差 -->
     <div class="cards">
       <div class="card" v-for="(item,index) in gamesList" :key="index" @click="router.push(item.path)">
         <img class="card-img" v-lazy='item.imgUrl' />
