@@ -1,7 +1,9 @@
 <template>
+  <div class="exit" @click="router.push('/apps/games')">退出</div>
   <div class="box">
     <div class="titleBox">{{ infor.flopStutas == 'blue' ? '蓝方行动' : '红方行动' }}<span class="message" v-if="infor.shows">:
-        {{ infor.message
+        {{
+          infor.message
         }}</span></div>
     <div class="eatList">
       <div class="eatListTitle">阵亡棋子</div>
@@ -34,6 +36,8 @@
 </template>
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue'
+import { useRouter } from 'vue-router';
+const router = useRouter()
 
 type InforType = {
   dataList: DataListType[],
@@ -675,5 +679,15 @@ init()
   line-height: 40px;
   margin-left: 120px;
   border-radius: 20px;
+}
+
+.exit {
+  position: absolute;
+  left: 10px;
+  z-index: 999;
+  border: 1px solid black;
+  top: 10px;
+  padding: 10px;
+  cursor: pointer;
 }
 </style>
