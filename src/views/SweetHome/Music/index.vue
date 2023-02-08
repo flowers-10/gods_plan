@@ -2,7 +2,11 @@
   <div class="wrapper">
     <left-side :sideNavList="sideNavList"></left-side>
     <!-- <a-player></a-player> -->
-    <router-view></router-view>
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
   </div>
 </template>
 

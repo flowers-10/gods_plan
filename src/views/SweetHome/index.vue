@@ -38,7 +38,11 @@
         </div>
       </div>
     </div>
-    <router-view></router-view>
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
     <transition enter-active-class="animate__animated animate__slideInLeft"
       leave-active-class="animate__animated animate__slideOutLeft">
       <div class="left-side" v-if="status && sideShow">
