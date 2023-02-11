@@ -78,7 +78,14 @@ const router = createRouter({
                 title: '热浪 - 文章更新'
               },
             },
-           
+            {
+              path: '/apps/signcross',
+              name: 'Signcross',
+              component: () => import('../views/SweetHome/Apps/IframeP/index.vue'),
+              meta: {
+                title: '单点登录'
+              },
+            },
           ],
         },
         {
