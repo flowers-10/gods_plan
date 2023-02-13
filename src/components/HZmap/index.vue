@@ -4,7 +4,8 @@
 
 <script setup lang="ts">
 // 引入工具
-import geoJson from "@/assets/json/zhejiang.json"; //该文件路径改成自己项目中的文件路径即可
+// import geoJson from "@/assets/json/zhejiang.json"; //该文件路径改成自己项目中的文件路径即可
+import geoJson from "@/assets/json/hangzhou.json"; //该文件路径改成自己项目中的文件路径即可
 import * as echarts from "echarts";
 import "echarts-gl"; //3D地图插件
 import { onMounted, ref, watch, toRaw } from "vue";
@@ -204,10 +205,10 @@ const chartMap = (data: CityType[] = []) => {
 
 const a = () => {
   let newArr = []
-  let arr = { name: "浙江省", value: [119.224027, 27.994455, 999] }
-  for (let i = 0; i < 2; i +=0.02) {
+  let arr = { name: "浙江省", value: [119.024027, 29.594455, 999] }
+  for (let i = 0; i < 1; i +=0.02) {
    
-    for (let j = 0; j < 2; j +=0.02) {
+    for (let j = 0; j < 0.7; j +=0.02) {
       // console.log(parseFloat(j.toFixed(2)));
       newArr.push({ name: "浙江省", value: [parseFloat((arr.value[0] + i).toFixed(6)), parseFloat((arr.value[1] + j).toFixed(6)), Math.floor(Math.random() * 1000)] })
   // }

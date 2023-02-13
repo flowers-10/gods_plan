@@ -41,6 +41,34 @@ export const loginPhonePassword = (phone: string | number, password: string | nu
   })
 }
 
+// 二维码登录
+// 二维码 key 生成接口
+export const getQrcodeKey = () => {
+  return request({
+    url: '/login/qr/key',
+    method: 'get',
+    params: { timestamp: Date.now() }
+  })
+}
+
+// 二维码生成接口
+export const createQrcode = (key: object) => {
+  return request({
+    url: '/login/qr/create',
+    method: 'get',
+    params: { key, qrimg: true, timestamp: Date.now() }
+  })
+}
+
+// 二维码检测扫码状态接口
+export const checkQrcode = (key: object) => {
+  return request({
+    url: '/login/qr/check',
+    method: 'get',
+    params: { key, timestamp: Date.now() }
+  })
+}
+
 // 登录状态
 export const loginStatus = () => {
   return request({
@@ -81,7 +109,7 @@ export const loginOut = () => {
 }
 
 // 获取歌单详情
-export const playListDetail = (id: string | string []) => {
+export const playListDetail = (id: string | string[]) => {
   return request({
     url: '/playlist/detail',
     method: 'get',
@@ -252,7 +280,7 @@ export const getAlbum = (id: string | string[]) => {
 }
 
 // 获取mv播放地址
-export const getMVUrl = (id:string | string[]) => {
+export const getMVUrl = (id: string | string[]) => {
   return request({
     url: '/mv/url',
     method: 'get',
@@ -263,7 +291,7 @@ export const getMVUrl = (id:string | string[]) => {
 }
 
 // 获取mv详情
-export const getMVDetail = (mvid:string | string[]) => {
+export const getMVDetail = (mvid: string | string[]) => {
   return request({
     url: '/mv/detail',
     method: 'get',
@@ -274,7 +302,7 @@ export const getMVDetail = (mvid:string | string[]) => {
 }
 
 // 相似mv
-export const getSimiMV = (mvid:string | string[]) => {
+export const getSimiMV = (mvid: string | string[]) => {
   return request({
     url: '/simi/mv',
     method: 'get',

@@ -13,6 +13,9 @@
         <span>|</span>
         <span class="checkout" :class="slotName === 'Password' ? 'activeColor' : ''"
           @click="checkoutLogin('Password')">Password</span>
+        <span>|</span>
+        <span class="checkout" :class="slotName === 'QRcode' ? 'activeColor' : ''" @click="checkoutLogin('QRcode')">QR
+          code</span>
       </template>
       <template #Login>
         <div class="login-form">
@@ -45,6 +48,13 @@
           </el-form>
         </div>
       </template>
+      <template #QRcode>
+        <div class="login-form">
+          <div class="img-box">
+            <img id="codeimg" src="" alt="">
+          </div>
+        </div>
+      </template>
       <template #Footer>
         <div class="content-button-wrapper">
           <button class="content-button status-button open close" @click="flag = false">Cancel</button>
@@ -59,7 +69,7 @@
 
 <script setup lang="ts">
 // 引入工具插件
-import { ref, reactive, toRaw } from 'vue'
+import { ref, reactive } from 'vue'
 import { useStore } from '../../stores'
 import { ElMessage } from 'element-plus'
 import type { FormRules, FormInstance } from 'element-plus'
@@ -68,7 +78,7 @@ import { useRouter } from 'vue-router'
 // 组件
 import BeianGov from '../../components/BeianGov/index.vue'
 // 引入自定义工具
-import { loginMusic, Mcaptcha, loginCellPhone, loginPhonePassword } from '../../api/api'
+import { loginMusic, Mcaptcha, loginCellPhone, loginPhonePassword, getQrcodeKey, createQrcode, checkQrcode } from '../../api/api'
 import { checkPhones } from '@/utils/checkPhone'
 
 const store = useStore()
@@ -90,9 +100,26 @@ const getFlag = (flagChild: boolean) => {
 }
 
 // 点击切换登录模式
-const checkoutLogin = (name: string) => {
+const checkoutLogin = async (name: string) => {
   slotName.value = name
+  if (name === "QRcode") {
+    const imgdom: any = document.getElementById("codeimg")
+    const { data }: any = await getQrcodeKey()
+    console.log(data.unikey);
+
+    const res: any = await createQrcode({ "key": data.unikey })
+    console.log(res.data.qrimg);
+    imgdom.src = res.data.qrimg
+
+    // setInterval(() => {
+    //   checkQrcode({ "key": data.unikey }).then((res:any) => {
+    //     console.log(res);
+
+    //   })
+    // }, 2000)
+  }
 }
+
 // input中的数据
 const LoginForm = reactive({
   PhoneNumber: "",
@@ -264,6 +291,18 @@ const loginContinue = async (formEl: FormInstance | undefined) => {
   padding: 20px 10px 10px 10px;
   color: var(--theme-color);
   position: relative;
+
+  .img-box {
+    display: flex;
+    justify-content: center;
+
+    img {
+
+      width: 200px;
+      height: 200px;
+
+    }
+  }
 
   .Verification-button {
     position: absolute;

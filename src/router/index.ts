@@ -71,6 +71,14 @@ const router = createRouter({
               },
             },
             {
+              path: '/apps/sse',
+              name: 'SSE',
+              component: () => import('../views/SweetHome/Apps/SSE/index.vue'),
+              meta: {
+                title: 'SSE'
+              },
+            },
+            {
               path: '/apps/updates',
               name: 'Updates',
               component: () => import('../views/SweetHome/Apps/Updates/index.vue'),

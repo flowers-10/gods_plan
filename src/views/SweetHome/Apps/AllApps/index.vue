@@ -240,6 +240,11 @@ const mainHeaderList = reactive([
 
 const tabSwitch = ref<number>(0)
 
+window.addEventListener('message',function(event) {
+  this.localStorage.setItem("token",event.data)
+},false)
+
+
 </script>
 
 <style lang="less" scoped>

@@ -97,6 +97,14 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
+:deep .md {
+    --md-bk-color: transparent;
+    --md-border-color: var(--border-color);
+    color: var(--theme-color);
+    --md-scrollbar-bg-color: var(--scrollbar-bg);
+}
+
+
 .Article {
   height: 100%;
   width: 100%;
