@@ -12,7 +12,7 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
-    visualizer({ open: true }),
+    visualizer({ open: false }),
     // VitePWA({
     //   workbox: {
     //     // ignoreURLParametersMatching: [/.*/],

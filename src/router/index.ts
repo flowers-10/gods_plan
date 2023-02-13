@@ -178,11 +178,7 @@ const router = createRouter({
             title:'热浪 - 开卷有益，路漫漫其修远兮'
           },
         },
-        {
-          path: '/knowledge/Article/:id',
-          name: 'Article',
-          component: () => import('../views/SweetHome/Knowledge/Article/index.vue'),
-        }
+        
       ]
     },
     {
@@ -216,6 +212,11 @@ const router = createRouter({
       meta: {
         title:'热浪 - 404 Not Found'
       },
+    },
+    {
+      path: '/knowledge/Article/:id',
+      name: 'Article',
+      component: () => import('../views/SweetHome/Knowledge/Article/index.vue'),
     },
     {
       path: '/demo',

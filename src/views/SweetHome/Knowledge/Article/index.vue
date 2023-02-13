@@ -1,17 +1,19 @@
 <template>
   <div class="Article">
-    <div class="Article-back">
-      <svg @click="back" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5586"
+    <!-- <div class="Article-back">
+      
+    </div> -->
+    <div class="Article-container">
+      <div class="Article-header">
+        
+        <div class="pattern-center no-select">
+          <div class="pattern-attachment-img">
+            <svg @click="back" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5586"
         fill="currentColor">
         <path
           d="M671.968 912c-12.288 0-24.576-4.672-33.952-14.048L286.048 545.984c-18.752-18.72-18.752-49.12 0-67.872l351.968-352c18.752-18.752 49.12-18.752 67.872 0 18.752 18.72 18.752 49.12 0 67.872l-318.016 318.048 318.016 318.016c18.752 18.752 18.752 49.12 0 67.872C696.544 907.328 684.256 912 671.968 912z"
           p-id="5587"></path>
       </svg>
-    </div>
-    <div class="Article-container">
-      <div class="Article-header">
-        <div class="pattern-center no-select">
-          <div class="pattern-attachment-img">
             <header class="pattern-header single-header">
               <h1> {{ articleShow.articleTitle }}</h1>
               <p class="entry-census">
@@ -105,25 +107,10 @@ onMounted(() => {
   justify-content: center;
   position: relative;
 
-  .Article-back {
-    color: var(--theme-color);
-    padding: 8px 0;
-    width: 50%;
-
-    @media screen and (max-width:580px) {
-      width: 100%;
-      padding: 8px 20px;
-    }
-
-    svg {
-      cursor: pointer;
-      width: 25px;
-      height: 25px;
-    }
-  }
 
   .Article-container {
     width: 100%;
+    height: 100%;
     overflow: auto;
     padding-bottom: 120px;
 
@@ -165,6 +152,15 @@ onMounted(() => {
     justify-content: center;
     color: var(--theme-color);
     position: relative;
+    svg {
+      cursor: pointer;
+      width: 25px;
+      height: 25px;
+      position: absolute;
+      z-index: 9;
+      left: 20px;
+      top: 20px;
+    }
 
     @media screen and (max-width:580px) {
       height: 200px;
@@ -185,10 +181,19 @@ onMounted(() => {
   }
 
   .pattern-header {
-    text-align: center;
+    min-width: 1180px;
+    text-align: left;
     color: var(--theme-color);
     text-shadow: 2px 2px 10px var(--theme-bg-color);
     z-index: 1;
+
+
+    @media screen and (max-width:1000px) {
+      min-width: 780px;
+    }
+    @media screen and (max-width:480px) {
+      min-width: 380px;
+    }
   }
 
   .entry-census {
@@ -197,6 +202,8 @@ onMounted(() => {
     line-height: 24px;
     display: flex;
     flex-direction: column;
+    justify-content: start;
+    text-align: left;
   }
 }
 
