@@ -1,12 +1,6 @@
-# gods_plan
-
-[toc] 
-
-
-
-
-
 ## 🔥展示：
+
+浏览地址：http://www.godsplan.top/apps/allapps
 
 ### Mobile
 
