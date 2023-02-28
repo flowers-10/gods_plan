@@ -17,7 +17,7 @@
                 d="M384 192h128v128H384zm0 0M0 384h128v128H0zm0 0M192 384h128v128H192zm0 0M384 384h128v128H384zm0 0"
                 fill="currentColor" data-original="#bfc9d1" />
             </svg>
-            All Apps
+            Works
           </router-link>
           <router-link to="/apps/updates">
             <svg viewBox="0 0 488.932 488.932" fill="currentColor">
@@ -26,7 +26,7 @@
             </svg>
             Updates
           </router-link>
-          <router-link to="/apps/games">
+          <!-- <router-link to="/apps/games">
             <svg t="1669266744050" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
               p-id="3287" fill="currentColor">
               <path
@@ -34,8 +34,8 @@
                 p-id="3288"></path>
             </svg>
             Games
-          </router-link>
-          <router-link to="/apps/animegirl">
+          </router-link> -->
+          <!-- <router-link to="/apps/animegirl">
             <svg t="1662019099686" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
               p-id="16242" fill="currentColor">
               <path
@@ -43,7 +43,7 @@
                 p-id="16243"></path>
             </svg>
             Anime Girl
-          </router-link>
+          </router-link> -->
           <router-link to="/apps/echartmap">
             <svg t="1665393207399" fill="currentColor" class="icon" viewBox="0 0 1024 1024" version="1.1"
               xmlns="http://www.w3.org/2000/svg" p-id="8699">
@@ -67,7 +67,7 @@
             Setup
           </router-link>
 
-          <router-link to="/apps/signcross">
+          <!-- <router-link to="/apps/signcross">
             <svg t="1662014382031" fill="currentColor" viewBox="0 0 1024 1024" version="1.1"
               xmlns="http://www.w3.org/2000/svg" p-id="3214">
               <path
@@ -84,7 +84,7 @@
                 p-id="3215"></path>
             </svg>
             SSE
-          </router-link>
+          </router-link> -->
         </div>
       </div>
     </div>

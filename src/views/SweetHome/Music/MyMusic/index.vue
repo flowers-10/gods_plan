@@ -77,7 +77,7 @@ const menuLink = ref<string>('My Music')
 const menuItemsList = ref([
   { title: '关于我', slotName: 'me' },
   { title: '我喜欢的音乐', slotName: 'music' },
-  { title: '全部歌单', slotName: 'playlist' },
+  { title: '全部歌单', slotName: 'music'},
 ])
 
 
