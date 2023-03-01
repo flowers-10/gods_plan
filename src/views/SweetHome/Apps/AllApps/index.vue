@@ -9,23 +9,58 @@
           <div class="content-container" v-if="index === 0">
             <div class="card">
               <img src="@/assets/images/700eweb.png" alt="">
-              <div class="mask"></div>
+              <a class="mask" href="https://www.700e.com/" target="_blank"></a>
               <div class="font">汽灵灵工业互联网平台</div>
             </div>
             <div class="card">
               <img src="@/assets/images/700park.png" alt="">
-              <div class="mask"></div>
+              <a class="mask" href="https://700e.com/new/industry" target="_blank"></a>
               <div class="font">汽灵灵聚能智造园</div>
             </div>
             <div class="card">
-              <img src="@/assets/images/700datascreen.png" alt="">
-              <div class="mask"></div>
-              <div class="font">汽灵灵大屏</div>
+              <img class="datascreen" src="@/assets/images/700datascreen.png" alt="">
+              <a class="mask" href="http://datascreen.700e.com/" target="_blank"></a>
+              <div class="font">汽灵灵工业互联网平台监控中心</div>
+            </div>
+            <div class="card">
+              <img src="@/assets/images/700mes.png" alt="">
+              <a class="mask" href="https://mes.700e.com/#/" target="_blank"></a>
+              <div class="font">汽灵灵MES</div>
+            </div>
+            <div class="card">
+              <img src="@/assets/images/700system.png" alt="">
+              <a class="mask" href="http://admin.700e.com/login" target="_blank"></a>
+              <div class="font">汽灵灵后台管理</div>
+            </div>
+            <div class="card">
+              <img src="@/assets/images/700shop.png" alt="">
+              <a class="mask" href="http://taober.cn/login" target="_blank"></a>
+              <div class="font">汽灵灵商城管理系统</div>
+            </div>
+            <div class="card">
+              <img src="@/assets/images/max.png" alt="">
+              <a class="mask" href="https://www.nbmaxauto.com/" target="_blank"></a>
+              <div class="font">国际站门户</div>
+            </div>
+            <div class="card">
+              <img src="@/assets/images/my.png" alt="">
+              <a class="mask" href="https://github.com/flowers-10/gods_plan" target="_blank"></a>
+              <div class="font">个人项目</div>
             </div>
           </div>
           <div class="content-container" v-if="index === 1">
+            <div class="card mobile">
+              <img src="@/assets/images/mym.png" alt="">
+              <a class="mask" href="https://github.com/flowers-10/gods_plan" target="_blank"></a>
+              <div class="font">个人项目</div>
+            </div>
           </div>
           <div class="content-container" v-if="index === 2">
+            <div class="card">
+              <img src="@/assets/images/electron.png" alt="">
+              <a class="mask" href="https://github.com/flowers-10/gods_plan_electron" target="_blank"></a>
+              <div class="font">个人项目</div>
+            </div>
           </div>
         </template>
       </content-section>
@@ -81,24 +116,41 @@ const menuItemsList = ref([{ title: 'Web', slotName: 'me' }, { title: 'Mobile', 
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  // justify-content: center;
   flex-wrap: wrap;
+
+  .mobile {
+    // width: 50% !important;
+  }
 
   .card {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 50%;
+    height: 450px;
     border-radius: 14px;
     padding: 20px;
     cursor: pointer;
-    transition: 0.3s ease;
-    overflow: hidden;
+    transition: all 1s ease;
+    overflow: hidden !important;
     position: relative;
     margin-bottom: 20px;
+
     img {
       width: 100%;
       height: 100%;
       border-radius: 14px;
+      transition: all 1s ease;
+      // object-fit: cover;
+    }
+
+    .datascreen {
+      width: 200% !important;
+      height: 100% !important;
+    }
+
+    &:hover .datascreen {
+      transform: translateX(-50%);
     }
 
     .mask {
@@ -135,5 +187,4 @@ const menuItemsList = ref([{ title: 'Web', slotName: 'me' }, { title: 'Mobile', 
       transform: scale(1.02);
     }
   }
-}
-</style>
+}</style>
