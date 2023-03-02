@@ -7,60 +7,110 @@
       <content-section v-for="(item, index) in menuItemsList" :key="index" :title="item.title" :slotName="item.slotName">
         <template #[item.slotName]>
           <div class="content-container" v-if="index === 0">
-            <div class="card">
+            <a class="card" href="https://www.700e.com/" target="_blank">
               <img src="@/assets/images/700eweb.png" alt="">
-              <a class="mask" href="https://www.700e.com/" target="_blank"></a>
+              <div class="mask" ></div>
               <div class="font">汽灵灵工业互联网平台</div>
-            </div>
-            <div class="card">
+            </a>
+            <a class="card" href="https://700e.com/new/industry" target="_blank">
               <img src="@/assets/images/700park.png" alt="">
-              <a class="mask" href="https://700e.com/new/industry" target="_blank"></a>
+              <div class="mask" ></div>
               <div class="font">汽灵灵聚能智造园</div>
-            </div>
-            <div class="card">
+            </a>
+            <a class="card" href="http://datascreen.700e.com/" target="_blank">
               <img class="datascreen" src="@/assets/images/700datascreen.png" alt="">
-              <a class="mask" href="http://datascreen.700e.com/" target="_blank"></a>
+              <div class="mask" ></div>
               <div class="font">汽灵灵工业互联网平台监控中心</div>
-            </div>
-            <div class="card">
+            </a>
+            <a class="card" href="https://mes.700e.com/#/" target="_blank">
               <img src="@/assets/images/700mes.png" alt="">
-              <a class="mask" href="https://mes.700e.com/#/" target="_blank"></a>
+              <div class="mask" ></div>
               <div class="font">汽灵灵MES</div>
-            </div>
-            <div class="card">
+            </a>
+            <a class="card" href="http://admin.700e.com/login" target="_blank">
               <img src="@/assets/images/700system.png" alt="">
-              <a class="mask" href="http://admin.700e.com/login" target="_blank"></a>
+              <div class="mask" ></div>
               <div class="font">汽灵灵后台管理</div>
-            </div>
-            <div class="card">
+            </a>
+            <a class="card" href="http://taober.cn/login" target="_blank">
               <img src="@/assets/images/700shop.png" alt="">
-              <a class="mask" href="http://taober.cn/login" target="_blank"></a>
+              <div class="mask"></div>
               <div class="font">汽灵灵商城管理系统</div>
-            </div>
-            <div class="card">
+            </a>
+            <a class="card" href="https://www.nbmaxauto.com/" target="_blank">
               <img src="@/assets/images/max.png" alt="">
-              <a class="mask" href="https://www.nbmaxauto.com/" target="_blank"></a>
-              <div class="font">国际站门户</div>
-            </div>
-            <div class="card">
+              <div class="mask"></div>
+              <div class="font">max国际站门户</div>
+            </a>
+            <a class="card" href="https://www.steel-tubes.com/" target="_blank">
+              <img src="@/assets/images/rich.png" alt="">
+              <div class="mask"></div>
+              <div class="font">rich国际站门户</div>
+            </a>
+            <a class="card" href="https://en.goodwe.com/presenting-clean-energy-solutions-through-pv-inverter-technology" target="_blank">
+              <img src="@/assets/images/goodwe.png" alt="">
+              <div class="mask"></div>
+              <div class="font">goodwe国际站门户</div>
+            </a>
+            <a class="card" href="https://www.nbmaxauto.com/" target="_blank">
+              <img src="@/assets/images/xyWMS.png" alt="">
+              <div class="mask"></div>
+              <div class="font">萧跃WMS系统</div>
+            </a>
+            <a class="card" href="https://github.com/flowers-10/gods_plan" target="_blank">
               <img src="@/assets/images/my.png" alt="">
-              <a class="mask" href="https://github.com/flowers-10/gods_plan" target="_blank"></a>
+              <div class="mask" ></div>
               <div class="font">个人项目</div>
-            </div>
+            </a >
           </div>
           <div class="content-container" v-if="index === 1">
             <div class="card mobile">
-              <img src="@/assets/images/mym.png" alt="">
-              <a class="mask" href="https://github.com/flowers-10/gods_plan" target="_blank"></a>
-              <div class="font">个人项目</div>
+              <img src="@/assets/images/700app.jpg" alt="">
+              <a class="mask"></a>
+              <div class="font">汽灵灵app</div>
             </div>
+            <div class="card mobile">
+              <img src="@/assets/images/700parkMobile.png" alt="">
+              <a class="mask"></a>
+              <div class="font">汽灵灵聚能智造园小程序</div>
+            </div>
+            <div class="card mobile">
+              <img src="@/assets/images/700mesMobile.png" alt="">
+              <a class="mask"></a>
+              <div class="font">汽灵灵MES小程序</div>
+            </div>
+            <div class="card mobile">
+              <img src="@/assets/images/700destock.png" alt="">
+              <a class="mask"></a>
+              <div class="font">汽灵灵去库存小程序</div>
+            </div>
+            <div class="card mobile">
+              <img src="@/assets/images/haishuyun.png" alt="">
+              <a class="mask"></a>
+              <div class="font">海数云小程序</div>
+            </div>
+            <div class="card mobile">
+              <img src="@/assets/images/erp.png" alt="">
+              <a class="mask"></a>
+              <div class="font">ERP系统小程序</div>
+            </div>
+            <div class="card mobile">
+              <img src="@/assets/images/wms.png" alt="">
+              <a class="mask"></a>
+              <div class="font">萧跃WMS系统小程序</div>
+            </div>
+            <a class="card mobile" href="https://github.com/flowers-10/gods_plan" target="_blank">
+              <img src="@/assets/images/mym.png" alt="">
+              <div class="mask"></div>
+              <div class="font">个人项目h5</div>
+            </a>
           </div>
           <div class="content-container" v-if="index === 2">
-            <div class="card">
+            <a class="card" href="https://github.com/flowers-10/gods_plan_electron" target="_blank">
               <img src="@/assets/images/electron.png" alt="">
-              <a class="mask" href="https://github.com/flowers-10/gods_plan_electron" target="_blank"></a>
-              <div class="font">个人项目</div>
-            </div>
+              <div class="mask" ></div>
+              <div class="font">个人项目Election</div>
+            </a>
           </div>
         </template>
       </content-section>
@@ -120,7 +170,8 @@ const menuItemsList = ref([{ title: 'Web', slotName: 'me' }, { title: 'Mobile', 
   flex-wrap: wrap;
 
   .mobile {
-    // width: 50% !important;
+    width: 25% !important;
+    height: 700px !important;
   }
 
   .card {
@@ -165,13 +216,15 @@ const menuItemsList = ref([{ title: 'Web', slotName: 'me' }, { title: 'Mobile', 
     }
 
     .font {
-      bottom: -200px;
+      bottom: -300px;
       width: 100%;
       text-align: center;
       border-radius: 14px;
       position: absolute;
+      left: 0;
       transition: 0.2s ease;
       font-size: 60px;
+      padding: 20px;
     }
 
     &:hover {
@@ -179,7 +232,7 @@ const menuItemsList = ref([{ title: 'Web', slotName: 'me' }, { title: 'Mobile', 
     }
 
     &:hover .font {
-      transform: translateY(-400px);
+      transform: translateY(-500px);
     }
 
     &:hover .mask {
@@ -187,4 +240,5 @@ const menuItemsList = ref([{ title: 'Web', slotName: 'me' }, { title: 'Mobile', 
       transform: scale(1.02);
     }
   }
-}</style>
+}
+</style>
