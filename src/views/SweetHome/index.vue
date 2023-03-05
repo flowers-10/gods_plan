@@ -112,7 +112,7 @@
 							</svg>
 							Games
 						</router-link>
-						<router-link @click="sideShow = false" to="/apps/animegirl">
+						<a href="http://www.godsplan.top:3002/" target="_blank" >
 							<svg
 								t="1662019099686"
 								class="icon"
@@ -128,7 +128,7 @@
 								></path>
 							</svg>
 							Anime Girl
-						</router-link>
+						</a>
 						<router-link @click="sideShow = false" to="/apps/echartmap">
 							<svg
 								t="1665393207399"

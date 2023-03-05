@@ -9,27 +9,27 @@
           <div class="content-container" v-if="index === 0">
             <a class="card" href="https://www.700e.com/" target="_blank">
               <img src="@/assets/images/700eweb.png" alt="">
-              <div class="mask" ></div>
+              <div class="mask"></div>
               <div class="font">汽灵灵工业互联网平台</div>
             </a>
             <a class="card" href="https://700e.com/new/industry" target="_blank">
               <img src="@/assets/images/700park.png" alt="">
-              <div class="mask" ></div>
+              <div class="mask"></div>
               <div class="font">汽灵灵聚能智造园</div>
             </a>
             <a class="card" href="http://datascreen.700e.com/" target="_blank">
               <img class="datascreen" src="@/assets/images/700datascreen.png" alt="">
-              <div class="mask" ></div>
+              <div class="mask"></div>
               <div class="font">汽灵灵工业互联网平台监控中心</div>
             </a>
             <a class="card" href="https://mes.700e.com/#/" target="_blank">
               <img src="@/assets/images/700mes.png" alt="">
-              <div class="mask" ></div>
+              <div class="mask"></div>
               <div class="font">汽灵灵MES</div>
             </a>
             <a class="card" href="http://admin.700e.com/login" target="_blank">
               <img src="@/assets/images/700system.png" alt="">
-              <div class="mask" ></div>
+              <div class="mask"></div>
               <div class="font">汽灵灵后台管理</div>
             </a>
             <a class="card" href="http://taober.cn/login" target="_blank">
@@ -47,7 +47,8 @@
               <div class="mask"></div>
               <div class="font">rich国际站门户</div>
             </a>
-            <a class="card" href="https://en.goodwe.com/presenting-clean-energy-solutions-through-pv-inverter-technology" target="_blank">
+            <a class="card" href="https://en.goodwe.com/presenting-clean-energy-solutions-through-pv-inverter-technology"
+              target="_blank">
               <img src="@/assets/images/goodwe.png" alt="">
               <div class="mask"></div>
               <div class="font">goodwe国际站门户</div>
@@ -59,9 +60,9 @@
             </a>
             <a class="card" href="https://github.com/flowers-10/gods_plan" target="_blank">
               <img src="@/assets/images/my.png" alt="">
-              <div class="mask" ></div>
+              <div class="mask"></div>
               <div class="font">个人项目</div>
-            </a >
+            </a>
           </div>
           <div class="content-container" v-if="index === 1">
             <div class="card mobile">
@@ -108,7 +109,7 @@
           <div class="content-container" v-if="index === 2">
             <a class="card" href="https://github.com/flowers-10/gods_plan_electron" target="_blank">
               <img src="@/assets/images/electron.png" alt="">
-              <div class="mask" ></div>
+              <div class="mask"></div>
               <div class="font">个人项目Election</div>
             </a>
           </div>
@@ -150,7 +151,7 @@ const menuItemsList = ref([{ title: 'Web', slotName: 'me' }, { title: 'Mobile', 
     background-position: center center;
 
     @media screen and (max-width: 510px) {
-      padding: 20px 20px 100px 20px;
+      padding: 20px 10px 100px 10px;
     }
 
 
@@ -169,9 +170,25 @@ const menuItemsList = ref([{ title: 'Web', slotName: 'me' }, { title: 'Mobile', 
   // justify-content: center;
   flex-wrap: wrap;
 
+  @media screen and (max-width: 1400px) {
+
+    padding: 5px;
+  }
+
   .mobile {
     width: 25% !important;
-    height: 700px !important;
+    height: auto !important;
+
+    @media screen and (max-width: 1400px) {
+      height: auto !important;
+      width: 33.333% !important;
+      padding: 10px !important;
+    }
+    @media screen and (max-width: 480px) {
+      height: auto !important;
+      width: 100% !important;
+      padding: 0px;
+    }
   }
 
   .card {
@@ -186,6 +203,12 @@ const menuItemsList = ref([{ title: 'Web', slotName: 'me' }, { title: 'Mobile', 
     overflow: hidden !important;
     position: relative;
     margin-bottom: 20px;
+
+    @media screen and (max-width: 1400px) {
+      height: auto;
+      width: 100%;
+      padding: 0px;
+    }
 
     img {
       width: 100%;
@@ -225,6 +248,13 @@ const menuItemsList = ref([{ title: 'Web', slotName: 'me' }, { title: 'Mobile', 
       transition: 0.2s ease;
       font-size: 60px;
       padding: 20px;
+      @media screen and (max-width: 1400px) {
+        font-size: 40px;
+      }
+
+      @media screen and (max-width: 480px) {
+        font-size: 18px;
+      }
     }
 
     &:hover {
@@ -240,5 +270,4 @@ const menuItemsList = ref([{ title: 'Web', slotName: 'me' }, { title: 'Mobile', 
       transform: scale(1.02);
     }
   }
-}
-</style>
+}</style>
