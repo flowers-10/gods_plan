@@ -4,7 +4,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // 插件
 import { fileURLToPath, URL } from 'url'
-import { visualizer } from 'rollup-plugin-visualizer';
+// import { visualizer } from 'rollup-plugin-visualizer';
 // import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
@@ -12,7 +12,7 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
-    visualizer({ open: false }),
+    // visualizer({ open: false }),
     // VitePWA({
     //   workbox: {
     //     // ignoreURLParametersMatching: [/.*/],
