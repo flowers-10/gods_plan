@@ -64,12 +64,11 @@
     </dialoge>
     <beian-gov></beian-gov>
   </div>
-
 </template>
 
 <script setup lang="ts">
 // 引入工具插件
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted, onBeforeMount, onUpdated, onBeforeUpdate, onBeforeUnmount, onUnmounted } from 'vue'
 import { useStore } from '../../stores'
 import { ElMessage } from 'element-plus'
 import type { FormRules, FormInstance } from 'element-plus'
@@ -80,6 +79,7 @@ import BeianGov from '../../components/BeianGov/index.vue'
 // 引入自定义工具
 import { loginMusic, Mcaptcha, loginCellPhone, loginPhonePassword, getQrcodeKey, createQrcode, checkQrcode } from '../../api/api'
 import { checkPhones } from '@/utils/checkPhone'
+
 
 const store = useStore()
 const router = useRouter()

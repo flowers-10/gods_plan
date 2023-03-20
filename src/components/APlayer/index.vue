@@ -185,6 +185,7 @@ onBeforeUnmount(() => {
   @media screen and (max-width: 945px) {
     width: 100% !important;
     margin-left: 0;
+    
   }
 }
 
@@ -194,5 +195,11 @@ onBeforeUnmount(() => {
 
 /deep/ .aplayer {
   margin: 0;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50;
+  transform: translateX();
 }
 </style>

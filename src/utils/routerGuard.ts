@@ -11,6 +11,8 @@ const blacklist: string[] = ['/music/mymusic']
 const musicList:string[] = ['/music/mymusic','/music/myhome']
 // 路由前置守卫导航
 export const routerBeforeEach = router.beforeEach((to, from, next) => {
+  console.log("进入前置守卫生命周期");
+  
   const store = useStore()
   start()
   console.log(to.path);
@@ -56,5 +58,6 @@ export const routerBeforeEach = router.beforeEach((to, from, next) => {
 
 // 路由全局后置守卫
 export const routerAfterEach = router.afterEach(() => {
+  console.log("进入后置守卫生命周期");
   close()
 })

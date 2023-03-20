@@ -11,10 +11,38 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+
+import { ref, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted } from "vue"
+
 
 // 引入子组件
 import LeftSide from '@/components/LeftSide/index.vue'
+
+
+console.log("进入music setup生命周期");
+onBeforeMount(() => {
+  console.log("进入music onBeforeMount");
+
+})
+onMounted(() => {
+  console.log("进入music onMounted");
+})
+
+onBeforeUpdate(() => {
+  console.log("进入music onBeforeUpdate");
+
+})
+onUpdated(() => {
+  console.log("进入music onUpdated");
+})
+
+onBeforeUnmount(() => {
+  console.log("进入music onBeforeUnmount");
+})
+
+onUnmounted(() => {
+  console.log("进入music onUnmounted");
+})
 
 
 const sideNavList = ref([
