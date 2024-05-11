@@ -100,11 +100,11 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 8080,
     proxy: {
-      '/api': {
-        changeOrigin: true,
-        target: 'http://124.223.168.27:8889',
-        rewrite: path => path.replace(/^\/api/, '')
-      },
+      // '/api': {
+      //   changeOrigin: true,
+      //   target: 'http://124.223.168.27:8889',
+      //   rewrite: path => path.replace(/^\/api/, '')
+      // },
       '/backstage': {
         changeOrigin: true,
         target: 'http://124.223.168.27:8887',
