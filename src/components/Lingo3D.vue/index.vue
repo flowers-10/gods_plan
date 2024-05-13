@@ -5,7 +5,7 @@ import { World, Model,OrbitCamera } from "lingo3d-vue"
 <template>
   <World>
     <Model
-      src="../../../public/AnimeGirl.fbx"
+      
       :scale="5"
       toon
      
