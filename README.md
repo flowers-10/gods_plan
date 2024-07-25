@@ -21,12 +21,6 @@
 ## ⭐项目简介
 
 热浪网是一个个人音乐博客，包含了音乐流媒体、发现浏览、app主页、博客浏览学习、聊天交流等功能
-
-包含了 Apps 、Music 、 Discover 、 Knowledge 四大模块
-
-具体页面结构：
-![请添加图片描述](https://img-blog.csdnimg.cn/57948a03f0e14c3797717693e43ab468.png)
-
 tips：手机版左上角G图标可以打开侧边栏
 
 
