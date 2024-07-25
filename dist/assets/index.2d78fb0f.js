@@ -1,0 +1,1 @@
+import{_ as a,d as o,e as n,o as _,c,J as r,g as p}from"./index.4af51ece.js";const d={class:"sse"},i=o({setup(u){const s=n([]);var t=new EventSource("http://192.168.50.156:8000/sse/echarts");return t.onmessage=function(e){console.log(e.data),s.push(e.data)},(e,l)=>(_(),c("div",d,r(p(s)),1))}});var f=a(i,[["__scopeId","data-v-61949824"]]);export{f as default};
